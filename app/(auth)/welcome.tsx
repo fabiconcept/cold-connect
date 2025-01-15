@@ -81,7 +81,7 @@ export default function welcome() {
                         borderRadius: 10,
                     }}
                     onPress={() => {
-                        console.log('skip');
+                        router.push('/(auth)/verify');
                     }}
                 />}
             </View>
