@@ -14,14 +14,14 @@ export default function SignIn() {
         <View className='relative flex-1'>
             <ScrollView className='flex-1'>
                 <Image
-                    source={require("@/assets/images/cold/sign-up-ice 01.png")}
+                    source={require("@/assets/images/cold/signIn-ice-01.png")}
                     resizeMode='contain'
-                    className='absolute top-0 right-0'
+                    className='absolute top-0 left-0'
                 />
                 <Image
-                    source={require("@/assets/images/cold/sign-up-ice 02.png")}
+                    source={require("@/assets/images/cold/signIn-ice-02.png")}
                     resizeMode='contain'
-                    className='absolute bottom-0 right-1/2 -translate-x-1/2'
+                    className='absolute bottom-0 right-0'
                 />
                 <SafeAreaView className='flex-1 flex z-20 p-5' style={styles.container}>
                     <View className='gap-2' style={styles.textContainer}>
