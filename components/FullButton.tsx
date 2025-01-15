@@ -3,15 +3,21 @@ import clsx from 'clsx';
 import { ButtonProps } from '@/types/button';
 
 export default function FullButton(props: ButtonProps) {
+    const {
+        iconLeft: IconLeft,
+        iconRight: IconRight
+    } = props
     return (
         <TouchableOpacity
             className={clsx(
-                "py-4 rounded-lg",
+                "py-4 rounded-xl flex-row items-center justify-center",
                 props.className
             )}
             {...props}
         >
-            <Text className={clsx('text-center text-white text-base', props.textClassName)}>{props.title}</Text>
+            {IconLeft && <IconLeft />}
+            <Text className={clsx('text-center text-base', props.textClassName)}>{props.title}</Text>
+            {IconRight && <IconRight />}
         </TouchableOpacity>
     )
 }

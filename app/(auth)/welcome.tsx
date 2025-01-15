@@ -64,6 +64,7 @@ export default function welcome() {
                         paddingBlock: 14,
                         borderRadius: 10,
                     }}
+                    textClassName='text-white text-md'
                     onPress={() => {
                         if (isLastSlide) {
                             router.replace('/(auth)/sign-in');
