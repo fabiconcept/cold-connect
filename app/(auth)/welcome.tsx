@@ -81,7 +81,7 @@ export default function welcome() {
                         borderRadius: 10,
                     }}
                     onPress={() => {
-                        router.push('/(auth)/verify');
+                        router.push('/(auth)/enable-location');
                     }}
                 />}
             </View>
