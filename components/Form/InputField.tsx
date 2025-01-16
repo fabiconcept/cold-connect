@@ -11,6 +11,7 @@ export default function InputField({
     inputStyle,
     iconStyle,
     className,
+    fullyRounded = false,
     ...props
 }: InputFieldProps) {
     const [loaded] = useFonts({
@@ -29,8 +30,9 @@ export default function InputField({
                 <View className={clsx('w-full', className)}>
                     <View
                         className={clsx(
-                            'flex flex-row justify-start items-center relative bg-neutral-100 rounded-md border border-[#0000001a] focus:border-primary-500',
-                            containerStyle
+                            'flex flex-row justify-start items-center relative bg-neutral-100 border border-[#0000001a] focus:border-primary-500',
+                            containerStyle,
+                            fullyRounded ? 'rounded-full' : 'rounded-md'
                         )}
                     >
                         {icon && (
