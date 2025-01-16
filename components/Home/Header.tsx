@@ -18,7 +18,7 @@ export default function Header() {
             <View>
                 <Text className='text-white mx-5'>Hello there,</Text>
                 <Text className='text-white mx-5 text-3xl font-MontserratSemiBold'>
-                    {"Aladinma, Owerri"}
+                    {"Aladinma, Owerri "}
                     <Feather name="map-pin" size={24} className='ml-2' color="white" />
                 </Text>
                 <InputField
