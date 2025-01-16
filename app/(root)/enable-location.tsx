@@ -2,6 +2,7 @@ import GradientOverlay from '@/assets/svgs/gradient-overlay';
 import FullButton from '@/components/FullButton';
 import { View, Text, Image } from 'react-native';
 import * as Location from 'expo-location';
+import { router } from 'expo-router';
 
 export default function EnableLocation() {
     const handleRequestLocationPermission = async () => {
@@ -10,12 +11,9 @@ export default function EnableLocation() {
             return;
         }
 
-        const location = await Location.getCurrentPositionAsync();
+        // const location = await Location.getCurrentPositionAsync();
 
-        console.log('Location permission granted', {
-            status,
-            location
-        });
+        router.push('/(root)/(tabs)/home');
     }
 
     return (
