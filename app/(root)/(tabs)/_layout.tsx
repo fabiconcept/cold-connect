@@ -24,7 +24,7 @@ export default function TabsLayout() {
                     flexDirection: "row",
                     marginHorizontal: 5,
                     borderRadius: 50,
-                    paddingHorizontal: 5,
+                    paddingHorizontal: 8,
                     height: 74,
                     alignItems: "center",
                     justifyContent: "center",
