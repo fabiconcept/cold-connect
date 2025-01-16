@@ -11,6 +11,7 @@ export default function TabsLayout() {
         <Tabs
             initialRouteName="home"
             screenOptions={{
+                animation: "shift",
                 tabBarShowLabel: false,
                 tabBarLabelStyle: {
                     fontSize: 10,
