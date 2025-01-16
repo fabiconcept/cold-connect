@@ -1,9 +1,12 @@
-import { View, Text } from 'react-native';
+import Header from '@/components/Home/Header';
+import AdCard from '@/components/Home/ad-card';
+import { View } from 'react-native';
 
 export default function Home() {
     return (
-        <View className='flex-1 items-center justify-center'>
-            <Text className='text-4xl font-MontserratSemiBold text-primary'>home</Text>
+        <View className='flex-1'>
+            <Header />
+            <AdCard />
         </View>
     )
 }
