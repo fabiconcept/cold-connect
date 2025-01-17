@@ -1,9 +1,10 @@
-import { View, Text } from 'react-native';
+import Header from '@/components/Storage/Header';
+import { View } from 'react-native';
 
 export default function Storage() {
     return (
-        <View className='flex-1 items-center justify-center'>
-            <Text className='text-4xl font-MontserratSemiBold text-primary'>Storage</Text>
+        <View className='flex-1'>
+            <Header />
         </View>
     )
 }
