@@ -25,7 +25,25 @@ declare interface CheckboxProps {
     onPress: () => void;
     containerStyle?: string;
     labelStyle?: string;
+    checkedColor?: string;
 }
 
 declare interface SwiperProps<T> extends FlatListProps<T> {
+}
+
+declare interface DropdownProps {
+    options: Array<{ label: string; value: any }>;
+    onSelect: (value: any) => void;
+    placeholder?: string;
+    containerStyle?: StyleProp<ViewStyle>;
+    dropdownStyle?: StyleProp<ViewStyle>;
+    optionStyle?: StyleProp<ViewStyle>;
+    textStyle?: StyleProp<TextStyle>;
+    selectedTextStyle?: StyleProp<TextStyle>;
+    placeholderStyle?: StyleProp<TextStyle>;
+    activeOpacity?: number;
+    disabled?: boolean;
+    IconRight?: React.JSX.Element;
+    IconLeft?: React.JSX.Element;
+    containerClassName?: string;
 }
