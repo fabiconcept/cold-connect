@@ -1,3 +1,4 @@
+import { OnBoardingScreenProps } from '@/types/types';
 import clsx from 'clsx';
 import { View, Text, Image, Dimensions } from 'react-native';
 

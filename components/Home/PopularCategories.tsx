@@ -38,8 +38,8 @@ const dummyCategories = [
 export default function PopularCategories() {
     return (
         <View className='mx-3'>
-            <View className='flex-row items-center justify-between mx-2 mb-2'>
-                <Text className='text-lg font-semibold font-MontserratSemiBold'>PopularCategories</Text>
+            <View className='flex-row items-center justify-between mx-2 mt-2'>
+                <Text className='text-xl font-semibold font-MontserratSemiBold'>Popular Categories</Text>
                 <Link href={"/(root)/(tabs)/crates"} className='text-primary text-lg font-MontserratSemiBold'>See all</Link>
             </View>
             <FlatList
@@ -54,6 +54,7 @@ export default function PopularCategories() {
                 keyExtractor={(item) => item.title}
                 horizontal
                 contentContainerStyle={{ gap: 8 }}
+                contentContainerClassName='mt-5'
                 showsHorizontalScrollIndicator={false}
             />
         </View>
