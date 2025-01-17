@@ -7,7 +7,8 @@ export default function Checkbox({
     checked,
     onPress,
     containerStyle,
-    labelStyle
+    labelStyle,
+    checkedColor
 }: CheckboxProps) {
     return (
         <TouchableOpacity
@@ -18,11 +19,11 @@ export default function Checkbox({
             <View
                 style={[
                     styles.checkbox,
-                    checked && styles.checked
+                    checked && !checkedColor && styles.checked,
+                    checked && checkedColor && { backgroundColor: checkedColor, borderColor: checkedColor },
                 ]}
                 className={clsx(
                     'w-5 h-5 rounded border border-neutral-300 items-center justify-center',
-                    checked && 'bg-primary border-primary'
                 )}
             >
                 {checked && (
