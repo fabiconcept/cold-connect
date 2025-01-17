@@ -7,6 +7,7 @@ export default function AdCard() {
             <Image
                 source={require("@/assets/images/cold/ellipse-13.png")}
                 resizeMode='contain'
+                className='opacity-50'
             />
             <Image
                 source={require("@/assets/images/cold/ellipse-12.png")}
