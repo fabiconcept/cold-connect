@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 import { View, Text } from 'react-native';
-import Animated, { useAnimatedStyle, withSpring, withTiming } from 'react-native-reanimated';
+import Animated, { Easing, useAnimatedStyle, withSpring, withTiming } from 'react-native-reanimated';
 
 export default function TabIcon({ focused, Icon, title, className }: {
     focused: boolean,
@@ -12,14 +12,15 @@ export default function TabIcon({ focused, Icon, title, className }: {
         return {
             transform: [
                 {
-                    scale: withSpring(focused ? 1.15 : 1, {
+                    scale: withSpring(focused ? 1.05 : 1, {
                         damping: 10,
                         stiffness: 200
                     })
                 }
             ],
             backgroundColor: withTiming(focused ? 'rgba(0,0,0,0.3)' : 'transparent', {
-                duration: 500
+                easing: Easing.inOut(Easing.quad),
+                duration: 200,
             })
         };
     });

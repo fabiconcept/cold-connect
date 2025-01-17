@@ -6,15 +6,6 @@ import Target from '@/assets/svgs/storage/target';
 export default function Header() {
     return (
         <View className='h-[117px] bg-primary flex-row items-end p-5 gap-3'>
-            <TouchableOpacity
-                className='bg-white h-[50px] w-[50px] items-center justify-center rounded-full'
-            >
-                <Image
-                    source={require("@/assets/images/cold/back.png")}
-                    resizeMode='contain'
-                    className='w-[22px] h-[22px] invert'
-                />
-            </TouchableOpacity>
             <View className='flex-1'>
                 <InputField
                     label=''

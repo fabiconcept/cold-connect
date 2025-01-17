@@ -1,5 +1,4 @@
-import ChevronDown from '@/assets/svgs/storage/chevron-down';
-import PlaceTarget from '@/assets/svgs/storage/place-target';
+import { DropdownProps } from '@/types/types';
 import { Feather } from '@expo/vector-icons';
 import clsx from 'clsx';
 import React, { useCallback, useState } from 'react';
@@ -7,9 +6,6 @@ import {
     View,
     Text,
     TouchableOpacity,
-    ViewStyle,
-    TextStyle,
-    StyleProp,
     LayoutAnimation,
 } from 'react-native';
 import Animated, {
@@ -20,21 +16,6 @@ import Animated, {
     Extrapolate,
 } from 'react-native-reanimated';
 
-interface DropdownProps {
-    options: Array<{ label: string; value: any }>;
-    onSelect: (value: any) => void;
-    placeholder?: string;
-    containerStyle?: StyleProp<ViewStyle>;
-    dropdownStyle?: StyleProp<ViewStyle>;
-    optionStyle?: StyleProp<ViewStyle>;
-    textStyle?: StyleProp<TextStyle>;
-    selectedTextStyle?: StyleProp<TextStyle>;
-    placeholderStyle?: StyleProp<TextStyle>;
-    activeOpacity?: number;
-    disabled?: boolean;
-    IconRight?: React.JSX.Element;
-    IconLeft?: React.JSX.Element;
-}
 
 const CustomDropdown: React.FC<DropdownProps> = ({
     options,
@@ -49,7 +30,8 @@ const CustomDropdown: React.FC<DropdownProps> = ({
     activeOpacity = 0.7,
     disabled = false,
     IconRight,
-    IconLeft
+    IconLeft,
+    containerClassName
 }) => {
     const [isOpen, setIsOpen] = useState(false);
     const [selectedOption, setSelectedOption] = useState<{ label: string; value: any } | null>(null);
@@ -116,7 +98,7 @@ const CustomDropdown: React.FC<DropdownProps> = ({
                 onPress={toggleDropdown}
                 disabled={disabled}
                 className={`flex-row items-center justify-between p-3 gap-2 bg-white rounded-xl border border-gray-200 ${disabled ? 'opacity-50' : ''
-                    }`}
+                    } ${containerClassName}`}
                 style={dropdownStyle}
             >
                 {IconLeft && IconLeft}
