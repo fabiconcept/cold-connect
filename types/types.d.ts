@@ -47,3 +47,10 @@ declare interface DropdownProps {
     IconLeft?: React.JSX.Element;
     containerClassName?: string;
 }
+
+declare interface TruckOptionProps {
+    title: string;
+    loadLimit: string;
+    price: string;
+    TruckImage: React.JSX.Element;
+}
