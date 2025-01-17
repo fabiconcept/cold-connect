@@ -7,8 +7,8 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 export default function Crates() {
     return (
         <SafeAreaView className='flex-1'>
+            <StatusBar barStyle={"dark-content"} />
             <ScrollView>
-                <StatusBar barStyle={"dark-content"} />
                 <Header />
                 <CrateView />
                 <Options />

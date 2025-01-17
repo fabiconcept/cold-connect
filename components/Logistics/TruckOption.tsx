@@ -21,6 +21,7 @@ export default function TruckOption({
                 checked={isChecked}
                 onPress={() => setIsChecked(!isChecked)}
                 containerStyle='absolute top-4 right-4'
+                checkedColor='#04B90B'
             />
             <View className='flex-1 items-center justify-center mb-5'>
                 {TruckImage}
