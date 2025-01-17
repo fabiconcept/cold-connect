@@ -1,4 +1,4 @@
-import { TextInputProps } from "react-native";
+import { FlatListProps, TextInputProps } from "react-native";
 
 declare type OnBoardingScreenProps = {
     SVG: React.FC;
@@ -25,4 +25,7 @@ declare interface CheckboxProps {
     onPress: () => void;
     containerStyle?: string;
     labelStyle?: string;
+}
+
+declare interface SwiperProps<T> extends FlatListProps<T> {
 }
