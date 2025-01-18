@@ -54,3 +54,9 @@ declare interface TruckOptionProps {
     price: string;
     TruckImage: React.JSX.Element;
 }
+
+declare interface InformationItem {
+    title: string;
+    value: string;
+    editable: boolean;
+}
