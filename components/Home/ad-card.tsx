@@ -1,5 +1,6 @@
 import { View, Text, Image } from 'react-native';
 import FullButton from '../FullButton';
+import { router } from 'expo-router';
 
 export default function AdCard() {
     return (
@@ -23,6 +24,8 @@ export default function AdCard() {
                         title='Go to shop'
                         className='bg-white py-3 rounded-xl w-[80%]'
                         textClassName='text-primary'
+                        onPress={() => router.push("/(root)/(tabs)/crates")}
+                        hitSlop={10}
                     />
                 </View>
                 <View className='-ml-16'>
