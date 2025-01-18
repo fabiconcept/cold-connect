@@ -2,18 +2,19 @@ import { Image } from 'react-native';
 import { View, Text } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import InputField from '../Form/InputField';
+import { Link } from 'expo-router';
 
 export default function Header() {
     return (
         <View className='bg-primary p-5 rounded-br-[40px] rounded-bl-[40px]'>
             <View className='flex flex-row justify-end mt-10 mb-3'>
-                <View className='p-2 bg-white h-[52px] w-[52px] items-center justify-center rounded-full'>
+                <Link href={"/(root)/(tabs)/profile"} className='p-1 bg-white h-[52px] w-[52px] items-center justify-center rounded-full'>
                     <Image
                         source={require("@/assets/images/cold/no-user.png")}
-                        height={46}
-                        width={46}
+                        height={50}
+                        width={50}
                     />
-                </View>
+                </Link>
             </View>
             <View>
                 <Text className='text-white mx-5'>Hello there,</Text>
