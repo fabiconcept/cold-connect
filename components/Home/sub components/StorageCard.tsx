@@ -1,13 +1,16 @@
 import { View, Text, Image, Dimensions } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
+import { useRouter } from 'expo-router';
 import AnimatedPressable from '@/components/general sub components/AnimatedPress';
-
 const { width } = Dimensions.get("window");
 
 export default function StorageCard() {
+    const router = useRouter();
     return (
-        <AnimatedPressable>
-            <View className='bg-white rounded-3xl h-[180px] overflow-hidden relative mr-3 last:mr-1' style={{ width: width - 24 }}>
+        <AnimatedPressable
+            onPress={() => router.push("/(root)/cold-storage/1")}
+        >
+            <View className='bg-white border border-gray-100 shadow-lg shadow-black/20 rounded-3xl h-[180px] overflow-hidden relative mr-3 last:mr-1' style={{ width: width - 24 }}>
                 <Image
                     source={require("@/assets/images/cold/storage-pic.png")}
                     className='w-full h-full'

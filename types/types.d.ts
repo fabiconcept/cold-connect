@@ -1,4 +1,4 @@
-import { FlatListProps, TextInputProps } from "react-native";
+import { FlatListProps, PressableProps, TextInputProps } from "react-native";
 
 declare type OnBoardingScreenProps = {
     SVG: React.FC;
@@ -72,4 +72,4 @@ declare interface InvoiceCardProps {
     date: Date,
     amount: string,
     status: "Paid" | "Pending" | "Cancelled" | "Failed"
-} 
+}
