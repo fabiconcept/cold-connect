@@ -11,6 +11,7 @@ export default function TabsLayout() {
         <Tabs
             initialRouteName="home"
             screenOptions={{
+                tabBarHideOnKeyboard: true,
                 animation: "shift",
                 tabBarShowLabel: false,
                 tabBarLabelStyle: {
@@ -54,6 +55,7 @@ export default function TabsLayout() {
                 options={{
                     headerShown: false,
                     title: 'Crates',
+                    tabBarStyle: { display: "none" },
                     tabBarIcon: ({ focused }) => (
                         <TabIcon
                             focused={focused}
