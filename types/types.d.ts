@@ -60,3 +60,16 @@ declare interface InformationItem {
     value: string;
     editable: boolean;
 }
+
+declare interface AnimatedPressableProps extends PressableProps {
+    children: React.ReactNode,
+    className?: string,
+    activeOpacity?: number
+}
+
+declare interface InvoiceCardProps {
+    id: string,
+    date: Date,
+    amount: string,
+    status: "Paid" | "Pending" | "Cancelled" | "Failed"
+} 
