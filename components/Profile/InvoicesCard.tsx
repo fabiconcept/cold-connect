@@ -1,4 +1,5 @@
 import { Feather } from '@expo/vector-icons';
+import { router } from 'expo-router';
 import { View, Text, TouchableOpacity } from 'react-native';
 
 export default function InvoicesCard() {
@@ -6,6 +7,8 @@ export default function InvoicesCard() {
         <TouchableOpacity
             className='bg-white rounded-2xl overflow-hidden border border-gray-300 shadow-xl shadow-black/10 mt-5 p-5 flex-row justify-between items-center'
             hitSlop={10}
+            activeOpacity={0.8}
+            onPress={() => router.push("/(root)/my-invoices")}
         >
             <Text>My Invoices</Text>
             <View className='flex-row items-center'>
