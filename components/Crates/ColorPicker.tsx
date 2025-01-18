@@ -54,6 +54,7 @@ export default function ColorPicker() {
                 ))}
                 <Pressable
                     onPress={() => handleCheck("Mixed")}
+                    hitSlop={5}
                     className={clsx(
                         'flex-row items-center justify-between px-3',
                         !checkedState["Mixed"] && 'opacity-60'
