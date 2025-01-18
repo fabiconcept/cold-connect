@@ -14,6 +14,7 @@ export default function Checkbox({
         <TouchableOpacity
             onPress={onPress}
             style={styles.container}
+            hitSlop={10}
             className={clsx('flex-row items-center', containerStyle)}
         >
             <View
