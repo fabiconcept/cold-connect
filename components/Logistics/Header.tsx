@@ -16,7 +16,7 @@ export default function Header() {
                     color="black"
                 />
             </TouchableOpacity>
-            <Text className='flex-1font-semibold text-xl text-center w-full font-MontserratSemiBold'>Cold Logistics</Text>
+            <Text className='flex-1 font-semibold text-xl text-center w-full font-MontserratSemiBold'>Cold Logistics</Text>
             <View className='w-[50px]' />
         </View>
     )
