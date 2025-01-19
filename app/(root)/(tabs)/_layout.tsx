@@ -10,6 +10,8 @@ export default function TabsLayout() {
     return (
         <Tabs
             initialRouteName="home"
+            backBehavior="history"
+
             screenOptions={{
                 tabBarHideOnKeyboard: true,
                 animation: "shift",
@@ -84,6 +86,7 @@ export default function TabsLayout() {
                 options={{
                     headerShown: false,
                     title: 'Logistics',
+                    tabBarStyle: { display: "none" },
                     tabBarIcon: ({ focused }) => (
                         <TabIcon
                             focused={focused}
