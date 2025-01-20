@@ -64,7 +64,8 @@ declare interface InformationItem {
 declare interface AnimatedPressableProps extends PressableProps {
     children: React.ReactNode,
     className?: string,
-    activeOpacity?: number
+    activeOpacity?: number,
+    containerClassName?: string
 }
 
 declare interface InvoiceCardProps {
