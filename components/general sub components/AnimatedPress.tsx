@@ -7,6 +7,7 @@ export default function AnimatedPressable({
     children,
     className,
     activeOpacity,
+    containerClassName,
     ...props
 }: AnimatedPressableProps) {
 
@@ -38,7 +39,7 @@ export default function AnimatedPressable({
     });
 
     return (
-        <Animated.View style={animatedStyle}>
+        <Animated.View className={containerClassName} style={animatedStyle}>
             <Pressable
                 className={`${className}`}
                 onPressIn={() => setIsPressed(true)}
