@@ -5,8 +5,9 @@ import Animated, { useAnimatedStyle, useSharedValue, withSpring } from 'react-na
 
 const AnimatedTouchable = Animated.createAnimatedComponent(View);
 
-export default function Counter({ title }: {
-    title: string
+export default function Counter({ title, sizeVariant = "large" }: {
+    title: string,
+    sizeVariant?: "small" | "large"
 }) {
     const [isActive, setIsActive] = useState({
         decrement: false,
@@ -30,14 +31,24 @@ export default function Counter({ title }: {
 
     return (
         <View className='bg-white rounded-2xl overflow-hidden border border-gray-200 shadow' style={{
-            width: (Dimensions.get("window").width / 2) - 18
+            width: sizeVariant === "small" ? (Dimensions.get("window").width / 3) - 18 : (Dimensions.get("window").width / 2) - 18
         }}>
-            <Text className='py-4 text-center text-gray-400 text-sm'>{title}</Text>
-            <Text className='text-center text-4xl pb-4 font-bold font-MontserratBold'>05</Text>
+            <Text className={clsx(
+                'text-center text-gray-400',
+                sizeVariant === "small" && 'pt-2 pb-1 text-xs',
+                sizeVariant === "large" && 'py-4 text-sm'
+            )}>{title}</Text>
+            <Text className={clsx(
+                'text-center font-bold font-MontserratBold',
+                sizeVariant === "small" && 'text-2xl py-1',
+                sizeVariant === "large" && 'text-4xl py-4'
+            )}>05</Text>
             <View className='flex-row justify-between'>
                 <AnimatedTouchable
                     className={clsx(
-                        'border border-gray-300 py-3 flex-1 rounded-bl-2xl items-center justify-center',
+                        'border border-gray-300 flex-1 rounded-bl-2xl items-center justify-center',
+                        sizeVariant === "small" && 'py-2',
+                        sizeVariant === "large" && 'py-4',
                         isActive.decrement && 'bg-gray-300'
                     )}
                     onTouchStart={() => {
@@ -60,7 +71,9 @@ export default function Counter({ title }: {
                 </AnimatedTouchable>
                 <AnimatedTouchable
                     className={clsx(
-                        'border border-gray-300 py-3 flex-1 rounded-br-2xl items-center justify-center',
+                        'border border-gray-300 flex-1 rounded-br-2xl items-center justify-center',
+                        sizeVariant === "small" && 'py-2',
+                        sizeVariant === "large" && 'py-4',
                         isActive.increment && 'bg-gray-300'
                     )}
                     onTouchStart={() => {

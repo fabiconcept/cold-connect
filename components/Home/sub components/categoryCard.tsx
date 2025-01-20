@@ -7,12 +7,16 @@ export default function CategoryCard({
     title,
     imageSource,
     backgroundImage,
-    className
+    className,
+    onPress,
+    sizeVariant = "large"
 }: {
     title: string,
     imageSource: ImageSourcePropType,
     backgroundImage: ImageSourcePropType,
-    className?: string
+    className?: string,
+    onPress?: () => void,
+    sizeVariant?: "small" | "large"
 }) {
 
     const [isPressed, setIsPressed] = useState(false);
@@ -39,11 +43,21 @@ export default function CategoryCard({
     return (
         <Animated.View style={animatedStyle}>
             <Pressable
-                className={`w-[72px] bg-white items-center justify-center rounded-2xl shadow-lg shadow-black/20 ${className}`}
+                className={clsx(
+                    'bg-white items-center justify-center rounded-2xl shadow-lg shadow-black/20',
+                    sizeVariant === "large" && 'w-[72px]',
+                    sizeVariant === "small" && 'w-[62px]',
+                    className
+                )}
                 onPressIn={() => setIsPressed(true)}
                 onPressOut={() => setIsPressed(false)}
+                onPress={onPress}
             >
-                <View className='w-[72px] h-[70px] rounded-2xl overflow-hidden relative items-center justify-center'>
+                <View className={clsx(
+                    'rounded-2xl overflow-hidden relative items-center justify-center',
+                    sizeVariant === "large" && 'w-[72px] h-[70px]',
+                    sizeVariant === "small" && 'w-[62px] h-[60px]'
+                )}>
                     <Image
                         source={backgroundImage}
                         className='w-full h-full'
@@ -61,7 +75,11 @@ export default function CategoryCard({
                         resizeMode='contain'
                     />
                 </View>
-                <Text className='text-center p-2 text-sm font-MontserratSemiBold font-semibold'>{title}</Text>
+                <Text className={clsx(
+                    'text-center p-2 font-MontserratSemiBold font-semibold',
+                    sizeVariant === "large" && 'text-sm',
+                    sizeVariant === "small" && 'text-xs'
+                )}>{title}</Text>
             </Pressable>
         </Animated.View>
     )
