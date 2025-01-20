@@ -1,7 +1,7 @@
 import ActionTray from '@/components/cold-storage/ActionTray';
 import Header from '@/components/cold-storage/Header';
 import HubDetails from '@/components/cold-storage/HubDetails';
-import InfoPill from '@/components/cold-storage/InfoPill';
+import InfoPill from '@/components/general sub components/InfoPill';
 import InformationSheet from '@/components/general sub components/InformationSheet';
 import StoragePhoto from '@/components/cold-storage/StoragePhoto';
 import SuggestedHubs from '@/components/cold-storage/SuggestedHubs';
