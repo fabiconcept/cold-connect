@@ -12,6 +12,7 @@ export default function FullButton(props: ButtonProps) {
     return (
         <AnimatedPressable
             containerClassName={props.containerClassName}
+            onPress={props.onPress}
         >
             <View
                 className={clsx(

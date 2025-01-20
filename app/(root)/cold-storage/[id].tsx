@@ -9,6 +9,7 @@ import FullButton from '@/components/FullButton';
 import { useLocalSearchParams } from 'expo-router';
 import { View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
+import ActionSheet from '@/components/cold-storage/ActionSheet';
 
 export default function Coldstorage() {
     const { id } = useLocalSearchParams();
@@ -31,13 +32,7 @@ export default function Coldstorage() {
                     <View className='h-24'></View>
                 </ScrollView>
             </InformationSheet>
-            <View className='absolute bottom-0 left-0 px-5 py-7 bg-white border-t shadow-2xl shadow-black border-gray-200'>
-                <FullButton
-                    title='Use this Hub'
-                    className='bg-primary w-full rounded-full py-4'
-                    textClassName='text-white text-lg font-semibold'
-                />
-            </View>
+            <ActionSheet />
         </View>
     )
 }
