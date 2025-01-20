@@ -1,5 +1,6 @@
 import { View, Text } from 'react-native';
 import FullButton from '../FullButton';
+import { router } from 'expo-router';
 
 export default function ActionSheet() {
     return (
@@ -9,6 +10,7 @@ export default function ActionSheet() {
                 containerClassName='flex-1'
                 className='bg-primary w-full rounded-full py-4'
                 textClassName='text-white text-lg font-semibold'
+                onPress={() => router.push("/(root)/product-category")}
             />
         </View>
     )
