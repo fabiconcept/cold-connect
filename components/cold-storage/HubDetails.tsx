@@ -1,5 +1,5 @@
 import { View, Text } from 'react-native';
-import InfoPill from './InfoPill';
+import InfoPill from '../general sub components/InfoPill';
 import { FontAwesome } from '@expo/vector-icons';
 
 export default function HubDetails() {
