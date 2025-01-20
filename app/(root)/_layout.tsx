@@ -8,6 +8,7 @@ export default function RootLayout() {
             <Stack.Screen name="my-invoices" options={{ headerShown: false }} />
             <Stack.Screen name="cold-storage/[id]" options={{ headerShown: false }} />
             <Stack.Screen name="product-category/[id]" options={{ headerShown: false }} />
+            <Stack.Screen name="product-category" options={{ headerShown: false }} />
         </Stack>
     )
 }

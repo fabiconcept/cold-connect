@@ -7,6 +7,7 @@ import 'react-native-reanimated';
 import '../global.css';
 import { LogBox } from "react-native";
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import AddToCartButton from '@/components/general sub components/AddToCartButton';
 
 LogBox.ignoreLogs([
   "Warning: ",
@@ -56,6 +57,7 @@ export default function RootLayout() {
         <Stack.Screen name="+not-found" />
       </Stack>
       <StatusBar style="auto" />
+      <AddToCartButton />
     </GestureHandlerRootView>
   );
 }
