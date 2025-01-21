@@ -1,4 +1,5 @@
 import TruckSmall from '@/assets/svgs/logistics/truck-small';
+import FullButton from '@/components/FullButton';
 import Header from '@/components/Logistics/Header';
 import Options from '@/components/Logistics/Options';
 import { Image } from 'react-native';
@@ -25,8 +26,17 @@ export default function Logistics() {
                     />
                 </View>
                 <Options />
-                <View className='h-32'></View>
+                <View className='h-36'></View>
             </ScrollView>
+            <View className='absolute bottom-0 px-3 py-7 bg-white w-full border-t shadow-2xl shadow-black border-gray-200'>
+                <FullButton
+                    title='Get Quote'
+                    containerClassName='flex-1'
+                    className='bg-primary w-full rounded-full py-5'
+                    textClassName='text-white text-lg font-semibold'
+                    onPress={() => { }}
+                />
+            </View>
         </SafeAreaView >
     )
 }

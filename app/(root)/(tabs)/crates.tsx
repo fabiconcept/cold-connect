@@ -18,7 +18,7 @@ export default function Crates() {
             <ActionSheet
                 action={() => { }}
                 actionText='Add to Cart'
-                value={2700}
+                value={15700}
             />
         </SafeAreaView>
     )
