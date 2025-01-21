@@ -4,7 +4,7 @@ import { View, Text, TouchableOpacity } from 'react-native';
 
 export default function Header() {
     return (
-        <View className='px-3 z-20 absolute left-0 top-5 w-full flex-row justify-between items-center'>
+        <View className='px-3 mt-5 z-20 absolute left-0 top-5 w-full flex-row justify-between items-center'>
             <TouchableOpacity
                 hitSlop={20}
                 className='w-[50px] h-[50px] justify-center items-center rounded-full bg-white shadow-lg'

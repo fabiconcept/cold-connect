@@ -9,8 +9,8 @@ export default function Logistics() {
     return (
         <SafeAreaView className='flex-1'>
             <StatusBar barStyle={"dark-content"} />
+            <Header />
             <ScrollView>
-                <Header />
                 <View className='mb-8 mt-10 justify-center items-center w-full'>
                     <Image
                         source={require("@/assets/images/cold/ellipse-24.png")}
