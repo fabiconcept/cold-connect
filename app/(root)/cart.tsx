@@ -1,5 +1,6 @@
 import CartTray from '@/components/Cart/CartTray';
 import Header from '@/components/Cart/Header';
+import ActionSheet from '@/components/general sub components/ActionSheet';
 import { Image } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -22,6 +23,11 @@ export default function cart() {
             />
             <Header />
             <CartTray />
+            <ActionSheet
+                action={() => { }}
+                actionText="Pay Now"
+                value={250700}
+            />
         </SafeAreaView>
     )
 

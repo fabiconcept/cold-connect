@@ -9,7 +9,7 @@ import Options from '@/components/Product Category/Options';
 import InformationSheet from '@/components/general sub components/InformationSheet';
 import SuggestedCategories from '@/components/Product Category/SuggestedCategories';
 import { ScrollView } from 'react-native-gesture-handler';
-import ActionSheet from '@/components/Product Category/ActionSheet';
+import ActionSheet from '@/components/general sub components/ActionSheet';
 
 export default function ProductCategory() {
     return (
@@ -33,7 +33,11 @@ export default function ProductCategory() {
                     <View className='h-24'></View>
                 </ScrollView>
             </InformationSheet>
-            <ActionSheet />
+            <ActionSheet
+                action={() => { }}
+                actionText='Add to Cart'
+                value={2700}
+            />
         </View>
     )
 }

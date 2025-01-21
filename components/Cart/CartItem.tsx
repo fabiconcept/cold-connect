@@ -19,12 +19,12 @@ export default function CartItem({
     const disabled = !isChecked || counter === 0;
 
     return (
-        <View className='pl-3'>
+        <View className='pl-6'>
             {isLast && <View
-                className='border-b border-l h-16  rounded-bl-xl w-5 border-gray-300 absolute -translate-y-3'
+                className='border-b border-l h-16  rounded-bl-xl w-5 border-gray-300 absolute left-2 -translate-y-3'
             ></View>}
             {!isLast && <View
-                className='border-l h-28  w-5 border-gray-300 absolute -translate-y-3'
+                className='border-l h-28  w-5 border-gray-300 absolute left-2 -translate-y-3'
             ></View>}
             <View className={clsx(
                 'bg-white rounded-2xl overflow-hidden border border-gray-300 shadow-xl shadow-black/10 p-2 gap-1 flex-row',

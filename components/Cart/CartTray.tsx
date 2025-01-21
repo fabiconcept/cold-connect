@@ -1,4 +1,4 @@
-import { Text, SectionList } from 'react-native';
+import { Text, SectionList, View } from 'react-native';
 import CartItem from './CartItem';
 const dummyCartItems = [
     {
@@ -78,7 +78,8 @@ export default function CartTray() {
                 />
             )}
             keyExtractor={(_, index) => index.toString()}
-            contentContainerClassName='px-3 pb-10'
+            contentContainerClassName='px-3'
+            ListFooterComponent={() => <View className='h-36' />}
             renderSectionHeader={({ section }) => (
                 <Text className='text-lg py-3 font-MontserratSemiBold mt-5'>{section.title}</Text>
             )}
