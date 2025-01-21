@@ -6,9 +6,8 @@ import ProductPic from '@/components/Product Category/ProductPic';
 import InfoPill from '@/components/general sub components/InfoPill';
 import Details from '@/components/Product Category/Details';
 import Options from '@/components/Product Category/Options';
-import ExpandableCard from '@/components/general sub components/InformationSheet';
+import InformationSheet from '@/components/general sub components/InformationSheet';
 import SuggestedCategories from '@/components/Product Category/SuggestedCategories';
-import FullButton from '@/components/FullButton';
 import { ScrollView } from 'react-native-gesture-handler';
 import ActionSheet from '@/components/Product Category/ActionSheet';
 
@@ -17,9 +16,12 @@ export default function ProductCategory() {
         <View className='relative flex-1'>
             <Header />
             <BackBlur />
-            <ExpandableCard showHandle={false} className='px-4 flex-1'>
+            <InformationSheet showHandle={false} className='px-4 flex-1'>
                 <ProductPic />
-                <ScrollView className='flex-1 -mt-6'>
+                <ScrollView
+                    className='flex-1 -mt-6'
+                    showsVerticalScrollIndicator={false}
+                >
                     <View className='flex-row gap-1 px-1'>
                         <InfoPill
                             title='Category'
@@ -30,7 +32,7 @@ export default function ProductCategory() {
                     <SuggestedCategories />
                     <View className='h-24'></View>
                 </ScrollView>
-            </ExpandableCard>
+            </InformationSheet>
             <ActionSheet />
         </View>
     )
