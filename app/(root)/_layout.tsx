@@ -1,3 +1,4 @@
+import GoToCartButton from "@/components/general sub components/GoToCartButton";
 import { Stack } from "expo-router";
 
 export default function RootLayout() {
@@ -9,6 +10,8 @@ export default function RootLayout() {
             <Stack.Screen name="cold-storage/[id]" options={{ headerShown: false }} />
             <Stack.Screen name="product-category/[id]" options={{ headerShown: false }} />
             <Stack.Screen name="product-category" options={{ headerShown: false }} />
+            <Stack.Screen name="cart" options={{ headerShown: false }} />
+            <GoToCartButton />
         </Stack>
     )
 }
