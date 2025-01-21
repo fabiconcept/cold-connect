@@ -12,6 +12,7 @@ export default function RootLayout() {
                 <Stack.Screen name="product-category/[id]" options={{ headerShown: false }} />
                 <Stack.Screen name="product-category" options={{ headerShown: false }} />
                 <Stack.Screen name="cart" options={{ headerShown: false }} />
+                <Stack.Screen name="choose-payment-method" options={{ headerShown: false }} />
             </Stack>
             <GoToCartButton />
         </>

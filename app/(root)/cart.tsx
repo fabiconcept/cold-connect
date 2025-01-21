@@ -1,6 +1,7 @@
 import CartTray from '@/components/Cart/CartTray';
 import Header from '@/components/Cart/Header';
 import ActionSheet from '@/components/general sub components/ActionSheet';
+import { router } from 'expo-router';
 import { Image } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -24,7 +25,7 @@ export default function cart() {
             <Header />
             <CartTray />
             <ActionSheet
-                action={() => { }}
+                action={() => router.push("/(root)/choose-payment-method")}
                 actionText="Pay Now"
                 value={250700}
             />
