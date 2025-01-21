@@ -10,6 +10,7 @@ export default function GoToCartButton() {
     if (segments[segments.length - 1] === 'cart') return null;
     if (segments[segments.length - 1] === 'my-invoices') return null;
     if (segments[segments.length - 1] === 'enable-location') return null;
+    if (segments[segments.length - 1] === 'choose-payment-method') return null;
 
     return (
         <AnimatedPressable
