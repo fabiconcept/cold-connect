@@ -6,7 +6,7 @@ const dummyCartItems = [
         data: [
             {
                 title: "Fish",
-                price: 20300,
+                price: 200,
                 quantity: 12,
                 image: require("@/assets/images/cold/fish-cart-tem.png")
             },
@@ -18,25 +18,25 @@ const dummyCartItems = [
             },
             {
                 title: "Milk & Dairy",
-                price: 20300,
+                price: 200,
                 quantity: 12,
                 image: require("@/assets/images/cold/milk-cart-tem.png")
             },
             {
                 title: "Fish",
-                price: 20300,
+                price: 200,
                 quantity: 12,
                 image: require("@/assets/images/cold/fish-cart-tem.png")
             },
             {
                 title: "Vegetables",
-                price: 20300,
+                price: 200,
                 quantity: 12,
                 image: require("@/assets/images/cold/veg-cart-tem.png")
             },
             {
                 title: "Meat",
-                price: 20300,
+                price: 200,
                 quantity: 12,
                 image: require("@/assets/images/cold/meat-cart-tem.png")
             }
@@ -47,7 +47,7 @@ const dummyCartItems = [
         data: [
             {
                 title: "Crates",
-                price: 20300,
+                price: 200,
                 quantity: 5,
                 image: require("@/assets/images/cold/crate-cart-tem.png")
             }
