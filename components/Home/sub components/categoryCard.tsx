@@ -44,7 +44,7 @@ export default function CategoryCard({
         <Animated.View style={animatedStyle}>
             <Pressable
                 className={clsx(
-                    'bg-white items-center justify-center rounded-2xl shadow-lg shadow-black/20',
+                    'bg-white items-center justify-center rounded-2xl shadow-lg shadow-black/20 border border-gray-200',
                     sizeVariant === "large" && 'w-[72px]',
                     sizeVariant === "small" && 'w-[62px]',
                     className

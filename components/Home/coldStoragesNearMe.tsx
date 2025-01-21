@@ -13,7 +13,7 @@ export default function ColdStoragesNearMe() {
             </View>
 
             <Swiper
-                data={[0, 1, 2, 3]}
+                data={[0, 1, 2]}
                 renderItem={({ item }) => (
                     <StorageCard />
                 )}
