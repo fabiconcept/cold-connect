@@ -74,3 +74,11 @@ declare interface InvoiceCardProps {
     amount: string,
     status: "Paid" | "Pending" | "Cancelled" | "Failed"
 }
+
+declare interface CartItemProps {
+    title: string;
+    price: number;
+    quantity: number;
+    image: string;
+    isLast?: boolean;
+} 
