@@ -1,4 +1,4 @@
-import { FlatListProps, PressableProps, TextInputProps } from "react-native";
+import { FlatListProps, ImageSourcePropType, PressableProps, TextInputProps } from "react-native";
 
 declare type OnBoardingScreenProps = {
     SVG: React.FC;
@@ -79,6 +79,6 @@ declare interface CartItemProps {
     title: string;
     price: number;
     quantity: number;
-    image: string;
+    image: ImageSourcePropType;
     isLast?: boolean;
 } 

@@ -1,18 +1,69 @@
-import { View, Text, SectionList } from 'react-native';
+import { Text, SectionList } from 'react-native';
 import CartItem from './CartItem';
 const dummyCartItems = [
     {
         title: "Avu/Obinze Hub",
-        data: [1, 2, 3]
+        data: [
+            {
+                title: "Fish",
+                price: 20300,
+                quantity: 12,
+                image: require("@/assets/images/cold/fish-cart-tem.png")
+            },
+            {
+                title: "Beverages",
+                price: 16700,
+                quantity: 12,
+                image: require("@/assets/images/cold/bev-cart-tem.png")
+            },
+            {
+                title: "Milk & Dairy",
+                price: 20300,
+                quantity: 12,
+                image: require("@/assets/images/cold/milk-cart-tem.png")
+            },
+            {
+                title: "Fish",
+                price: 20300,
+                quantity: 12,
+                image: require("@/assets/images/cold/fish-cart-tem.png")
+            },
+            {
+                title: "Vegetables",
+                price: 20300,
+                quantity: 12,
+                image: require("@/assets/images/cold/veg-cart-tem.png")
+            },
+            {
+                title: "Meat",
+                price: 20300,
+                quantity: 12,
+                image: require("@/assets/images/cold/meat-cart-tem.png")
+            }
+        ]
     },
     {
         title: "Buy Crates",
-        data: [1, 2, 3]
+        data: [
+            {
+                title: "Crates",
+                price: 20300,
+                quantity: 5,
+                image: require("@/assets/images/cold/crate-cart-tem.png")
+            }
+        ]
     },
     {
         title: "Logistics",
-        data: [1, 2, 3]
-    },
+        data: [
+            {
+                title: "Logistics",
+                price: 187200,
+                quantity: 1,
+                image: require("@/assets/images/cold/logistics-cart-tem.png")
+            }
+        ]
+    }
 ];
 
 export default function CartTray() {
@@ -22,6 +73,7 @@ export default function CartTray() {
             renderItem={({ item, index, section }) => (
                 <CartItem
                     key={index}
+                    {...item}
                     isLast={index === section.data.length - 1}
                 />
             )}

@@ -14,7 +14,7 @@ export default function CartItem({
     isLast,
 }: CartItemProps) {
     const [isChecked, setIsChecked] = useState(true);
-    const [counter, setCounter] = useState(12);
+    const [counter, setCounter] = useState(quantity);
 
     const disabled = !isChecked || counter === 0;
 
@@ -35,7 +35,7 @@ export default function CartItem({
                     onPress={() => router.push("/(root)/product-category/1")}
                 >
                     <Image
-                        source={require("@/assets/images/cold/fish-cart-tem.png")}
+                        source={image}
                         resizeMode='contain'
                         className='w-20 h-20'
                     />
@@ -43,8 +43,8 @@ export default function CartItem({
                 <View className='flex-1 justify-center gap-2'>
                     <View className='flex-row px-2 items-start'>
                         <View className='flex-1'>
-                            <Text className='font-bold'>Fish</Text>
-                            <Text className='text-sm text-gray-500 -mt-1'>₦200/crate</Text>
+                            <Text className='font-bold'>{title}</Text>
+                            <Text className='text-sm text-gray-500 -mt-1'>₦{Number(price).toLocaleString()}/crate</Text>
                         </View>
                         <Checkbox
                             label=''
@@ -54,7 +54,7 @@ export default function CartItem({
                         />
                     </View>
                     <View className='flex-row px-2 items-center'>
-                        <Text className='font-bold flex-1'>₦20,300.00</Text>
+                        <Text className='font-bold flex-1'>₦{Number(price * counter).toLocaleString()}</Text>
                         <View className='flex-row items-center gap-2'>
                             <TouchableOpacity
                                 className='h-6 w-6 items-center justify-center border border-gray-300 rounded'
