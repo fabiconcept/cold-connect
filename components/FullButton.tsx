@@ -6,12 +6,13 @@ import AnimatedPressable from './general sub components/AnimatedPress';
 export default function FullButton(props: ButtonProps) {
     const {
         iconLeft: IconLeft,
-        iconRight: IconRight
+        iconRight: IconRight,
+        containerClassName = "w-full",
     } = props;
 
     return (
         <AnimatedPressable
-            containerClassName={props.containerClassName}
+            containerClassName={containerClassName}
             onPress={props.onPress}
         >
             <View

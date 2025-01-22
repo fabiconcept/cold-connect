@@ -36,7 +36,7 @@ export default function welcome() {
     const isLastSlide = activeIndex === screens.length - 1;
 
     return (
-        <View className='h-full flex-1 flex'>
+        <View className='h-full flex-1 flex pb-3'>
             <Swiper
                 ref={swiperRef}
                 loop={false}
@@ -59,11 +59,8 @@ export default function welcome() {
             <View style={styles.buttonContainer}>
                 <FullButton
                     title={isLastSlide ? 'Get Started' : 'Continue'}
-                    className='bg-primary'
-                    style={{
-                        paddingBlock: 14,
-                        borderRadius: 10,
-                    }}
+                    className='bg-primary py-4 rounded-2xl'
+                    containerClassName='w-full'
                     textClassName='text-white text-md'
                     onPress={() => {
                         if (isLastSlide) {
@@ -105,7 +102,7 @@ const styles = StyleSheet.create({
         borderRadius: 2,
     },
     buttonContainer: {
-        padding: 3,
+        padding: 12,
         gap: 3
     }
 });
