@@ -77,7 +77,7 @@ export default function SignUp() {
                         />
                         <Text className='text-center opacity-70 my-5'>
                             By Logging in, you agree to our <Text className='font-MontserratSemiBold text-primary'>Terms & Conditions</Text> and
-                            <Text className='font-MontserratSemiBold text-primary'>Privacy Policies</Text>.
+                            <Text className='font-MontserratSemiBold text-primary'> Privacy Policies</Text>.
                         </Text>
 
                         <View className='flex flex-row justify-center items-center gap-2 mt-5 mb-5'>
