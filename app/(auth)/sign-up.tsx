@@ -52,7 +52,7 @@ export default function SignUp() {
                         />
                         <InputField
                             label=''
-                            secureTextEntry={false}
+                            secureTextEntry={true}
                             icon={require("@/assets/images/cold/lock.png")}
                             keyboardType='default'
                             autoCapitalize='none'
@@ -61,7 +61,7 @@ export default function SignUp() {
                         />
                         <InputField
                             label=''
-                            secureTextEntry={false}
+                            secureTextEntry={true}
                             icon={require("@/assets/images/cold/lock.png")}
                             keyboardType='default'
                             autoCapitalize='none'

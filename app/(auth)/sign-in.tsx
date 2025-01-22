@@ -41,7 +41,7 @@ export default function SignIn() {
                         />
                         <InputField
                             label=''
-                            secureTextEntry={false}
+                            secureTextEntry={true}
                             icon={require("@/assets/images/cold/lock.png")}
                             keyboardType='default'
                             autoCapitalize='none'
