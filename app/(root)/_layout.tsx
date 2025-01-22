@@ -1,7 +1,10 @@
+import DetectLocationPermission from "@/components/DetectLocationPermission";
 import GoToCartButton from "@/components/general sub components/GoToCartButton";
 import { Stack } from "expo-router";
 
 export default function RootLayout() {
+    DetectLocationPermission();
+
     return (
         <>
             <Stack>
@@ -13,6 +16,7 @@ export default function RootLayout() {
                 <Stack.Screen name="product-category" options={{ headerShown: false }} />
                 <Stack.Screen name="cart" options={{ headerShown: false }} />
                 <Stack.Screen name="choose-payment-method" options={{ headerShown: false }} />
+                <Stack.Screen name="map" options={{ headerShown: false }} />
             </Stack>
             <GoToCartButton />
         </>
