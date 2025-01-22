@@ -81,4 +81,28 @@ declare interface CartItemProps {
     quantity: number;
     image: ImageSourcePropType;
     isLast?: boolean;
-} 
+}
+
+declare interface LocationState {
+    address: string | null;
+    setAddress: (address: string | null) => void;
+    latitude: number | null;
+    setLatitude: (latitude: number | null) => void;
+    longitude: number | null;
+    setLongitude: (longitude: number | null) => void;
+    hasLocationPermission: boolean;
+    setHasLocationPermission: (hasLocationPermission: boolean) => void;
+}
+
+declare interface Storage {
+    name: string;
+    location?: {
+        latitude: number;
+        longitude: number;
+    };
+}
+
+declare interface StorageState {
+    storages: Storage[];
+    setStorages: (storages: Storage[]) => void;
+}
