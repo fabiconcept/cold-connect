@@ -29,7 +29,7 @@ export default function Coldstorage() {
                         <InfoPill title='Capacity: 100 Tons' />
                     </View>
                     <HubDetails />
-                    <ActionTray />
+                    <ActionTray hubName='Avu/Obinze Hub' />
                     <SuggestedHubs />
                     <View className='h-24'></View>
                 </ScrollView>

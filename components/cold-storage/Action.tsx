@@ -5,17 +5,20 @@ const { width } = Dimensions.get("window");
 
 export default function Action({
     title,
-    Icon
+    Icon,
+    onPress
 }: {
     title: string;
     Icon: React.JSX.Element;
+    onPress: () => void;
 }) {
     const dynamicWidth = (width / 5) - 10;
     const dynamicHeight = dynamicWidth * 0.9;
 
     return (
         <AnimatedPressable
-         activeOpacity={0.8}
+            activeOpacity={0.8}
+            onPress={onPress}
         >
             <View className='gap-2 items-center'>
                 <View

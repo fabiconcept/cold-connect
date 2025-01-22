@@ -8,6 +8,7 @@ export default function GoToCartButton() {
 
     // Hide button on cart screen
     if (segments[segments.length - 1] === 'cart') return null;
+    if (segments[segments.length - 1] === 'map') return null;
     if (segments[segments.length - 1] === 'my-invoices') return null;
     if (segments[segments.length - 1] === 'enable-location') return null;
     if (segments[segments.length - 1] === 'choose-payment-method') return null;
