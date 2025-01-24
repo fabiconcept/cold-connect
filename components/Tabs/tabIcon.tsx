@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { View, Text } from 'react-native';
+import { Text } from 'react-native';
 import Animated, { Easing, useAnimatedStyle, withSpring, withTiming } from 'react-native-reanimated';
 
 export default function TabIcon({ focused, Icon, title, className }: {

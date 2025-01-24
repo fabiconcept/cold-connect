@@ -44,7 +44,7 @@ export default function CartItem({
                     <View className='flex-row px-2 items-start'>
                         <View className='flex-1'>
                             <Text className='font-bold'>{title}</Text>
-                            <Text className='text-sm text-gray-500 -mt-1'>₦{Number(price).toLocaleString()}/crate</Text>
+                            <Text className='text-sm text-gray-500'>₦{Number(price).toLocaleString()}/crate</Text>
                         </View>
                         <Checkbox
                             label=''
@@ -54,7 +54,7 @@ export default function CartItem({
                         />
                     </View>
                     <View className='flex-row px-2 items-center'>
-                        <Text className='font-bold flex-1'>₦{Number(price * counter).toLocaleString()}</Text>
+                        <Text className='flex-1 text-lg font-semibold fonm-MontserratSemiBold'>₦{Number(price * counter).toLocaleString()}</Text>
                         <View className='flex-row items-center gap-2'>
                             <TouchableOpacity
                                 className='h-6 w-6 items-center justify-center border border-gray-300 rounded'
