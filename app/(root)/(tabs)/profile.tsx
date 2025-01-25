@@ -2,7 +2,8 @@ import Header from '@/components/Profile/Header';
 import InformationSection from '@/components/Profile/InformationSection';
 import InvoicesCard from '@/components/Profile/InvoicesCard';
 import ProfilePhotoContainer from '@/components/Profile/ProfilePhotoContainer';
-import { InformationItem } from '@/types/types';
+import { InformationItem, InformationActionItem } from '@/types/types';
+import { Feather } from '@expo/vector-icons';
 import { Image, ScrollView, StatusBar, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -11,35 +12,49 @@ export default function Profile() {
         {
             title: "Full Name:",
             value: "Jeffrey Dahmer",
-            editable: true
+            editable: true,
+            type: "text"
         },
         {
             title: "Username:",
             value: "@milwaukee",
-            editable: false
+            editable: false,
+            type: "text"
         },
         {
             title: "Email Address:",
             value: "jeffrey.dahmer@gmail.com",
-            editable: false
+            editable: false,
+            type: "text"
         },
         {
             title: "Phone Number:",
             value: "+1 (123) 456-7890",
-            editable: true
+            editable: true,
+            type: "text"
         },
     ]
 
-    const dummyAddressInformation: InformationItem[] = [
+    const dummyAddressInformation: (InformationItem | InformationActionItem)[] = [
         {
             title: "Address:",
             value: "123 Main Street, Milwaukee, WI 53201",
-            editable: true
+            editable: true,
+            type: "text"
         },
         {
             title: "Country:",
             value: "Nigeria",
-            editable: false
+            editable: false,
+            type: "text"
+        }, {
+            title: "Logout",
+            Icon: "log-out",
+            action: () => {
+                console.log("Logout");
+            },
+            type: "action",
+            themeColor: "red"
         }
     ]
     return (
