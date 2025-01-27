@@ -14,7 +14,6 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import FullButton from '@/components/FullButton';
-import { useSignUp } from '@clerk/clerk-expo';
 import { maskEmail } from '@/lib/utilities';
 import clsx from 'clsx';
 import AuthFetch from '@/lib/Classes/AuthFetch';
@@ -22,7 +21,6 @@ import AuthFetch from '@/lib/Classes/AuthFetch';
 export default function Verify(): JSX.Element {
     const [pin, setPin] = useState<string[]>(['', '', '', '', '', '']);
     const inputRefs = useRef<(TextInput | null)[]>([]);
-    const { isLoaded, signUp, setActive } = useSignUp();
     const [loading, setLoading] = useState(false);
     const { email, name, password } = useLocalSearchParams<{
         email: string,
@@ -57,34 +55,10 @@ export default function Verify(): JSX.Element {
     const canProceed = pin.join("").length === 6;
 
     const handleVerification = async () => {
-        if (!isLoaded) return;
         if (!canProceed || loading) return;
 
         try {
             setLoading(true);
-            const signUpAttempt = await signUp.attemptEmailAddressVerification({
-                code: pin.join(''),
-            })
-
-            if (signUpAttempt.status === 'complete') {
-                const authFetch = new AuthFetch();
-
-                await authFetch.signUp({
-                    email: decodeURI(email),
-                    name: decodeURI(name),
-                    password: decodeURI(password)
-                });
-
-                await setActive({ session: signUpAttempt.createdSessionId })
-                router.replace({
-                    pathname: '/(root)/(tabs)/home',
-                    params: {
-                        status: "new-account"
-                    }
-                });
-            } else {
-                console.error(JSON.stringify(signUpAttempt, null, 2))
-            }
         } catch (err) {
             console.error(JSON.stringify(err, null, 2));
             setError('An error occurred during verification');
