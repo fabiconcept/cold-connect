@@ -17,14 +17,17 @@ import FullButton from '@/components/FullButton';
 import { useSignUp } from '@clerk/clerk-expo';
 import { maskEmail } from '@/lib/utilities';
 import clsx from 'clsx';
+import AuthFetch from '@/lib/Classes/AuthFetch';
 
 export default function Verify(): JSX.Element {
     const [pin, setPin] = useState<string[]>(['', '', '', '', '', '']);
     const inputRefs = useRef<(TextInput | null)[]>([]);
     const { isLoaded, signUp, setActive } = useSignUp();
     const [loading, setLoading] = useState(false);
-    const { email } = useLocalSearchParams<{
-        email: string
+    const { email, name, password } = useLocalSearchParams<{
+        email: string,
+        password: string,
+        name: string
     }>();
 
     const [error, setError] = useState('');
@@ -64,6 +67,14 @@ export default function Verify(): JSX.Element {
             })
 
             if (signUpAttempt.status === 'complete') {
+                const authFetch = new AuthFetch();
+
+                await authFetch.signUp({
+                    email: decodeURI(email),
+                    name: decodeURI(name),
+                    password: decodeURI(password)
+                });
+
                 await setActive({ session: signUpAttempt.createdSessionId })
                 router.replace({
                     pathname: '/(root)/(tabs)/home',

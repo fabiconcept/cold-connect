@@ -4,15 +4,13 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useEffect, useState } from 'react';
 import { Link, router } from 'expo-router';
 import FullButton from '@/components/FullButton';
-import OAuth from '@/components/Form/OAuth';
 import { useDebounce } from '@/lib/Hooks/useDebounce';
 import clsx from 'clsx';
-import { useSignUp } from '@clerk/clerk-expo';
+import OAuth from '@/components/Form/OAuth';
 
 export default function SignUp() {
     const [rememberMe, setRememberMe] = useState(false);
     const [loading, setLoading] = useState(false);
-    const { isLoaded, signUp } = useSignUp();
 
     const [email, setEmail] = useState("");
     const [fullName, setFullName] = useState("");
@@ -67,26 +65,10 @@ export default function SignUp() {
     });
 
     const onSignUpPress = async () => {
-        if (!isLoaded || loading) return;
 
-        // Start sign-up process using email and password provided
         try {
             setLoading(true);
-            await signUp.create({
-                emailAddress: debouncedEmail.trim(),
-                password: debouncedPassword,
-            })
 
-            // Send user an email with verification code
-            await signUp.prepareEmailAddressVerification({ strategy: 'email_code' })
-
-            setPendingVerification(true);
-            router.push({
-                pathname: `/(auth)/verify`,
-                params: {
-                    email: encodeURI(debouncedEmail)
-                }
-            });
         } catch (err) {
             // See https://clerk.com/docs/custom-flows/error-handling
             // for more info on error handling
@@ -108,7 +90,6 @@ export default function SignUp() {
         password.length > 0 &&
         confirmPassword.length > 0 &&
         !pendingVerification &&
-        isLoaded &&
         !loading
     );
 

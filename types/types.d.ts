@@ -116,3 +116,18 @@ declare interface StorageState {
     storages: Storage[];
     setStorages: (storages: Storage[]) => void;
 }
+
+declare type Endpoints = `/${string}`;
+
+declare interface BaseSignUp {
+    name: string;
+    email: string;
+    password: string;
+}
+
+declare interface SocialSignUp {
+    name: string;
+    email: string;
+    provider: 'google' | 'facebook' | 'apple';
+    provider_id: string;
+}
