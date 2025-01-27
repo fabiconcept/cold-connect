@@ -2,6 +2,9 @@ import { View, Text, KeyboardAvoidingView, TouchableWithoutFeedback, TextInput, 
 import { useFonts } from 'expo-font';
 import { InputFieldProps } from '@/types/types';
 import clsx from 'clsx';
+import { Feather } from '@expo/vector-icons';
+import { useState } from 'react';
+import AnimatedPressable from '../general sub components/AnimatedPress';
 
 export default function InputField({
     label,
@@ -21,6 +24,8 @@ export default function InputField({
     if (!loaded) {
         return null;
     }
+    const [showPassword, setShowPassword] = useState(secureTextEntry);
+
 
     return (
         <KeyboardAvoidingView
@@ -44,10 +49,16 @@ export default function InputField({
                         )}
                         <TextInput
                             {...props}
-                            secureTextEntry={secureTextEntry}
-
+                            keyboardType={showPassword ? undefined : "visible-password"}
+                            secureTextEntry={showPassword}
                             className={clsx('rounded-full px-4 py-5 font-semibold text-[15px] flex-1 text-left', inputStyle)}
                         />
+                        {secureTextEntry && <AnimatedPressable hitSlop={25} containerClassName='absolute right-3 opacity-50' onPress={() => setShowPassword(!showPassword)}>
+                            <Feather
+                                name={showPassword ? 'eye-off' : 'eye'}
+                                size={20}
+                            />
+                        </AnimatedPressable>}
                     </View>
                 </View>
             </TouchableWithoutFeedback>
