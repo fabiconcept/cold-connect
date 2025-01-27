@@ -75,10 +75,10 @@ export default function SignIn() {
                             <View className='flex-1 h-px bg-gray-200'></View>
                         </View>
 
-                        <OAuth className='my-8' />
+                        <OAuth className='my-5' />
 
 
-                        <Link href={"/(auth)/sign-up"} className='text-center'>
+                        <Link href={"/(auth)/sign-up"} className='text-center py-5'>
                             Don&apos;t have an account?
                             <Text className='font-MontserratSemiBold text-primary'> Sign Up</Text>
                         </Link>

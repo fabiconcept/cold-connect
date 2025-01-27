@@ -3,11 +3,20 @@ import InformationSection from '@/components/Profile/InformationSection';
 import InvoicesCard from '@/components/Profile/InvoicesCard';
 import ProfilePhotoContainer from '@/components/Profile/ProfilePhotoContainer';
 import { InformationItem, InformationActionItem } from '@/types/types';
+import { useAuth } from '@clerk/clerk-expo';
 import { Feather } from '@expo/vector-icons';
+import { router } from 'expo-router';
 import { Image, ScrollView, StatusBar, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function Profile() {
+    const { signOut } = useAuth();
+
+    const handleSignOut = () => {
+        console.log('signing out');
+        signOut();
+        router.replace('/(auth)/sign-in');
+    }
     const dummyData: InformationItem[] = [
         {
             title: "Full Name:",
@@ -50,9 +59,7 @@ export default function Profile() {
         }, {
             title: "Logout",
             Icon: "log-out",
-            action: () => {
-                console.log("Logout");
-            },
+            action: handleSignOut,
             type: "action",
             themeColor: "red"
         }

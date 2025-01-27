@@ -13,6 +13,7 @@ export default function AnimatedPressable({
 
     const [isPressed, setIsPressed] = useState(false);
 
+
     const animatedStyle = useAnimatedStyle(() => {
         return {
             transform: [
@@ -42,8 +43,11 @@ export default function AnimatedPressable({
         <Animated.View className={containerClassName} style={animatedStyle}>
             <Pressable
                 className={`${className}`}
-                onPressIn={() => setIsPressed(true)}
-                onPressOut={() => setIsPressed(false)}
+                style={{
+                    opacity: props.disabled ? 0.8 : 1
+                }}
+                onPressIn={() => !props.disabled && setIsPressed(true)}
+                onPressOut={() => !props.disabled && setIsPressed(false)}
                 hitSlop={10}
                 {...props}
             >

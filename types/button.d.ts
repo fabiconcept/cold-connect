@@ -7,4 +7,6 @@ declare interface ButtonProps extends TouchableOpacityProps {
     iconLeft?: React.ComponentType<any>;
     iconRight?: React.ComponentType<any>;
     containerClassName?: string;
+    canProceed?: boolean;
+    loading?: boolean;
 }
