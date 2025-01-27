@@ -1,6 +1,7 @@
 import clsx from 'clsx';
-import { Image, TouchableOpacity } from 'react-native';
+import { Image, Platform } from 'react-native';
 import { View } from 'react-native';
+import AnimatedPressable from '../general sub components/AnimatedPress';
 
 export default function OAuth({
     className
@@ -9,31 +10,31 @@ export default function OAuth({
 }) {
     return (
         <View className={clsx(
-            'flex-row gap-2 justify-center items-center',
+            'flex-row gap-3 justify-center items-center',
             className
         )}>
-            <TouchableOpacity className='p-2 bg-gray-200 rounded-full'>
+            <AnimatedPressable containerClassName='p-2 bg-gray-200 rounded-full border border-gray-300'>
                 <Image
                     source={require("@/assets/images/cold/google.png")}
                     resizeMode='contain'
                     className='w-10 h-10'
                 />
-            </TouchableOpacity>
-            <TouchableOpacity className='p-2 bg-gray-200 rounded-full'>
+            </AnimatedPressable>
+            <AnimatedPressable containerClassName='p-2 bg-gray-200 rounded-full border border-gray-300'>
                 <Image
                     source={require("@/assets/images/cold/facebook.png")}
                     resizeMode='contain'
                     className='w-10 h-10'
                 />
-            </TouchableOpacity>
-            <TouchableOpacity className='p-2 bg-gray-200 rounded-full'>
+            </AnimatedPressable>
+            {Platform.OS === "ios" && <AnimatedPressable containerClassName='p-2 bg-gray-200 rounded-full border border-gray-300'>
                 <Image
                     source={require("@/assets/images/cold/apple.png")}
                     resizeMode='contain'
                     className='w-10 h-10'
                 />
-            </TouchableOpacity>
+            </AnimatedPressable>}
 
-        </View>
+        </View >
     )
 }
