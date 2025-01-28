@@ -9,6 +9,7 @@ import clsx from 'clsx';
 import OAuth from '@/components/Form/OAuth';
 import { BaseSignUp } from '@/types/types';
 import { useAuthenticationStore } from '@/store/auth';
+import { validateEmail, validateFullName, validatePassword } from '@/lib/utilities';
 
 export default function SignUp() {
     const [loading, setLoading] = useState(false);
@@ -34,8 +35,8 @@ export default function SignUp() {
 
     useEffect(() => {
         if (debouncedEmail.length > 0) {
-            if (!debouncedEmail.includes('@')) {
-                setErrors((prev) => ({ ...prev, email: 'Invalid email' }));
+            if (!validateEmail(debouncedEmail)) {
+                setErrors((prev) => ({ ...prev, email: 'Invalid email format' }));
             } else {
                 setErrors((prev) => ({ ...prev, email: '' }));
             }
@@ -51,8 +52,9 @@ export default function SignUp() {
     useEffect(() => {
         if (debouncedFullName.length === 0) return;
 
-        if (debouncedFullName.length < 3) {
-            setErrors((prev) => ({ ...prev, name: 'Full name must be at least 3 characters' }));
+        const [isValidName, nameError] = validateFullName(debouncedFullName);
+        if (!isValidName) {
+            setErrors((prev) => ({ ...prev, name: nameError }));
         } else {
             setErrors((prev) => ({ ...prev, name: '' }));
         }
@@ -67,8 +69,9 @@ export default function SignUp() {
         if (debouncedPassword.length === 0) return;
         if (debouncedConfirmPassword.length === 0) return;
 
-        if (debouncedPassword.length < 8) {
-            setErrors((prev) => ({ ...prev, password: 'Password must be at least 8 characters' }));
+        const [isValidPassword, passwordError] = validatePassword(debouncedPassword);
+        if (!isValidPassword) {
+            setErrors((prev) => ({ ...prev, password: passwordError }));
         } else if (debouncedPassword !== debouncedConfirmPassword) {
             setErrors((prev) => ({ ...prev, password: 'Passwords do not match' }));
         } else {
@@ -119,10 +122,10 @@ export default function SignUp() {
 
     const hasError = Object.values(errors).some((error) => error !== "");
     const canProceed = !hasError && (
-        email.length > 0 &&
-        fullName.length > 0 &&
-        password.length > 0 &&
-        confirmPassword.length > 0 &&
+        debouncedEmail.length > 0 &&
+        debouncedFullName.length > 0 &&
+        debouncedPassword.length > 0 &&
+        debouncedConfirmPassword.length > 0 &&
         !loading
     );
 
