@@ -7,16 +7,28 @@ import FullButton from '@/components/FullButton';
 import { useDebounce } from '@/lib/Hooks/useDebounce';
 import clsx from 'clsx';
 import OAuth from '@/components/Form/OAuth';
+import { BaseSignUp } from '@/types/types';
+import { useAuthenticationStore } from '@/store/auth';
 
 export default function SignUp() {
     const [rememberMe, setRememberMe] = useState(false);
     const [loading, setLoading] = useState(false);
 
+    const { signUp, activeId, activeUser, error, clearError } = useAuthenticationStore();
+
+    useEffect(() => {
+        if (activeId && activeUser) {
+            console.log({
+                activeId,
+                activeUser
+            })
+        }
+    }, [activeId, activeUser]);
+
     const [email, setEmail] = useState("");
     const [fullName, setFullName] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
-    const [pendingVerification, setPendingVerification] = useState(false);
 
     const debouncedEmail = useDebounce(email, 500);
     const debouncedFullName = useDebounce(fullName, 500);
@@ -31,6 +43,12 @@ export default function SignUp() {
                 setErrors((prev) => ({ ...prev, email: '' }));
             }
         }
+
+        setErrors((prev) => ({
+            ...prev,
+            miscellaneous: '',
+        }));
+        clearError();
     }, [debouncedEmail]);
 
     useEffect(() => {
@@ -41,6 +59,11 @@ export default function SignUp() {
         } else {
             setErrors((prev) => ({ ...prev, name: '' }));
         }
+        setErrors((prev) => ({
+            ...prev,
+            miscellaneous: '',
+        }));
+        clearError();
     }, [debouncedFullName]);
 
     useEffect(() => {
@@ -54,8 +77,12 @@ export default function SignUp() {
         } else {
             setErrors((prev) => ({ ...prev, password: '' }));
         }
+        setErrors((prev) => ({
+            ...prev,
+            miscellaneous: '',
+        }));
+        clearError();
     }, [debouncedPassword, debouncedConfirmPassword]);
-
 
     const [errors, setErrors] = useState({
         email: "",
@@ -65,13 +92,30 @@ export default function SignUp() {
     });
 
     const onSignUpPress = async () => {
-
         try {
             setLoading(true);
+            const payload: BaseSignUp = {
+                email: debouncedEmail.trim(),
+                name: debouncedFullName.trim(),
+                password: debouncedPassword,
+                password_confirmation: debouncedPassword,
+            }
 
+            const didSignup = await signUp(payload);
+
+            if (!didSignup) {
+                setConfirmPassword("");
+                setPassword("");
+                return;
+            };
+
+            router.replace({
+                pathname: "/(root)/(tabs)/home",
+                params: {
+                    type: "new-user"
+                }
+            });
         } catch (err) {
-            // See https://clerk.com/docs/custom-flows/error-handling
-            // for more info on error handling
             console.error(JSON.stringify(err, null, 2))
             setErrors((prev) => ({
                 ...prev,
@@ -89,23 +133,22 @@ export default function SignUp() {
         fullName.length > 0 &&
         password.length > 0 &&
         confirmPassword.length > 0 &&
-        !pendingVerification &&
         !loading
     );
 
     return (
         <View className='relative flex-1'>
+            <Image
+                source={require("@/assets/images/cold/sign-up-ice 02.png")}
+                resizeMode='contain'
+                className='absolute top-0 right-0'
+            />
+            <Image
+                source={require("@/assets/images/cold/sign-up-ice 01.png")}
+                resizeMode='contain'
+                className='absolute bottom-0 left-1/2 -translate-x-1/2'
+            />
             <ScrollView className='flex-1'>
-                <Image
-                    source={require("@/assets/images/cold/sign-up-ice 02.png")}
-                    resizeMode='contain'
-                    className='absolute top-0 right-0'
-                />
-                <Image
-                    source={require("@/assets/images/cold/sign-up-ice 01.png")}
-                    resizeMode='contain'
-                    className='absolute bottom-0 left-1/2 -translate-x-1/2'
-                />
                 <SafeAreaView className='flex-1 flex z-20 p-5' style={styles.container}>
                     <View className='gap-2' style={styles.textContainer}>
                         <Text className='text-primary text-4xl font-MontserratSemiBold' style={styles.titleText}>Create an Account</Text>
@@ -118,11 +161,10 @@ export default function SignUp() {
                     <View className='my-10' style={styles.inputContainer}>
                         <InputField
                             label=''
-                            secureTextEntry={false}
                             icon={require("@/assets/images/cold/user.png")}
-                            autoCapitalize='words'
+                            // autoCapitalize='words'
                             placeholder='Full Name'
-                            editable={!canProceed}
+                            editable={!loading}
                             autoCorrect={false}
                             onChangeText={(name) => setFullName(name)}
                             value={fullName}
@@ -131,10 +173,10 @@ export default function SignUp() {
                             label=''
                             secureTextEntry={false}
                             icon={require("@/assets/images/cold/at-sign.png")}
-                            keyboardType='email-address'
+                            // keyboardType='email-address'
                             autoCapitalize='none'
                             placeholder='Email Address'
-                            editable={!canProceed}
+                            editable={!loading}
                             autoCorrect={false}
                             onChangeText={(email) => setEmail(email)}
                             value={email}
@@ -145,7 +187,7 @@ export default function SignUp() {
                             icon={require("@/assets/images/cold/lock.png")}
                             autoCapitalize='none'
                             placeholder='Password'
-                            editable={!canProceed}
+                            editable={!loading}
                             autoCorrect={false}
                             onChangeText={(password) => setPassword(password)}
                             value={password}
@@ -156,7 +198,7 @@ export default function SignUp() {
                             icon={require("@/assets/images/cold/lock.png")}
                             autoCapitalize='none'
                             placeholder='ReType password'
-                            editable={!canProceed}
+                            editable={!loading}
                             autoCorrect={false}
                             onChangeText={(confirmPassword) => setConfirmPassword(confirmPassword)}
                             value={confirmPassword}
@@ -164,11 +206,14 @@ export default function SignUp() {
                         {hasError && <Text className='text-center text-red-600 opacity-70 my-3'>
                             {Object.values(errors).filter((err) => err !== "").join(", ")}
                         </Text>}
+                        {error.length > 0 && <Text className='text-center text-red-600 opacity-70 my-3'>
+                            {Object.values(error).filter((err) => err !== "").join(", ")}
+                        </Text>}
 
                         <FullButton
                             title={canProceed ? 'Continue' : "Please provide your details."}
                             canProceed={canProceed}
-                            loading={loading || pendingVerification}
+                            loading={loading}
                             onPress={onSignUpPress}
                             className={clsx(
                                 'py-4 rounded-xl',

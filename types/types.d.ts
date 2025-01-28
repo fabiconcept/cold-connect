@@ -130,3 +130,53 @@ declare interface SocialSignUp extends Omit<BaseSignUp, "password" | "password_c
     provider: 'google' | 'facebook' | 'apple';
     provider_id: string;
 }
+
+declare interface ActiveUser {
+    id: number;
+    full_name: string;
+    username: string;
+    email: string;
+    email_verified_at?: string;
+    role: "customer";
+    status: "active" | "inactive";
+    created_at: string;
+    updated_at: string;
+    profile: null;
+    bookings: [];
+}
+
+declare interface UnAuthenticatedStore {
+    isSignedIn: false;
+    activeUser: null;
+    error: string[];
+    activeId: "";
+    signUp: (payload: BaseSignUp | SocialSignUp) => Promise<boolean>;
+    signIn: (payload: Pick<BaseSignUp, "email" | "password">) => Promise<void>;
+    signOut: () => void;
+    clearError: () => void;
+}
+
+declare interface AuthenticatedStore extends UnAuthenticatedStore {
+    isSignedIn: true;
+    activeUser: ActiveUser;
+    activeId: string;
+    error: string[];
+}
+
+declare interface SignUpErrorResponse {
+    success: false;
+    errors: {
+        email?: string[];
+        name?: string[];
+        password?: string[];
+    };
+    status: 422;
+}
+
+declare interface SignUpSuccessResponse {
+    user: ActiveUser;
+    profile: null;
+    success: true;
+    token: string;
+    status: 200;
+}
