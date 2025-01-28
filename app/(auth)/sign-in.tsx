@@ -2,13 +2,86 @@ import InputField from '@/components/Form/InputField';
 import Checkbox from '@/components/Form/Checkbox';
 import { View, Text, Image, StyleSheet, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useState } from 'react';
-import { Link } from 'expo-router';
+import { useEffect, useState } from 'react';
+import { Link, router } from 'expo-router';
 import FullButton from '@/components/FullButton';
 import OAuth from '@/components/Form/OAuth';
+import { useDebounce } from '@/lib/Hooks/useDebounce';
+import { useAuthenticationStore } from '@/store/auth';
+import clsx from 'clsx';
+import { validateEmail } from '@/lib/utilities';
+import { BaseSignUp } from '@/types/types';
 
 export default function SignIn() {
     const [rememberMe, setRememberMe] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const debouncedEmail = useDebounce(email, 500);
+    const debouncedPassword = useDebounce(password, 500);
+    const [errors, setErrors] = useState({
+        email: "",
+        password: '',
+        miscellaneous: ''
+    });
+
+    const { signIn, error, clearError } = useAuthenticationStore();
+    const hasError = Object.values(errors).some((error) => error !== "");
+    const canProceed = !hasError && (
+        debouncedEmail.length > 0 &&
+        debouncedPassword.length > 0 &&
+        !loading
+    );
+
+
+    useEffect(() => {
+        if (debouncedEmail.length > 0) {
+            if (!validateEmail(debouncedEmail)) {
+                setErrors((prev) => ({ ...prev, email: 'Invalid email format' }));
+            } else {
+                setErrors((prev) => ({ ...prev, email: '' }));
+            }
+        }
+
+        setErrors((prev) => ({
+            ...prev,
+            miscellaneous: '',
+        }));
+        clearError();
+    }, [debouncedEmail]);
+
+    const onSignInPress = async () => {
+        try {
+            setLoading(true);
+            const payload: Pick<BaseSignUp, "email" | "password"> = {
+                email: debouncedEmail.trim(),
+                password: debouncedPassword,
+            }
+
+            const didSignup = await signIn(payload);
+
+            if (!didSignup) {
+                setPassword("");
+                return;
+            };
+
+            router.replace({
+                pathname: "/(root)/(tabs)/home",
+                params: {
+                    type: "logged-in"
+                }
+            });
+        } catch (err) {
+            console.error(JSON.stringify(err, null, 2))
+            setErrors((prev) => ({
+                ...prev,
+                miscellaneous: 'An error occurred during sign-up',
+            }));
+        } finally {
+            setLoading(false);
+        }
+    }
+
 
     return (
         <View className='relative flex-1'>
@@ -38,6 +111,9 @@ export default function SignIn() {
                             autoCapitalize='none'
                             placeholder='Email Address'
                             autoCorrect={false}
+                            editable={!loading}
+                            onChangeText={(email) => setEmail(email)}
+                            value={email}
                         />
                         <InputField
                             label=''
@@ -47,6 +123,9 @@ export default function SignIn() {
                             autoCapitalize='none'
                             placeholder='Password'
                             autoCorrect={false}
+                            editable={!loading}
+                            onChangeText={(password) => setPassword(password)}
+                            value={password}
                         />
 
                         <View className='flex flex-row justify-between items-center w-full my-8'>
@@ -58,15 +137,29 @@ export default function SignIn() {
                             />
                             <Link href="/" className='font-MontserratSemiBold text-primary'>Forgot Password?</Link>
                         </View>
+                        {hasError && <Text className='text-center text-red-600 opacity-70 my-3'>
+                            {Object.values(errors).filter((err) => err !== "").join(", ")}
+                        </Text>}
+                        {error.length > 0 && <Text className='text-center text-red-600 opacity-70 my-3'>
+                            {Object.values(error).filter((err) => err !== "").join(", ")}
+                        </Text>}
                         <FullButton
-                            title='Continue'
-                            onPress={() => { }}
-                            className='bg-primary py-4 rounded-xl'
-                            textClassName='font-MontserratSemiBold text-white'
+                            title={canProceed ? 'Login' : "Please provide your details."}
+                            canProceed={canProceed}
+                            loading={loading}
+                            onPress={onSignInPress}
+                            className={clsx(
+                                'py-4 rounded-xl',
+                                canProceed ? "bg-primary text-white" : "bg-primary/20"
+                            )}
+                            textClassName={clsx(
+                                'font-MontserratSemiBold',
+                                canProceed ? "text-white" : "text-primary"
+                            )}
                         />
                         <Text className='text-center opacity-70 my-5'>
                             By Logging in, you agree to our <Text className='font-MontserratSemiBold text-primary'>Terms & Conditions</Text> and
-                            <Text className='font-MontserratSemiBold text-primary'>Privacy Policies</Text>.
+                            <Text className='font-MontserratSemiBold text-primary'> Privacy Policies</Text>.
                         </Text>
 
                         <View className='flex flex-row justify-center items-center gap-2 mt-8 mb-5'>

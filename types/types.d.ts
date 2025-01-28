@@ -151,7 +151,7 @@ declare interface UnAuthenticatedStore {
     error: string[];
     activeId: "";
     signUp: (payload: BaseSignUp | SocialSignUp) => Promise<boolean>;
-    signIn: (payload: Pick<BaseSignUp, "email" | "password">) => Promise<void>;
+    signIn: (payload: Pick<BaseSignUp, "email" | "password">) => Promise<boolean>;
     signOut: () => void;
     clearError: () => void;
 }
@@ -179,4 +179,30 @@ declare interface SignUpSuccessResponse {
     success: true;
     token: string;
     status: 200;
+}
+
+declare interface ActiveUserProfile {
+    id: number;
+    photo: string | null;
+    phone: string;
+    address: string;
+    country: string;
+    user_id: number;
+    created_at: string;
+    updated_at: string;
+}
+
+
+declare interface LoginSuccessResponse {
+    user: ActiveUser;
+    profile: ActiveUserProfile | null;
+    success: true;
+    token: string;
+    status: 200;
+}
+
+declare interface LoginErrorResponse {
+    success: false;
+    errors: string;
+    status: 422;
 }
