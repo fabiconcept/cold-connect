@@ -1,5 +1,7 @@
-import { fetchAPI } from "@/lib/fetch";
-import { AuthenticatedStore, LoginErrorResponse, LoginSuccessResponse, SignUpErrorResponse, SignUpSuccessResponse, UnAuthenticatedStore } from "@/types/types";
+import { fetchAPI, fetchProtectedAPI } from "@/lib/fetch";
+import { removeToken, saveToken } from "@/lib/KeyChain";
+import { ActiveUser, AuthenticatedStore, LoginErrorResponse, LoginSuccessResponse, SignUpErrorResponse, SignUpSuccessResponse, UnAuthenticatedStore } from "@/types/types";
+import { router } from "expo-router";
 import { create } from "zustand";
 
 const baseUrl = process.env.EXPO_PUBLIC_BASE_URL! as `http${string}://${string}`;
@@ -9,6 +11,7 @@ export const useAuthenticationStore = create<AuthenticatedStore | UnAuthenticate
     activeUser: null,
     isSignedIn: false,
     error: [],
+    updatingUser: false,
     clearError: () => {
         set({
             error: []
@@ -18,7 +21,7 @@ export const useAuthenticationStore = create<AuthenticatedStore | UnAuthenticate
         if (!baseUrl) throw new Error('Base URL is not set');
 
         try {
-            const response: SignUpSuccessResponse | SignUpErrorResponse = await fetchAPI(`http://192.168.88.218:8000/api/apisignup`, {
+            const response: SignUpSuccessResponse | SignUpErrorResponse = await fetchAPI(`${baseUrl}/apisignup`, {
                 headers: {
                     "Content-Type": "application/json"
                 },
@@ -54,7 +57,7 @@ export const useAuthenticationStore = create<AuthenticatedStore | UnAuthenticate
         if (!baseUrl) throw new Error('Base URL is not set');
 
         try {
-            const response: LoginSuccessResponse | LoginErrorResponse = await fetchAPI(`http://192.168.88.218:8000/api/apisignin`, {
+            const response: LoginSuccessResponse | LoginErrorResponse = await fetchAPI(`${baseUrl}/apisignin`, {
                 headers: {
                     "Content-Type": "application/json"
                 },
@@ -75,7 +78,9 @@ export const useAuthenticationStore = create<AuthenticatedStore | UnAuthenticate
                 activeUser: user,
                 error: [],
                 isSignedIn: true,
-            })
+            });
+
+            await saveToken(token);
 
             return true;
         } catch (error) {
@@ -83,5 +88,46 @@ export const useAuthenticationStore = create<AuthenticatedStore | UnAuthenticate
             throw new Error("An error occurred during sign up!")
         }
     },
-    signOut: async () => { },
+    signOut: async () => {
+        if (!baseUrl) throw new Error('Base URL is not set');
+
+        try {
+            await fetchProtectedAPI(`${baseUrl}/apisignout`, {
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                method: 'POST',
+            });
+        } catch (error) {
+            console.error(JSON.stringify(error, null, 2));
+            throw new Error("An error occurred during sign out!");
+        } finally {
+            await removeToken();
+            router.replace('/(auth)/sign-in');
+        }
+        // Log out function
+    },
+    updateUser: async (activeId) => {
+        try {
+            set({ updatingUser: true });
+            const response: ActiveUser = await fetchAPI(`${baseUrl}/user`, {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${activeId}`
+                }
+            });
+
+            set({
+                activeUser: response,
+                activeId: activeId,
+                isSignedIn: true,
+                error: [],
+            });
+        } catch (error) {
+            console.error(JSON.stringify(error, null, 2));
+            throw new Error("An error occurred during update!");
+        } finally {
+            set({ updatingUser: false });
+        }
+    }
 }));

@@ -141,7 +141,7 @@ declare interface ActiveUser {
     status: "active" | "inactive";
     created_at: string;
     updated_at: string;
-    profile: null;
+    profile: ActiveUserProfile | null;
     bookings: [];
 }
 
@@ -150,10 +150,12 @@ declare interface UnAuthenticatedStore {
     activeUser: null;
     error: string[];
     activeId: "";
+    updatingUser: boolean;
     signUp: (payload: BaseSignUp | SocialSignUp) => Promise<boolean>;
     signIn: (payload: Pick<BaseSignUp, "email" | "password">) => Promise<boolean>;
     signOut: () => void;
     clearError: () => void;
+    updateUser: (activeId: string) => Promise<void>;
 }
 
 declare interface AuthenticatedStore extends UnAuthenticatedStore {
