@@ -1,27 +1,18 @@
-import { BaseSignUp, Endpoints } from "@/types/types";
+import { BaseSignUp } from "@/types/types";
+import { fetchAPI } from "../fetch";
 
 export default class AuthFetch {
-    private baseUrl = process.env.EXPO_PUBLIC_BASE_URL!;
+    private baseUrl = process.env.EXPO_PUBLIC_BASE_URL! as `http${string}://${string}`;
 
-    private async request<T>(endpoint: Endpoints, options: RequestInit = {}): Promise<T> {
+    constructor() {
         if (!this.baseUrl) throw new Error('Base URL is not set');
-
-        const { data, error } = await fetch(`${this.baseUrl}${endpoint}`, {
-            ...options,
-            headers: {
-                'Content-Type': 'application/json',
-                ...options.headers,
-            },
-        }).then((res) => res.json());
-
-        if (error) {
-            throw new Error(error);
-        }
-        return data;
     }
 
     signUp = async (payload: BaseSignUp) => {
-        return this.request('/apicreateprofile', {
+        return fetchAPI(`http://192.168.88.218:8000/api/apisignup`, {
+            headers: {
+                "Content-Type": "application/json"
+            },
             method: 'POST',
             body: JSON.stringify(payload),
         });
