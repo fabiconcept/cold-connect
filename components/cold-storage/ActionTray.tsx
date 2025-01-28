@@ -3,6 +3,7 @@ import Action from './Action';
 import Website from '@/assets/svgs/Action/website';
 import { Feather } from '@expo/vector-icons';
 import { router } from 'expo-router';
+import { onShare } from '@/lib/utilities';
 
 export default function ActionTray({ hubName }: {
     hubName: string
@@ -47,9 +48,7 @@ export default function ActionTray({ hubName }: {
                 size={30}
                 color='#0066e1'
             />,
-            onPress: () => {
-                console.log("Share");
-            }
+            onPress: onShare
         },
         {
             title: "Copy Address",

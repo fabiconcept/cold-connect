@@ -123,11 +123,10 @@ declare interface BaseSignUp {
     name: string;
     email: string;
     password: string;
+    password_confirmation: string;
 }
 
-declare interface SocialSignUp {
-    name: string;
-    email: string;
+declare interface SocialSignUp extends Omit<BaseSignUp, "password" | "password_confirmation"> {
     provider: 'google' | 'facebook' | 'apple';
     provider_id: string;
 }
