@@ -1,12 +1,12 @@
 import { Feather } from '@expo/vector-icons';
 import { View, Text, Image, TouchableOpacity } from 'react-native';
 
-export default function ProfilePhotoContainer() {
+export default function ProfilePhotoContainer({ photo }: { photo: string }) {
     return (
         <View className='mt-32 justify-center items-center'>
             <View className='w-[120px] h-[120px] rounded-full bg-gray-200 border-4 border-black/10 mx-auto overflow-hidden'>
                 <Image
-                    source={require("@/assets/images/cold/no-user.png")}
+                    source={photo ? { uri: photo } : require("@/assets/images/cold/no-user.png")}
                     className='mx-auto h-full w-full'
                     resizeMode='cover'
                 />

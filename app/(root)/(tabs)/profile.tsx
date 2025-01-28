@@ -3,38 +3,41 @@ import InformationSection from '@/components/Profile/InformationSection';
 import InvoicesCard from '@/components/Profile/InvoicesCard';
 import ProfilePhotoContainer from '@/components/Profile/ProfilePhotoContainer';
 import { InformationItem, InformationActionItem } from '@/types/types';
-import { router } from 'expo-router';
-import { Image, ScrollView, StatusBar, View } from 'react-native';
+import { Image, RefreshControl, ScrollView, StatusBar, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useAuthenticationStore } from '@/store/auth';
+import { router } from 'expo-router';
 
 export default function Profile() {
-    const handleSignOut = () => {
-        console.log('signing out');
-        // Log out function
+    const { signOut, activeUser, isSignedIn, activeId, updateUser, updatingUser } = useAuthenticationStore();
+
+    if (!isSignedIn) {
         router.replace('/(auth)/sign-in');
+        return null;
     }
-    const dummyData: InformationItem[] = [
+
+    const profileData: InformationItem[] = [
         {
             title: "Full Name:",
-            value: "Jeffrey Dahmer",
+            value: activeUser.full_name,
             editable: true,
             type: "text"
         },
         {
             title: "Username:",
-            value: "@milwaukee",
+            value: "@" + (activeUser.username),
             editable: false,
             type: "text"
         },
         {
             title: "Email Address:",
-            value: "jeffrey.dahmer@gmail.com",
+            value: activeUser.email,
             editable: false,
             type: "text"
         },
         {
             title: "Phone Number:",
-            value: "+1 (123) 456-7890",
+            value: activeUser.profile?.phone || "N/A",
             editable: true,
             type: "text"
         },
@@ -43,7 +46,7 @@ export default function Profile() {
     const dummyAddressInformation: (InformationItem | InformationActionItem)[] = [
         {
             title: "Address:",
-            value: "123 Main Street, Milwaukee, WI 53201",
+            value: activeUser.profile?.address || "N/A",
             editable: true,
             type: "text"
         },
@@ -55,7 +58,7 @@ export default function Profile() {
         }, {
             title: "Logout",
             Icon: "log-out",
-            action: handleSignOut,
+            action: signOut,
             type: "action",
             themeColor: "red"
         }
@@ -73,12 +76,25 @@ export default function Profile() {
                 resizeMode='contain'
                 className='absolute bottom-0 right-0'
             />
-            <ScrollView className='px-3'>
-                <Header />
-                <ProfilePhotoContainer />
+            <ScrollView
+                className='px-3'
+                showsVerticalScrollIndicator={false}
+                refreshControl={
+                    <RefreshControl
+                        refreshing={updatingUser}
+                        colors={["#0066e1"]}
+                        onRefresh={() => updateUser(activeId)}
+                    />
+                }
+
+            >
+                <Header firstName={activeUser.full_name.split(" ")[0]} />
+                <ProfilePhotoContainer
+                    photo={activeUser?.profile?.photo || ""}
+                />
                 <InvoicesCard />
                 <InformationSection
-                    data={dummyData}
+                    data={profileData}
                     title="Personal Information"
                 />
                 <InformationSection
