@@ -1,9 +1,35 @@
+import { useAuthenticationStore } from "@/store/auth";
 import { Endpoints } from "@/types/types";
 import { useState, useEffect, useCallback } from "react";
 
 export const fetchAPI = async (url: `http${string}://${string}${Endpoints}`, options?: RequestInit) => {
     try {
         const response = await fetch(url, options);
+        if (!response.ok) {
+            new Error(`HTTP error! status: ${response.status}`);
+        }
+        return await response.json();
+    } catch (error) {
+        console.error("Fetch error:", error);
+        throw error;
+    }
+};
+
+export const fetchProtectedAPI = async (url: `http${string}://${string}${Endpoints}`, options?: RequestInit) => {
+    const { isSignedIn, activeId } = useAuthenticationStore();
+
+    if (!isSignedIn) {
+        throw new Error(`Not signed in, unable to access protected route: ${url}`);
+    }
+
+    try {
+        const response = await fetch(url, {
+            ...options,
+            headers: {
+                ...options?.headers,
+                Authorization: `Bearer ${activeId}`,
+            }
+        });
         if (!response.ok) {
             new Error(`HTTP error! status: ${response.status}`);
         }
