@@ -11,19 +11,9 @@ import { BaseSignUp } from '@/types/types';
 import { useAuthenticationStore } from '@/store/auth';
 
 export default function SignUp() {
-    const [rememberMe, setRememberMe] = useState(false);
     const [loading, setLoading] = useState(false);
 
-    const { signUp, activeId, activeUser, error, clearError } = useAuthenticationStore();
-
-    useEffect(() => {
-        if (activeId && activeUser) {
-            console.log({
-                activeId,
-                activeUser
-            })
-        }
-    }, [activeId, activeUser]);
+    const { signUp, error, clearError } = useAuthenticationStore();
 
     const [email, setEmail] = useState("");
     const [fullName, setFullName] = useState("");
@@ -34,6 +24,13 @@ export default function SignUp() {
     const debouncedFullName = useDebounce(fullName, 500);
     const debouncedPassword = useDebounce(password, 500);
     const debouncedConfirmPassword = useDebounce(confirmPassword, 500);
+
+    const [errors, setErrors] = useState({
+        email: "",
+        name: "",
+        password: '',
+        miscellaneous: ''
+    });
 
     useEffect(() => {
         if (debouncedEmail.length > 0) {
@@ -83,13 +80,6 @@ export default function SignUp() {
         }));
         clearError();
     }, [debouncedPassword, debouncedConfirmPassword]);
-
-    const [errors, setErrors] = useState({
-        email: "",
-        name: "",
-        password: '',
-        miscellaneous: ''
-    });
 
     const onSignUpPress = async () => {
         try {
