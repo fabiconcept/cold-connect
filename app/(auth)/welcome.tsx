@@ -3,6 +3,7 @@ import LogisticBlob from '@/assets/svgs/logistic-blob';
 import StorageBlob from '@/assets/svgs/storage-blob';
 import FullButton from '@/components/FullButton';
 import OnboardingScreen from '@/components/Welcome/OnboardingScreen';
+import { saveToken } from '@/lib/KeyChain';
 import { router } from 'expo-router';
 import { useRef, useState } from 'react';
 import { View, StyleSheet } from 'react-native';
@@ -35,6 +36,11 @@ export default function welcome() {
 
     const isLastSlide = activeIndex === screens.length - 1;
 
+    const lastButtonAction = async () => {
+        await saveToken("true", "seen-welcome");
+        router.replace('/(root)/enable-location');
+    }
+
     return (
         <View className='h-full flex-1 flex pb-3'>
             <Swiper
@@ -62,8 +68,9 @@ export default function welcome() {
                     className='bg-primary py-4 rounded-2xl'
                     containerClassName='w-full'
                     textClassName='text-white text-md'
-                    onPress={() => {
+                    onPress={async () => {
                         if (isLastSlide) {
+                            await saveToken("true", "seen-welcome");
                             router.replace('/(auth)/sign-in');
                         } else {
                             swiperRef.current?.scrollTo(activeIndex + 1);
@@ -77,9 +84,7 @@ export default function welcome() {
                         paddingBlock: 14,
                         borderRadius: 10,
                     }}
-                    onPress={() => {
-                        router.push('/(root)/enable-location');
-                    }}
+                    onPress={lastButtonAction}
                 />}
             </View>
         </View>
