@@ -32,8 +32,11 @@ export default function Profile() {
 
                 >
                     <Header firstName={""} />
-                    <View className='bg-white p-3 rounded-2xl mt-8 border border-gray-300 shadow-lg shadow-black/10'>
-                        <Text className='text-gray-500 mb-2 p-3 text-center'>
+                    <View className='bg-white px-5 mx-2 rotate-1 py-10 rounded-2xl mt-8 border border-gray-300 shadow-lg shadow-black/10'>
+                        <Text className='text-2xl font-semibold mx-1 text-center text-gray-700'>
+                            Get Started with Cold Connect
+                        </Text>
+                        <Text className='text-gray-500 mb-4 p-3 text-center'>
                             Create an account or log in to unlock the full Cold Connect experience—seamlessly book cold storage, arrange logistics with our cold trucks, track your orders in real time, and enjoy exclusive benefits tailored to your needs.
                         </Text>
                         <FullButton
