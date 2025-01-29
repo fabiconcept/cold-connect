@@ -4,13 +4,36 @@ import AdCard from '@/components/Home/ad-card';
 import ColdStoragesAroundMe from '@/components/Home/coldStoragesAroundMe';
 import ColdStoragesNearMe from '@/components/Home/coldStoragesNearMe';
 import { useEffect } from 'react';
-import { View, ScrollView, RefreshControl, StatusBar } from 'react-native';
+import { View, ScrollView, RefreshControl, StatusBar, Platform, Alert, ToastAndroid } from 'react-native';
 import * as Location from "expo-location";
-import { router } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 import { useLocationStore } from '@/store';
 
 export default function Home() {
     const { setAddress, setLatitude, setLongitude, setHasLocationPermission } = useLocationStore();
+    const { type } = useLocalSearchParams();
+
+    useEffect(() => {
+        if (type === "logged-in") {
+            if (Platform.OS === "ios") {
+                Alert.alert("Sign In Successful", "You have successfully signed in.");
+            } else {
+                ToastAndroid.show("Login successful", ToastAndroid.BOTTOM);
+            }
+
+            router.replace("/home");
+        }
+
+        if (type === "new-user") {
+            if (Platform.OS === "ios") {
+                Alert.alert("Registration Successful", "You have successfully created an your account.");
+            } else {
+                ToastAndroid.show("Registration successful", ToastAndroid.BOTTOM);
+            }
+
+            router.replace("/home");
+        }
+    }, [type]);
 
     useEffect(() => {
         checkLocationPermission();
