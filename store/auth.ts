@@ -1,7 +1,7 @@
 import { fetchAPI, fetchProtectedAPI } from "@/lib/fetch";
 import { removeToken, saveToken } from "@/lib/KeyChain";
-import { ActiveUser, AuthenticatedStore, LoginErrorResponse, LoginSuccessResponse, SignUpErrorResponse, SignUpSuccessResponse, UnAuthenticatedStore } from "@/types/types";
-import { router } from "expo-router";
+import { ActiveUser, AuthenticatedStore, CreateProfileSuccessResponse, LoginErrorResponse, LoginSuccessResponse, SignUpErrorResponse, SignUpSuccessResponse, UnAuthenticatedStore, UpdateProfilePhotoErrorResponse, UpdateProfilePhotoSuccessResponse } from "@/types/types";
+import { Alert, Platform, ToastAndroid } from "react-native";
 import { create } from "zustand";
 
 const baseUrl = process.env.EXPO_PUBLIC_BASE_URL! as `http${string}://${string}`;
@@ -38,14 +38,32 @@ export const useAuthenticationStore = create<AuthenticatedStore | UnAuthenticate
                 return false;
             }
 
+
+            const createProfile: CreateProfileSuccessResponse = await fetchAPI(`${baseUrl}/apicreateprofile`, {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${response.token}`
+                },
+                method: 'POST',
+                body: JSON.stringify({
+                    "phone": "",
+                    "address": "",
+                    "country": "Nigeria",
+                }),
+            });
+
             const { token, user } = response;
+            const { profile } = createProfile;
 
             set({
                 activeId: token,
-                activeUser: user,
+                activeUser: {
+                    ...user,
+                    profile: profile
+                },
                 error: [],
                 isSignedIn: true,
-            })
+            });
 
             return true;
         } catch (error) {
@@ -75,7 +93,13 @@ export const useAuthenticationStore = create<AuthenticatedStore | UnAuthenticate
 
             set({
                 activeId: token,
-                activeUser: user,
+                activeUser: {
+                    ...user,
+                    profile: {
+                        ...user.profile,
+                        photo: `${baseUrl.slice(0, -4)}${user.profile.photo}`
+                    }
+                },
                 error: [],
                 isSignedIn: true,
             });
@@ -124,7 +148,13 @@ export const useAuthenticationStore = create<AuthenticatedStore | UnAuthenticate
             });
 
             set({
-                activeUser: response,
+                activeUser: {
+                    ...response,
+                    profile: {
+                        ...response.profile,
+                        photo: `${baseUrl.slice(0, -4)}${response.profile.photo}`
+                    }
+                },
                 activeId: activeId,
                 isSignedIn: true,
                 error: [],
@@ -134,6 +164,54 @@ export const useAuthenticationStore = create<AuthenticatedStore | UnAuthenticate
             throw new Error("An error occurred during update!");
         } finally {
             set({ updatingUser: false });
+        }
+    },
+    updateProfilePhoto: async (formData, activeId) => {
+        try {
+            const response: UpdateProfilePhotoSuccessResponse | UpdateProfilePhotoErrorResponse = await fetchProtectedAPI(`${baseUrl}/user/update-photo`, activeId, {
+                headers: {
+                    "Content-Type": "multipart/form-data"
+                },
+                method: "POST",
+                body: formData
+            });
+
+
+            if (response.data === undefined) {
+                set({
+                    error: [response.error]
+                });
+                return;
+            }
+
+            const { photo_url } = response.data;
+            const photo = `${baseUrl.slice(0, -4)}${photo_url}`;
+
+            set((prev) => {
+                if (!prev.isSignedIn) return prev;
+                const prevProfile = prev.activeUser.profile;
+
+                return {
+                    ...prev,
+                    activeUser: {
+                        ...prev.activeUser,
+                        profile: {
+                            ...prevProfile,
+                            photo: photo
+                        }
+                    }
+                }
+            });
+
+            if (Platform.OS === "ios") {
+                Alert.alert("Profile Photo Updated.", "You have successfully updated your profile photo.");
+            } else {
+                ToastAndroid.show("Profile Photo Updated.", ToastAndroid.BOTTOM);
+            }
+
+        } catch (error) {
+            console.error(JSON.stringify(error, null, 2));
+            throw new Error("An error occurred during update!")
         }
     }
 }));

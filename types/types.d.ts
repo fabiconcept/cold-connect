@@ -141,7 +141,7 @@ declare interface ActiveUser {
     status: "active" | "inactive";
     created_at: string;
     updated_at: string;
-    profile: ActiveUserProfile | null;
+    profile: ActiveUserProfile;
     bookings: [];
 }
 
@@ -156,6 +156,7 @@ declare interface UnAuthenticatedStore {
     signOut: (activeId: string) => Promise<void>;
     clearError: () => void;
     updateUser: (activeId: string) => Promise<void>;
+    updateProfilePhoto: (formData: FormData, activeId: string) => Promise<void>
 }
 
 declare interface AuthenticatedStore extends UnAuthenticatedStore {
@@ -184,14 +185,10 @@ declare interface SignUpSuccessResponse {
 }
 
 declare interface ActiveUserProfile {
-    id: number;
     photo: string | null;
     phone: string;
     address: string;
     country: string;
-    user_id: number;
-    created_at: string;
-    updated_at: string;
 }
 
 
@@ -207,4 +204,35 @@ declare interface LoginErrorResponse {
     success: false;
     errors: string;
     status: 422;
+}
+
+declare interface UpdateProfilePhotoSuccessResponse {
+    data: {
+        success: true,
+        message: string,
+        photo_url: string
+    }
+}
+declare interface UpdateProfilePhotoErrorResponse extends Omit<UpdateProfilePhotoResponse, "photo_url"> {
+    data: undefined
+    success: false,
+    error: string
+}
+
+declare interface CreateProfileErrorResponse {
+    
+}
+declare interface CreateProfileSuccessResponse {
+    success: true,
+    profile: {
+        id: number,
+        photo: null,
+        phone: string,
+        address: string,
+        country: string,
+        user_id: number,
+        created_at: string,
+        updated_at: string
+    },
+    status: 200
 }
