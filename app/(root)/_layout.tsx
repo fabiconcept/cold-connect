@@ -1,10 +1,7 @@
-import DetectLocationPermission from "@/components/DetectLocationPermission";
 import GoToCartButton from "@/components/general sub components/GoToCartButton";
 import { Stack } from "expo-router";
 
 export default function RootLayout() {
-    DetectLocationPermission();
-
     return (
         <>
             <Stack>

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { View, ActivityIndicator } from 'react-native';
-import { Redirect, router } from 'expo-router';
+import { Redirect } from 'expo-router';
 import { getToken } from '@/lib/KeyChain';
 import { useAuthenticationStore } from '@/store/auth';
 
@@ -13,16 +13,21 @@ export default function Index() {
     const initializeApp = async () => {
       try {
         const token = await getToken();
+        const seenWelcome = await getToken('seen-welcome');
+
+        if (!seenWelcome) {
+          setInitialRoute('/(auth)/welcome');
+          return;
+        }
 
         if (token) {
           await updateUser(token);
-          setInitialRoute('/(root)/(tabs)/home');
-        } else {
-          setInitialRoute('/(auth)/welcome');
         }
+
+        setInitialRoute('/(root)/(tabs)/home');
       } catch (error) {
         console.error('Authentication Error:', error);
-        setInitialRoute('/(auth)/sign-in');
+        setInitialRoute('/(root)/(tabs)/home');
       } finally {
         setIsLoading(false);
       }
@@ -30,9 +35,6 @@ export default function Index() {
 
     initializeApp();
 
-    return () => {
-      // Cleanup if needed
-    };
   }, [updateUser]);
 
   if (isLoading) {
