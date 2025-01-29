@@ -11,9 +11,7 @@ import FullButton from '@/components/FullButton';
 
 export default function Profile() {
     const { signOut, activeUser, isSignedIn, activeId, updateUser, updatingUser } = useAuthenticationStore();
-
     if (!isSignedIn) {
-        // router.replace('/(auth)/sign-in');
         return (
             <SafeAreaView className='flex-1'>
                 <StatusBar barStyle={"dark-content"} />
@@ -78,22 +76,22 @@ export default function Profile() {
         },
         {
             title: "Phone Number:",
-            value: activeUser.profile?.phone || "N/A",
+            value: activeUser.profile.phone || "N/A",
             editable: true,
             type: "text"
         },
     ]
 
-    const dummyAddressInformation: (InformationItem | InformationActionItem)[] = [
+    const addressInformation: (InformationItem | InformationActionItem)[] = [
         {
             title: "Address:",
-            value: activeUser.profile?.address || "N/A",
+            value: activeUser.profile.address || "N/A",
             editable: true,
             type: "text"
         },
         {
             title: "Country:",
-            value: "Nigeria",
+            value: activeUser.profile.country || "N/A",
             editable: false,
             type: "text"
         }, {
@@ -131,7 +129,7 @@ export default function Profile() {
             >
                 <Header firstName={activeUser.full_name.split(" ")[0]} />
                 <ProfilePhotoContainer
-                    photo={activeUser?.profile?.photo || ""}
+                    photo={activeUser?.profile.photo || ""}
                 />
                 <InvoicesCard />
                 <InformationSection
@@ -139,7 +137,7 @@ export default function Profile() {
                     title="Personal Information"
                 />
                 <InformationSection
-                    data={dummyAddressInformation}
+                    data={addressInformation}
                     title="Billing Information"
                 />
                 <View className='h-32'></View>
