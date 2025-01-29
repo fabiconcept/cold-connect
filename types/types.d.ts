@@ -153,7 +153,7 @@ declare interface UnAuthenticatedStore {
     updatingUser: boolean;
     signUp: (payload: BaseSignUp | SocialSignUp) => Promise<boolean>;
     signIn: (payload: Pick<BaseSignUp, "email" | "password">) => Promise<boolean>;
-    signOut: () => void;
+    signOut: (activeId: string) => Promise<void>;
     clearError: () => void;
     updateUser: (activeId: string) => Promise<void>;
 }
