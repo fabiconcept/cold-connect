@@ -15,13 +15,7 @@ export const fetchAPI = async (url: `http${string}://${string}${Endpoints}`, opt
     }
 };
 
-export const fetchProtectedAPI = async (url: `http${string}://${string}${Endpoints}`, options?: RequestInit) => {
-    const { isSignedIn, activeId } = useAuthenticationStore();
-
-    if (!isSignedIn) {
-        throw new Error(`Not signed in, unable to access protected route: ${url}`);
-    }
-
+export const fetchProtectedAPI = async (url: `http${string}://${string}${Endpoints}`, activeId: string, options?: RequestInit) => {
     try {
         const response = await fetch(url, {
             ...options,
@@ -30,6 +24,7 @@ export const fetchProtectedAPI = async (url: `http${string}://${string}${Endpoin
                 Authorization: `Bearer ${activeId}`,
             }
         });
+
         if (!response.ok) {
             new Error(`HTTP error! status: ${response.status}`);
         }

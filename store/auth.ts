@@ -88,11 +88,11 @@ export const useAuthenticationStore = create<AuthenticatedStore | UnAuthenticate
             throw new Error("An error occurred during sign up!")
         }
     },
-    signOut: async () => {
+    signOut: async (activeId: string) => {
         if (!baseUrl) throw new Error('Base URL is not set');
 
         try {
-            await fetchProtectedAPI(`${baseUrl}/apisignout`, {
+            await fetchProtectedAPI(`${baseUrl}/apisignout`, activeId, {
                 headers: {
                     "Content-Type": "application/json"
                 },
@@ -100,10 +100,16 @@ export const useAuthenticationStore = create<AuthenticatedStore | UnAuthenticate
             });
         } catch (error) {
             console.error(JSON.stringify(error, null, 2));
+            console.log("An error occurred during sign out!");
             throw new Error("An error occurred during sign out!");
         } finally {
             await removeToken();
-            router.replace('/(auth)/sign-in');
+            set({
+                activeId: "",
+                activeUser: null,
+                isSignedIn: false,
+                error: [],
+            });
         }
         // Log out function
     },
