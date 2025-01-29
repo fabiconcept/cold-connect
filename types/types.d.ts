@@ -220,7 +220,7 @@ declare interface UpdateProfilePhotoErrorResponse extends Omit<UpdateProfilePhot
 }
 
 declare interface CreateProfileErrorResponse {
-    
+
 }
 declare interface CreateProfileSuccessResponse {
     success: true,
@@ -235,4 +235,64 @@ declare interface CreateProfileSuccessResponse {
         updated_at: string
     },
     status: 200
+}
+
+declare interface Tag {
+    id: number;
+    name: string;
+    slug: string;
+    image: string;
+    description: string;
+    created_at: string;
+    updated_at: string;
+    pivot: {
+        taggable_id: number;
+        tag_id: number;
+        taggable_type: string;
+        created_at: string;
+        updated_at: string;
+    };
+}
+
+declare interface Storage {
+    id: number;
+    location: string;
+    name: string;
+    photo: string;
+    capacity: number;
+    availability: string;
+    distance: number;
+    published_at: string;
+    is_commentable: number;
+    star: number;
+    rates: number;
+    created_at: string;
+    updated_at: string;
+    booking_id: number | null;
+    tags_relation: Tag[];
+}
+
+declare interface StorageFeedPagination {
+    current_page: number;
+    data: Storage[];
+    first_page_url: string;
+    from: number;
+    last_page: number;
+    last_page_url: string;
+    links: {
+        url: string | null;
+        label: string;
+        active: boolean;
+    }[];
+    next_page_url: string | null;
+    path: string;
+    per_page: number;
+    prev_page_url: string | null;
+    to: number;
+    total: number;
+}
+
+declare interface StorageFeed {
+    all_storages: StorageFeedPagination;
+    load_all_storages: () => Promise<void>;
 }
