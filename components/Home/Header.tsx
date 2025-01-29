@@ -13,12 +13,14 @@ export default function Header() {
         <View className='bg-primary p-5 rounded-br-[40px] rounded-bl-[40px]'>
             <View className='flex flex-row justify-end mt-10 mb-3'>
                 {isSignedIn ? (
-                    <Link href={"/(root)/(tabs)/profile"} className='p-1 bg-white h-[52px] w-[52px] items-center justify-center rounded-full'>
-                        <Image
-                            source={require("@/assets/images/cold/no-user.png")}
-                            height={50}
-                            width={50}
-                        />
+                    <Link href={"/(root)/(tabs)/profile"} className='p-1 bg-white h-[52px] w-[52px] overflow-hidden items-center justify-center rounded-full'>
+                        <View className='h-[52px] w-[52px] overflow-hidden items-center justify-center rounded-full'>
+                            <Image
+                                source={activeUser.profile.photo ? { uri: activeUser.profile.photo } : require("@/assets/images/cold/no-user.png")}
+                                height={50}
+                                width={50}
+                            />
+                        </View>
                     </Link>
                 ) : (
                     <View className='p-1 h-[52px] w-[52px]'>
