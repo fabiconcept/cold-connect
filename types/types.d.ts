@@ -104,19 +104,6 @@ declare interface LocationState {
     setHasLocationPermission: (hasLocationPermission: boolean) => void;
 }
 
-declare interface Storage {
-    name: string;
-    location?: {
-        latitude: number;
-        longitude: number;
-    };
-}
-
-declare interface StorageState {
-    storages: Storage[];
-    setStorages: (storages: Storage[]) => void;
-}
-
 declare type Endpoints = `/${string}`;
 
 declare interface BaseSignUp {
@@ -292,7 +279,11 @@ declare interface StorageFeedPagination {
     total: number;
 }
 
-declare interface StorageFeed {
-    all_storages: StorageFeedPagination;
-    load_all_storages: () => Promise<void>;
+declare interface StorageFeed extends StorageFeedPagination {
+    more_pages: boolean;
+    number: number;
+    loading: boolean;
+    error: string;
+    load_all: () => Promise<void>;
+    load_more: (amount: number) => Promise<void>;
 }
