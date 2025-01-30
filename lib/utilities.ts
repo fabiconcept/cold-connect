@@ -120,3 +120,25 @@ export function validateFullName(name: string): [boolean, string] {
 
     return [condition, errorMessage];
 }
+
+export function getGeoRegionInNigeria(latitude: number, longitude: number) {
+    const regions = {
+        "North-West": { minLat: 12, maxLat: 14, minLong: 3, maxLong: 7 },
+        "North-East": { minLat: 10, maxLat: 13, minLong: 8, maxLong: 14 },
+        "North-Central": { minLat: 8, maxLat: 12, minLong: 3, maxLong: 9 },
+        "South-West": { minLat: 6, maxLat: 8, minLong: 2, maxLong: 6 },
+        "South-East": { minLat: 5, maxLat: 7, minLong: 7, maxLong: 10 },
+        "South-South": { minLat: 4, maxLat: 6, minLong: 5, maxLong: 8 }
+    };
+
+    for (const [region, bounds] of Object.entries(regions)) {
+        if (
+            latitude >= bounds.minLat && latitude <= bounds.maxLat &&
+            longitude >= bounds.minLong && longitude <= bounds.maxLong
+        ) {
+            return String(region).toLowerCase();
+        }
+    }
+
+    return String("Unknown").toLowerCase();
+}
