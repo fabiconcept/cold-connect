@@ -8,10 +8,15 @@ import { View, ScrollView, RefreshControl, StatusBar, Platform, Alert, ToastAndr
 import * as Location from "expo-location";
 import { router, useLocalSearchParams } from 'expo-router';
 import { useLocationStore } from '@/store';
+import { useHomeActions } from '@/lib/Component Actions/Home';
 
 export default function Home() {
     const { setAddress, setLatitude, setLongitude, setHasLocationPermission } = useLocationStore();
     const { type } = useLocalSearchParams();
+    const { hasLocationPermission } = useLocationStore();
+
+
+    const [loading, reload] = useHomeActions();
 
     useEffect(() => {
         if (type === "logged-in") {
@@ -36,6 +41,12 @@ export default function Home() {
     }, [type]);
 
     useEffect(() => {
+        if (!hasLocationPermission) return;
+
+        reload();
+    }, [hasLocationPermission]);
+
+    useEffect(() => {
         checkLocationPermission();
     }, []);
 
@@ -52,7 +63,7 @@ export default function Home() {
                 setAddress(`${address[0].name}, ${address[0].region}`);
                 setLatitude(location.coords.latitude);
                 setLongitude(location.coords.longitude);
-                setHasLocationPermission(true);
+                setHasLocationPermission(true as never);
             } else {
                 router.replace("/enable-location");
             }
@@ -68,10 +79,10 @@ export default function Home() {
             <ScrollView
                 className='flex-1'
                 refreshControl={
-                    <RefreshControl
-                        refreshing={false}
-                        onRefresh={() => { }}
-                    />
+                    hasLocationPermission ? <RefreshControl
+                        refreshing={loading}
+                        onRefresh={async () => await reload()}
+                    /> : undefined
                 }
             >
                 <Header />
