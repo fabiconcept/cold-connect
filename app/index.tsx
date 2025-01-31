@@ -3,6 +3,7 @@ import { View, ActivityIndicator } from 'react-native';
 import { Redirect } from 'expo-router';
 import { getToken } from '@/lib/KeyChain';
 import { useAuthenticationStore } from '@/store/auth';
+import LoadingImage from '@/components/LoadingImage';
 
 export default function Index() {
   const { updateUser } = useAuthenticationStore();
@@ -40,7 +41,8 @@ export default function Index() {
   if (isLoading) {
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <ActivityIndicator size={100} />
+        <LoadingImage />
+        <ActivityIndicator size={50} className='mt-20 absolute bottom-20 opacity-50' />
       </View>
     );
   }
