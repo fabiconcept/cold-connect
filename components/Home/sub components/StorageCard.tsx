@@ -2,60 +2,75 @@ import { View, Text, Image, Dimensions } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import AnimatedPressable from '@/components/general sub components/AnimatedPress';
+import clsx from 'clsx';
 const { width } = Dimensions.get("window");
 
-export default function StorageCard() {
+const baseUrl = process.env.EXPO_PUBLIC_BASE_URL! as `http${string}://${string}`;
+
+export default function StorageCard({
+    hub_name: title,
+    imageSource,
+    address,
+    rating = 0,
+    status,
+    distance,
+    hub_id
+}: {
+    hub_name: string,
+    imageSource: string,
+    address: string,
+    rating: number,
+    status: "active" | "inactive",
+    distance: number,
+    hub_id: number
+}) {
+    if (!baseUrl) return null;
+
     const router = useRouter();
+
     return (
         <AnimatedPressable
-            onPress={() => router.push("/(root)/cold-storage/1")}
+            onPress={() => router.push(`/(root)/cold-storage/${hub_id}`)}
+            hitSlop={-10}
         >
-            <View className='bg-white border border-gray-100 shadow-lg shadow-black/20 rounded-3xl h-[180px] overflow-hidden relative mr-3 last:mr-1' style={{ width: width - 24 }}>
+            <View className='bg-white border border-gray-200 shadow-lg shadow-black/30 rounded-3xl h-[200px] overflow-hidden relative mr-3 last:mr-1' style={{ width: width - 24 }}>
                 <Image
-                    source={require("@/assets/images/cold/storage-pic.png")}
+                    source={{ uri: `http://46.101.23.53/${imageSource}` }}
                     className='w-full h-full'
                 />
-                <View className='absolute bottom-0 left-0 right-0 p-4 bg-white flex-row items-center justify-between' style={{ width: width - 18 }}>
-                    <View className=''>
+                <View className='absolute gap-5 bottom-0 left-0 right-0 p-4 bg-white flex-row items-center justify-between border-t border-t-gray-200' style={{ width: width - 18 }}>
+                    <View className='flex-1'>
                         <Text className='text-lg font-semibold leading-5'>
-                            {"Avu/Obinze Hub "}
-                            <FontAwesome
-                                name="star"
-                                size={14}
-                                color={"#FFC107"}
-                            />
-                            <FontAwesome
-                                name="star"
-                                size={14}
-                                color={"#FFC107"}
-                            />
-                            <FontAwesome
-                                name="star"
-                                size={14}
-                                color={"#FFC107"}
-                            />
-                            <FontAwesome
-                                name="star"
-                                size={14}
-                                color={"#FFC107"}
-                            />
-                            <FontAwesome
-                                name="star-o"
-                                size={14}
-                                color={"#FFC107"}
-                            />
+                            {`${title} `}
+                            {new Array(rating).fill(0).map((_, i) => (
+                                <FontAwesome
+                                    key={i}
+                                    name="star"
+                                    size={14}
+                                    color={"#FFC107"}
+                                />
+                            ))}
+                            {new Array(5 - rating).fill(0).map((_, i) => (
+                                <FontAwesome
+                                    key={i}
+                                    name="star-o"
+                                    size={14}
+                                    color={"#FFC107"}
+                                />
+                            ))}
                         </Text>
-                        <Text className='text-sm mb-2 opacity-50'>
-                            Carrot Market, Avu, Owerri, Imo State
-                        </Text>
+                        <Text className='text-sm mb-2 opacity-50'>{address}</Text>
                     </View>
-                    <Text className='text-base font-semibold text-[#04B90B] -mt-2 mr-2'>
-                        Active
+                    <Text className={clsx(
+                        'text-base font-semibold -mt-2 mr-2 capitalize',
+                        status === "active" ? "text-[#04B90B]" : "text-red-500"
+                    )}>
+                        {status}
                     </Text>
                 </View>
                 <View className='absolute top-5 left-3 px-4 py-1 bg-primary rounded-3xl'>
                     <Text className='text-white text-base font-semibold'>
-                        00 KM
+                        {distance} KM
                     </Text>
                 </View>
             </View>
