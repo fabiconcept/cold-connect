@@ -35,6 +35,7 @@ export default function Swiper<T>(props: SwiperProps<T>) {
                 horizontal
                 pagingEnabled
                 showsHorizontalScrollIndicator={false}
+                contentContainerClassName='pb-4'
                 onScroll={e => {
                     const newIndex = Math.round(e.nativeEvent.contentOffset.x / width);
                     setCurrentIndex(newIndex);
@@ -67,7 +68,8 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         paddingVertical: 10,
-        gap: 2
+        gap: 2,
+        marginTop: -5
     },
     dot: {
         height: 10,
