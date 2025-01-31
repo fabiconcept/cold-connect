@@ -1,7 +1,7 @@
 import { DropdownProps } from '@/types/types';
 import { Feather } from '@expo/vector-icons';
 import clsx from 'clsx';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import {
     View,
     Text,
@@ -16,10 +16,14 @@ import Animated, {
     Extrapolate,
 } from 'react-native-reanimated';
 
+interface ExtendedDropdownProps extends DropdownProps {
+    defaultValue?: any;  // Add defaultValue prop
+}
 
-const CustomDropdown: React.FC<DropdownProps> = ({
+const CustomDropdown: React.FC<ExtendedDropdownProps> = ({
     options,
     onSelect,
+    defaultValue,  // New prop
     placeholder = 'Select an option',
     containerStyle,
     dropdownStyle,
@@ -40,6 +44,16 @@ const CustomDropdown: React.FC<DropdownProps> = ({
     const rotateValue = useSharedValue(0);
     const dropdownHeight = useSharedValue(0);
     const maxHeight = options.length * 50; // Assuming each option is 50px high
+
+    // Set default value on mount and when defaultValue changes
+    useEffect(() => {
+        if (defaultValue !== undefined) {
+            const defaultOption = options.find(option => option.value === defaultValue);
+            if (defaultOption) {
+                setSelectedOption(defaultOption);
+            }
+        }
+    }, [defaultValue, options]);
 
     // Handle dropdown toggle
     const toggleDropdown = useCallback(() => {
@@ -117,9 +131,9 @@ const CustomDropdown: React.FC<DropdownProps> = ({
             </TouchableOpacity>
 
             <Animated.View
-                className="absolute top-full left-0 right-0 bg-white rounded-xl border border-gray-200 mt-1 overflow-hidden max-h-[100px]"
+                className="absolute top-full left-0 right-0 bg-white rounded-xl border border-gray-200 mt-1 overflow-hidden max-h-[100px] shadow-xl"
                 style={[dropdownAnimatedStyle]}
-            >
+            > 
                 {options.map((option, index) => (
                     <TouchableOpacity
                         key={index}
