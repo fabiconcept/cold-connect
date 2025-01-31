@@ -100,8 +100,16 @@ declare interface LocationState {
     setLatitude: (latitude: number | null) => void;
     longitude: number | null;
     setLongitude: (longitude: number | null) => void;
-    hasLocationPermission: boolean;
-    setHasLocationPermission: (hasLocationPermission: boolean) => void;
+    hasLocationPermission: false;
+    setHasLocationPermission: (hasLocationPermission: false) => void;
+}
+
+declare interface LocationStateWithPermission extends LocationState {
+    hasLocationPermission: true;
+    address: string;
+    latitude: number;
+    longitude: number;
+    setHasLocationPermission: (hasLocationPermission: true) => void;
 }
 
 declare type Endpoints = `/${string}`;
@@ -286,4 +294,114 @@ declare interface StorageFeed extends StorageFeedPagination {
     error: string;
     load_all: () => Promise<void>;
     load_more: (amount: number) => Promise<void>;
+}
+
+declare interface SpecificStorage {
+    id: number;
+    location: string;
+    name: string;
+    photo: string;
+    capacity: number;
+    availability: string;
+    distance: number;
+    published_at: string;
+    is_commentable: number;
+    star: number;
+    rates: number;
+    created_at: string;
+    updated_at: string;
+    booking_id: number | null;
+    tags_relation: Tag[];
+}
+
+
+declare interface Tag {
+    id: number;
+    name: string;
+    slug: string;
+    image: string;
+    description: string;
+    created_at: string;
+    updated_at: string;
+    pivot: TagPivot;
+}
+
+declare interface Hub {
+    id: number;
+    location: string;
+    latitude: string;
+    longitude: string;
+    name: string;
+    photo: string;
+    capacity: number;
+    availability: string;
+    distance: number;
+    published_at: string;
+    is_commentable: number;
+    star: number;
+    rates: number;
+    created_at: string;
+    updated_at: string;
+    booking_id: null;
+    tags_relation: Tag[];
+}
+
+declare interface HubsNearMeResponse {
+    status: true;
+    message: string;
+    data: HubsNearMeData;
+}
+
+declare interface HubsNearMeErrorResponse {
+    status: false;
+    message: string;
+    error: {
+        latitude?: string[];
+        longitude?: string[];
+    };
+}
+
+declare interface HubsNearMeData {
+    storages: Hub[];
+    total: number;
+    radius: number;
+    unit: string;
+}
+
+declare interface HubsAroundMeResponse {
+    tags: {
+        id: number;
+        name: string;
+        slug: string;
+        image: string;
+        description: string;
+        created_at: string;
+        updated_at: string;
+    };
+    allstorages: {
+        current_page: number;
+        data: Hub[];
+        first_page_url: string;
+        from: null;
+        last_page: number;
+        last_page_url: string;
+        links: {
+            url: string | null;
+            label: string;
+            active: boolean;
+        }[];
+        next_page_url: string | null;
+        path: string;
+        per_page: number;
+        prev_page_url: string | null;
+        to: null;
+        total: number;
+    };
+    morepages: boolean;
+}
+
+declare interface HubsAroundMeErrorResponse {
+    tags: null;
+    allstorages: null;
+    morepages: false;
 }
