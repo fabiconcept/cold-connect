@@ -26,14 +26,16 @@ export const useAllStorageFeed = create<StorageFeed>((set) => ({
         try {
             set({ loading: true });
             const response: {
-                allstorage: StorageFeedPagination,
+                allstorages: StorageFeedPagination,
                 morepages: boolean,
                 number: number
             } = await fetchAPI(`${baseUrl}/all-storage`);
 
-            const { allstorage, morepages, number } = response;
+
+            const { allstorages, morepages, number } = response;
+
             const payload = {
-                ...allstorage,
+                ...allstorages,
                 more_pages: morepages,
                 number: number,
                 error: ""
@@ -52,14 +54,15 @@ export const useAllStorageFeed = create<StorageFeed>((set) => ({
         try {
             set({ loading: true });
             const response: {
-                allstorage: StorageFeedPagination,
+                allstorages: StorageFeedPagination,
                 morepages: boolean,
                 number: number
             } = await fetchAPI(`${baseUrl}/loadmore/${amount}`);
 
-            const { allstorage, morepages, number } = response;
+            const { allstorages, morepages, number } = response;
+
             const payload = {
-                ...allstorage,
+                ...allstorages,
                 more_pages: morepages,
                 number: number,
                 error: ""
