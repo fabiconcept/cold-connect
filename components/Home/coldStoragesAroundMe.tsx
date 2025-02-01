@@ -21,6 +21,16 @@ export default function ColdStoragesAroundMe() {
         </View>
     );
 
+    if (error) return (
+        <View className='mx-3 mt-5 mb-5'>
+            <View className='flex-row items-center justify-between mx-2 my-2'>
+                <Text className='text-xl font-semibold font-MontserratSemiBold'>Cold Storages Around Me</Text>
+            </View>
+            <View className='flex-1 items-center justify-center py-5'>
+                <Text className='font-MontserratSemiBold font-semibold text-red-500'>{error}</Text>
+            </View>
+        </View>
+    );
     if (!allstorages) return null;
 
     const { data, total } = allstorages;
@@ -34,10 +44,10 @@ export default function ColdStoragesAroundMe() {
 
             <View className='gap-3'>
                 {data.length > 0 && data.slice(0, 3).map((item) => (
-                    <StorageCard key={item.id} hub_name={item.name} imageSource={item.photo} address={item.location} rating={item.star} status={item.availability as "active" | "inactive"} distance={item.distance} hub_id={item.id} />
+                    <StorageCard key={`${item.id.toString()}-${Math.random().toString(36).substring(7)}`} hub_name={item.name} imageSource={item.photo} address={item.location} rating={item.star} status={item.availability as "active" | "inactive"} distance={item.distance} hub_id={item.id} />
                 ))}
                 {data.length === 0 &&
-                    <View className='flex-1 items-center justify-center pt-10'>
+                    <View className='flex-1 items-center justify-center py-5'>
                         <Image
                             source={require('@/assets/images/cold/no-result.png')}
                             resizeMode='contain'
