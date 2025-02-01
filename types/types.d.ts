@@ -405,3 +405,5 @@ declare interface HubsAroundMeErrorResponse {
     allstorages: null;
     morepages: false;
 }
+
+declare type URL = `http${string}://${string}${Endpoints}`;
