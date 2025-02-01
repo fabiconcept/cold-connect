@@ -3,11 +3,14 @@ import Action from './Action';
 import Website from '@/assets/svgs/Action/website';
 import { Feather } from '@expo/vector-icons';
 import { router } from 'expo-router';
-import { onShare } from '@/lib/utilities';
+import { copyToClipboard, onShare } from '@/lib/utilities';
+import { useSpecificStorage } from '@/store/Public/Public Storage Feed Endpoints/specificStorage';
 
-export default function ActionTray({ hubName }: {
-    hubName: string
-}) {
+export default function ActionTray() {
+    const { location, name } = useSpecificStorage();
+
+    const payload = `Hey! I found a great Cold Hub storage location at ${location}. - ${name}`;
+
     const dummyActions = [
         {
             title: "Visit Webiste",
@@ -38,7 +41,7 @@ export default function ActionTray({ hubName }: {
                 color='#0066e1'
             />,
             onPress: () => {
-                router.push(`/(root)/map?name=${hubName}`);
+                router.push(`/(root)/map?name=${name}`);
             }
         },
         {
@@ -48,7 +51,7 @@ export default function ActionTray({ hubName }: {
                 size={30}
                 color='#0066e1'
             />,
-            onPress: onShare
+            onPress: () => onShare(payload)
         },
         {
             title: "Copy Address",
@@ -57,9 +60,7 @@ export default function ActionTray({ hubName }: {
                 size={30}
                 color='#0066e1'
             />,
-            onPress: () => {
-                console.log("Copy Address");
-            }
+            onPress: () => copyToClipboard(location)
         },
     ]
     return (
