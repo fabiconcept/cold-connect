@@ -4,7 +4,7 @@ import Target from '@/assets/svgs/storage/target';
 import { useHubsByRegion } from '@/store/Public/Public Storage Feed Endpoints/hubsByRegion';
 import { getGeoRegionInNigeria } from '@/lib/utilities';
 import { useLocationStore } from '@/store';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useDebounce } from '@/lib/Hooks/useDebounce';
 
 
@@ -12,15 +12,17 @@ export default function Header() {
     const { setSelectedRegion, load_hubs, search_for_hubs, reset_search, selectedRegion } = useHubsByRegion();
     const { latitude, longitude } = useLocationStore();
     const [searchQuery, setSearchQuery] = useState("");
+    const initialLoadComplete = useRef(false);
 
     const debouncedSearchQuery = useDebounce(searchQuery, 500);
 
     useEffect(() => {
         if (debouncedSearchQuery) {
             search_for_hubs(debouncedSearchQuery);
-        } else {
+        } else if (!initialLoadComplete.current) {
             reset_search();
             load_hubs(selectedRegion!);
+            initialLoadComplete.current = true;
         }
     }, [debouncedSearchQuery]);
 
@@ -33,7 +35,9 @@ export default function Header() {
         }
 
         setSelectedRegion(userRegion);
+        initialLoadComplete.current = false; // Reset the ref to allow loading with new region
         load_hubs(userRegion);
+        setSearchQuery("");
     }
 
     return (
