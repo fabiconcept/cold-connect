@@ -1,5 +1,5 @@
 import { useAuthenticationStore } from "@/store/auth";
-import { Endpoints } from "@/types/types";
+import { Endpoints, URL } from "@/types/types";
 import { useState, useEffect, useCallback } from "react";
 
 export const fetchAPI = async (url: `http${string}://${string}${Endpoints}`, options?: RequestInit) => {
@@ -15,7 +15,7 @@ export const fetchAPI = async (url: `http${string}://${string}${Endpoints}`, opt
     }
 };
 
-export const fetchProtectedAPI = async (url: `http${string}://${string}${Endpoints}`, activeId: string, options?: RequestInit) => {
+export const fetchProtectedAPI = async (url: URL, activeId: string, options?: RequestInit) => {
     try {
         const response = await fetch(url, {
             ...options,
@@ -35,7 +35,7 @@ export const fetchProtectedAPI = async (url: `http${string}://${string}${Endpoin
     }
 };
 
-export const useFetch = <T>(url: `http${string}://${string}${Endpoints}`, options?: RequestInit) => {
+export const useFetch = <T>(url: URL, options?: RequestInit) => {
     const [data, setData] = useState<T | null>(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
