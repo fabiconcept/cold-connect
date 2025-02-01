@@ -1,4 +1,4 @@
-import { Share } from "react-native";
+import { Clipboard, Platform, Share, ToastAndroid } from "react-native";
 
 export function maskEmail(email: string): string {
     if (!email || !email.includes('@')) return '';
@@ -14,12 +14,12 @@ export function maskEmail(email: string): string {
 }
 
 
-export const onShare = async () => {
+export const onShare = async (payload: string) => {
     try {
         const result = await Share.share({
-            message: 'Check out this awesome content! https://example.com',
-            title: 'Awesome Content', // iOS only
-            url: 'https://example.com', // iOS only (used instead of message if provided)
+            message: payload,
+            title: 'Share this Hub', // iOS only
+            url: '', // iOS only (used instead of message if provided)
         });
 
         if (result.action === Share.sharedAction) {
@@ -141,4 +141,19 @@ export function getGeoRegionInNigeria(latitude: number, longitude: number) {
     }
 
     return String("Unknown").toLowerCase();
+}
+
+export function copyToClipboard(text: string): void {
+    if (Platform.OS === 'ios') {
+        const writeOptions = {
+            type: 'text',
+            data: text,
+        };
+        Clipboard.setString(text);
+    } else {
+        Clipboard.setString(text);
+    }
+
+    const toastMessage = 'Copied to clipboard';
+    ToastAndroid.show(toastMessage, ToastAndroid.SHORT);
 }
