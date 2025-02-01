@@ -1,5 +1,5 @@
 import { fetchAPI } from "@/lib/fetch";
-import { SpecificStorage } from "@/types/types";
+import { Hub, HubsAroundMeResponse, SpecificStorage } from "@/types/types";
 import { create } from "zustand";
 
 const baseUrl = process.env.EXPO_PUBLIC_BASE_URL! as `http${string}://${string}`;
@@ -7,11 +7,15 @@ const baseUrl = process.env.EXPO_PUBLIC_BASE_URL! as `http${string}://${string}`
 interface SpecificStorageStore extends SpecificStorage {
     loading: boolean,
     error: string,
+    suggestedHubs: Hub[],
+    loadingSuggestedHubs: boolean,
+    load_related_hubs: (region: string) => Promise<void>,
     load_hub: (id: number) => Promise<void>,
 }
 
 export const useSpecificStorage = create<SpecificStorageStore>((set) => ({
     loading: false,
+    loadingSuggestedHubs: false,
     error: "",
     id: 0,
     location: "",
@@ -22,18 +26,30 @@ export const useSpecificStorage = create<SpecificStorageStore>((set) => ({
     distance: 0,
     published_at: "",
     is_commentable: 0,
+    suggestedHubs: [],
     star: 0,
     rates: 0,
     created_at: "",
     updated_at: "",
     booking_id: null,
     tags_relation: [],
+    load_related_hubs: async (region) => {
+        try {
+            set({ loadingSuggestedHubs: true });
+            const { allstorages }: HubsAroundMeResponse = await fetchAPI(`${baseUrl}/loadmore-tag-storage/2/${region}`);
+            set({ suggestedHubs: allstorages.data });
+        } catch (error) {
+            console.error(JSON.stringify(error, null, 2));
+        } finally {
+            set({ loadingSuggestedHubs: false });
+        }
+    },
     load_hub: async (hub_id: number) => {
         try {
             if (!hub_id) throw new Error("Hub ID is required");
 
-            set({ loading: true });
-            const response: SpecificStorage = await fetchAPI(`${baseUrl}/coldstoragerooms/${hub_id}`);
+            set({ loading: true, suggestedHubs: [] });
+            const response: SpecificStorage = await fetchAPI(`http://46.101.23.53/api/coldstoragerooms/${hub_id}`);
 
             const payload = {
                 ...response,
