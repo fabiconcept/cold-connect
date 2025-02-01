@@ -34,6 +34,7 @@ export default function Swiper<T>(props: SwiperProps<T>) {
                 keyExtractor={props.keyExtractor}
                 horizontal
                 pagingEnabled
+                ListEmptyComponent={props.ListEmptyComponent}
                 showsHorizontalScrollIndicator={false}
                 contentContainerClassName='pb-4'
                 onScroll={e => {
