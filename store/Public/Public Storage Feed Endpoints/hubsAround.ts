@@ -29,7 +29,7 @@ export const useHubsAroundMe = create<hubAroundMeStore | hubAroundMeStoreError>(
             });
 
             set({ loading: true });
-            const response: HubsAroundMeResponse = await fetchAPI(`http://46.101.23.53/api/tags-storage/${region}`);
+            const response: HubsAroundMeResponse = await fetchAPI(`${baseUrl}/tags-storage/${region}`);
 
             const { allstorages, morepages, tags } = response;
 

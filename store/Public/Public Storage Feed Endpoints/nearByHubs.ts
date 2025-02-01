@@ -32,7 +32,7 @@ export const useHubsNearMe = create<NearByHubsStore>((set) => ({
             radius && urlParams.append("radius", radius.toString());
             urlParams.append("limit", limit.toString());
 
-            const response: HubsNearMeResponse | HubsNearMeErrorResponse = await fetchAPI(`http://46.101.23.53/api/nearby-storages?${urlParams.toString()}`);
+            const response: HubsNearMeResponse | HubsNearMeErrorResponse = await fetchAPI(`${baseUrl}/nearby-storages?${urlParams.toString()}`);
 
             const { message, status } = response;
 

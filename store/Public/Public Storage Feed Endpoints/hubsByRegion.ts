@@ -1,8 +1,9 @@
 import { fetchAPI } from "@/lib/fetch";
-import { Hub, HubsAroundMeErrorResponse, HubsAroundMeResponse, Tag } from "@/types/types";
+import { Hub, HubsAroundMeErrorResponse, HubsAroundMeResponse, Tag, URL } from "@/types/types";
 import { create } from "zustand";
 
-const baseUrl = process.env.EXPO_PUBLIC_BASE_URL! as `http${string}://${string}`;
+// const baseUrl = process.env.EXPO_PUBLIC_BASE_URL! as `http${string}://${string}`;
+const baseUrl = `http://46.101.23.53/api`;
 
 interface hubAroundMeStore extends HubsAroundMeResponse {
     loading: boolean;
@@ -14,6 +15,7 @@ interface hubAroundMeStore extends HubsAroundMeResponse {
     search_for_hubs: (searchQuery: string) => Promise<void>;
     reset_search: () => void;
     load_regions: () => Promise<void>;
+    load_more: (url: URL) => Promise<void>;
     load_hubs: (region: string) => Promise<void>;
     setSelectedRegion: (region: string) => Promise<void>;
 }
@@ -28,11 +30,12 @@ interface hubAroundMeStoreError extends HubsAroundMeErrorResponse {
     regions: { label: string; value: string; }[];
     selectedRegion: string | null;
     load_regions: () => Promise<void>;
+    load_more: (url: URL) => Promise<void>;
     load_hubs: (region: string) => Promise<void>;
     setSelectedRegion: (region: string) => Promise<void>;
 }
 
-export const useHubsByRegion = create<hubAroundMeStore | hubAroundMeStoreError>((set) => ({
+export const useHubsByRegion = create<hubAroundMeStore | hubAroundMeStoreError>((set, get) => ({
     allstorages: null,
     error: "",
     loading: false,
@@ -41,6 +44,35 @@ export const useHubsByRegion = create<hubAroundMeStore | hubAroundMeStoreError>(
     regions: [],
     justSearch: false,
     searchQuery: "",
+    load_more: async (url) => {
+        if (!url) return;
+        try {
+            const response: HubsAroundMeResponse = await fetchAPI(url);
+
+            const { allstorages, morepages, tags } = response;
+
+            const { allstorages: prevAllStorages } = get();
+
+            const updadtedAllStorages = {
+                ...allstorages,
+                data: [...(prevAllStorages?.data || []), ...allstorages.data]
+            }
+
+            set({
+                allstorages: updadtedAllStorages,
+                morepages,
+                tags,
+                error: "",
+            });
+
+
+        } catch (error) {
+            console.error(JSON.stringify(error, null, 2));
+            set({
+                error: "An error occurred during load hubs!"
+            });
+        }
+    },
     reset_search: () => {
         set({
             loading: false,
@@ -57,7 +89,7 @@ export const useHubsByRegion = create<hubAroundMeStore | hubAroundMeStoreError>(
                 searchQuery: searchQuery,
             });
 
-            const response: Hub[] = await fetchAPI(`http://46.101.23.53/api/search/cold-storage?keyword=${searchQuery}`);
+            const response: Hub[] = await fetchAPI(`${baseUrl}/search/cold-storage?keyword=${searchQuery}`);
 
             set({
                 allstorages: {
@@ -75,6 +107,7 @@ export const useHubsByRegion = create<hubAroundMeStore | hubAroundMeStoreError>(
                     prev_page_url: null,
                     to: null,
                 },
+                error: "",
             });
         } catch (error) {
             console.error(error);
@@ -89,7 +122,7 @@ export const useHubsByRegion = create<hubAroundMeStore | hubAroundMeStoreError>(
     selectedRegion: null,
     load_regions: async () => {
         try {
-            const response: Omit<Tag, "pivot">[] = await fetchAPI(`http://46.101.23.53/api/alltags`);
+            const response: Omit<Tag, "pivot">[] = await fetchAPI(`${baseUrl}/alltags`);
             const regions = [...new Set(response.map((region) => region.slug))]
                 .sort((a, b) => a.localeCompare(b))
                 .map((slug) => {
@@ -104,6 +137,7 @@ export const useHubsByRegion = create<hubAroundMeStore | hubAroundMeStoreError>(
 
             set({
                 regions: regions,
+                error: "",
             });
         } catch (error) {
             console.error(error);
@@ -119,7 +153,7 @@ export const useHubsByRegion = create<hubAroundMeStore | hubAroundMeStoreError>(
                 loading: true
             });
 
-            const response: HubsAroundMeResponse = await fetchAPI(`http://46.101.23.53/api/tags-storage/${region}`);
+            const response: HubsAroundMeResponse = await fetchAPI(`${baseUrl}/tags-storage/${region}`);
 
             const { allstorages, morepages, tags } = response;
 
