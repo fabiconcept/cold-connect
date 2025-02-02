@@ -1,10 +1,12 @@
-import { View, Image } from 'react-native';
+import { View, Image, ImageSourcePropType } from 'react-native';
 
-export default function BackBlur() {
+export default function BackBlur({ source }: {
+    source: ImageSourcePropType
+}) {
     return (
         <View className='items-center justify-center absolute top-0 left-0'>
             <Image
-                source={require("@/assets/images/cold/back-blur.png")}
+                source={source}
                 resizeMode='cover'
                 height={430}
                 width={362}
