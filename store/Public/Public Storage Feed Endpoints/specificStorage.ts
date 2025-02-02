@@ -13,7 +13,7 @@ interface SpecificStorageStore extends SpecificStorage {
     load_hub: (id: number) => Promise<void>,
 }
 
-export const useSpecificStorage = create<SpecificStorageStore>((set) => ({
+export const useSpecificStorage = create<SpecificStorageStore>((set, get) => ({
     loading: false,
     loadingSuggestedHubs: false,
     error: "",
@@ -36,8 +36,12 @@ export const useSpecificStorage = create<SpecificStorageStore>((set) => ({
     load_related_hubs: async (region) => {
         try {
             set({ loadingSuggestedHubs: true });
-            const { allstorages }: HubsAroundMeResponse = await fetchAPI(`${baseUrl}/loadmore-tag-storage/2/${region}`);
-            set({ suggestedHubs: allstorages.data });
+            const { allstorages }: HubsAroundMeResponse = await fetchAPI(`${baseUrl}/loadmore-tag-storage/3/${region}`);
+
+            const currentHub = get().id;
+            const removedStorage = allstorages.data.filter((storage) => storage.id !== currentHub).splice(0, 2);
+            
+            set({ suggestedHubs: removedStorage });
         } catch (error) {
             console.error(JSON.stringify(error, null, 2));
         } finally {
@@ -49,7 +53,7 @@ export const useSpecificStorage = create<SpecificStorageStore>((set) => ({
             if (!hub_id) throw new Error("Hub ID is required");
 
             set({ loading: true, suggestedHubs: [] });
-            const response: SpecificStorage = await fetchAPI(`http://46.101.23.53/api/coldstoragerooms/${hub_id}`);
+            const response: SpecificStorage = await fetchAPI(`${baseUrl}/coldstoragerooms/${hub_id}`);
 
             const payload = {
                 ...response,
