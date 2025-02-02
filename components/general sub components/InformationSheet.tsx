@@ -113,14 +113,14 @@ const ExpandableCard = ({
     return (
         <PanGestureHandler
             onGestureEvent={gestureHandler}
-            activeOffsetY={[-10, 10]} // Only activate for vertical movements > 10 units
-            failOffsetX={[-10, 10]} // Fail gesture if horizontal movement > 10 units before vertical threshold
+            activeOffsetY={[-10, 10]}
+            failOffsetX={[-10, 10]}
         >
             <Animated.View
                 style={[animatedStyle]}
                 className={`w-full bg-white rounded-t-[40px] px-3 pt-12 pb-5 absolute bottom-0 shadow-lg shadow-black/10 ${className}`}
             >
-                {showHandle && <View hitSlop={20} className='absolute top-0 left-0 w-screen h-8 gap-1 border-t border-r border-l border-primary/70 rounded-t-[40px] mx-1 bg-gray-100 justify-center items-center'>
+                {showHandle && <View hitSlop={20} className='absolute top-0 left-0 w-screen h-8 gap-1 border-t border-r border-l border-primary/70 rounded-t-[40px] bg-gray-100 justify-center items-center'>
                     <View className='w-16 h-[5px] bg-primary rounded-full'></View>
                 </View>}
                 {children}
