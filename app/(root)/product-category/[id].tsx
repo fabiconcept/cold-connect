@@ -18,7 +18,7 @@ export default function ProductCategory() {
 
     if (!id) return null;
 
-    const productInfo = ProductPageItem.find(item => item.title === id.toLowerCase())!;
+    const productInfo = ProductPageItem.find(item => item.title.includes(id.toLowerCase()))!;
 
     return (
         <View className='relative flex-1'>
@@ -42,7 +42,7 @@ export default function ProductCategory() {
                         price={productInfo.price}
                     />
                     <Options />
-                    <SuggestedCategories />
+                    <SuggestedCategories selectedCategory={productInfo.title} />
                     <View className='h-24'></View>
                 </ScrollView>
             </InformationSheet>

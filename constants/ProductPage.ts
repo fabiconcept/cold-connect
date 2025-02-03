@@ -17,7 +17,7 @@ export const ProductPageItem: {
             measurement: "crate"
         },
         {
-            title: ('Vegetable').toLowerCase(),
+            title: ('Vegetables').toLowerCase(),
             imageSource: require('@/assets/images/cold/products/veg-image.png'),
             backgroundImage: require('@/assets/images/cold/product-back/veg-blur.png'),
             description: "Keep your vegetables fresh with Cold Connect's specialized cold storage. Our trays, priced at 200 Naira each, maintain the ideal conditions to preserve your produce. Store with confidence, knowing your vegetables are in expert hands.",

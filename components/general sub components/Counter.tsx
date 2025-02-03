@@ -1,18 +1,21 @@
 import clsx from 'clsx';
 import { useState } from 'react';
-import { View, Text, Dimensions } from 'react-native';
+import { View, Text, Dimensions, Pressable } from 'react-native';
 import Animated, { useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated';
 
-const AnimatedTouchable = Animated.createAnimatedComponent(View);
+const AnimatedTouchable = Animated.createAnimatedComponent(Pressable);
 
-export default function Counter({ title, sizeVariant = "large" }: {
+export default function Counter({ title, sizeVariant = "large", defaultValue = 1, onValueChange }: {
     title: string,
-    sizeVariant?: "small" | "large"
+    sizeVariant?: "small" | "large",
+    defaultValue?: number,
+    onValueChange?: (value: number) => void
 }) {
     const [isActive, setIsActive] = useState({
         decrement: false,
         increment: false,
     });
+    const [counter, setCounter] = useState(defaultValue);
 
     const decrementScale = useSharedValue(1);
     const incrementScale = useSharedValue(1);
@@ -42,7 +45,7 @@ export default function Counter({ title, sizeVariant = "large" }: {
                 'text-center font-bold font-MontserratBold',
                 sizeVariant === "small" && 'text-2xl py-1',
                 sizeVariant === "large" && 'text-4xl py-4'
-            )}>05</Text>
+            )}>{counter < 10 ? `0${counter}` : counter}</Text>
             <View className='flex-row justify-between'>
                 <AnimatedTouchable
                     className={clsx(
@@ -64,6 +67,13 @@ export default function Counter({ title, sizeVariant = "large" }: {
                             damping: 10,
                             stiffness: 500
                         });
+                    }}
+                    onPress={() => {
+                        if (counter > 1) {
+                            const value = counter - 1;
+                            setCounter(value);
+                            onValueChange && onValueChange(value);
+                        }
                     }}
                     style={decrementStyle}
                 >
@@ -89,6 +99,11 @@ export default function Counter({ title, sizeVariant = "large" }: {
                             damping: 10,
                             stiffness: 500
                         });
+                    }}
+                    onPress={() => {
+                        const value = counter + 1;
+                        setCounter(value);
+                        onValueChange && onValueChange(value);
                     }}
                     style={incrementStyle}
                 >

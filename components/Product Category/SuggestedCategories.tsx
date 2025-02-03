@@ -3,22 +3,26 @@ import { View, Text, FlatList } from 'react-native';
 import CategoryCard from '../Home/sub components/categoryCard';
 import { SuggestedCategories } from '@/constants/suggestedCategories';
 
-export default function SuggestedCategoriesComponent() {
+export default function SuggestedCategoriesComponent({
+    selectedCategory
+}: {
+    selectedCategory: string
+}) {
     return (
         <View className='mx-1 gap-3 mt-5'>
             <View className='flex-row items-center justify-between mx-2 mt-2'>
-                <Text className='text-lg font-semibold font-MontserratSemiBold'>Popular Categories</Text>
+                <Text className='text-lg font-semibold font-MontserratSemiBold'>Popular Categories </Text>
                 <Link href={"/(root)/(tabs)/crates"} className='text-primary text-lg font-MontserratSemiBold'>See all</Link>
             </View>
             <FlatList
-                data={SuggestedCategories}
+                data={SuggestedCategories.filter(item => item.title.toLowerCase() !== selectedCategory.toLowerCase())}
                 renderItem={({ item }) => (
                     <CategoryCard
                         sizeVariant='small'
                         title={item.title}
                         imageSource={item.imageSource}
                         backgroundImage={item.backgroundImage}
-                        onPress={() => router.push(`/(root)/product-category/1`)}
+                        onPress={() => router.push(`/(root)/product-category/${item.title}`)}
                     />
                 )}
                 keyExtractor={(item) => item.title}
