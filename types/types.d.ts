@@ -407,3 +407,20 @@ declare interface HubsAroundMeErrorResponse {
 }
 
 declare type URL = `http${string}://${string}${Endpoints}`;
+
+declare interface storeProduct {
+    title: "fish" | "beverage" | "dairy" | "fruits" | "meat" | "vegetables";
+    rate: number;
+    quantity: number;
+    storageLength: number;
+    addedToCart?: boolean
+}
+
+declare interface ProductsStore {
+    products: storeProduct[],
+    addProduct: (product: storeProduct) => void,
+    removeProduct: (title: storeProduct['title']) => void,
+    clearProducts: () => void,
+    updateProduct: (product: storeProduct) => void,
+    toggleAddedToCart: (title: storeProduct['title']) => void
+}
