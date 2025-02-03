@@ -33,7 +33,7 @@ export default function Counter({ title, sizeVariant = "large", defaultValue = 1
     });
 
     return (
-        <View className='bg-white rounded-2xl overflow-hidden border border-gray-200 shadow' style={{
+        <View className='bg-white rounded-2xl overflow-hidden border shadow-2xl shadow-black border-gray-200' style={{
             width: sizeVariant === "small" ? (Dimensions.get("window").width / 3) - 18 : (Dimensions.get("window").width / 2) - 18
         }}>
             <Text className={clsx(
@@ -102,6 +102,7 @@ export default function Counter({ title, sizeVariant = "large", defaultValue = 1
                     }}
                     onPress={() => {
                         const value = counter + 1;
+                        if (value > 99) return;
                         setCounter(value);
                         onValueChange && onValueChange(value);
                     }}

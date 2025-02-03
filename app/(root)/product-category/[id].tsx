@@ -12,9 +12,13 @@ import { ScrollView } from 'react-native-gesture-handler';
 import ActionSheet from '@/components/general sub components/ActionSheet';
 import { useLocalSearchParams } from 'expo-router';
 import { ProductPageItem } from '@/constants/ProductPage';
+import { useProducts } from '@/store/Products';
 
 export default function ProductCategory() {
     const { id } = useLocalSearchParams<{ id: string; }>();
+    const { products, toggleAddedToCart, addProduct } = useProducts();
+    const productInfoExists = products.find(product => product.title === id.toLowerCase());
+
 
     if (!id) return null;
 
@@ -41,15 +45,26 @@ export default function ProductCategory() {
                         description={productInfo.description}
                         price={productInfo.price}
                     />
-                    <Options />
+                    <Options selectedCategory={productInfo.title} rate={productInfo.price} />
                     <SuggestedCategories selectedCategory={productInfo.title} />
                     <View className='h-24'></View>
                 </ScrollView>
             </InformationSheet>
             <ActionSheet
-                action={() => { }}
-                actionText='Add to Cart'
-                value={2700}
+                action={() => {
+                    if (!productInfoExists) {
+                        addProduct({
+                            title: productInfo.title as "fish" | "beverage" | "dairy" | "fruits" | "meat" | "vegetables",
+                            quantity: 1,
+                            rate: productInfo.price,
+                            storageLength: 1
+                        })
+                    }
+
+                    toggleAddedToCart(productInfo.title as "fish" | "beverage" | "dairy" | "fruits" | "meat" | "vegetables")
+                }}
+                inCart={productInfoExists?.addedToCart ?? false}
+                value={productInfoExists ? productInfoExists.quantity * productInfo.price : productInfo.price}
             />
         </View>
     )

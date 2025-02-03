@@ -1,10 +1,11 @@
 import { Text, View } from 'react-native';
 import FullButton from '../FullButton';
+import clsx from 'clsx';
 
-export default function ActionSheet({ action, actionText, value }: {
+export default function ActionSheet({ action, value, inCart }: {
     action: () => void,
-    actionText: string,
-    value: number
+    value: number,
+    inCart: boolean
 }) {
     return (
         <View className='absolute bottom-0 left-0 px-5 py-7 bg-white border-t shadow-2xl shadow-black border-gray-200 flex-row gap-2 w-full items-center'>
@@ -16,10 +17,18 @@ export default function ActionSheet({ action, actionText, value }: {
                 </Text>
             </View>
             <FullButton
-                title={actionText}
+                title={inCart ? "Remove" : "Add to Cart"}
                 containerClassName='flex-1'
-                className='bg-primary flex-1 rounded-full py-4'
-                textClassName='text-white text-lg font-semibold'
+                className={clsx(
+                    'flex-1 rounded-full py-4',
+                    !inCart && 'bg-primary',
+                    inCart && 'bg-red-500/20 border border-red-500'
+                )}
+                textClassName={clsx(
+                    'text-lg font-semibold',
+                    !inCart && 'text-white',
+                    inCart && 'text-red-500/70'
+                )}
                 onPress={action}
             />
         </View>
