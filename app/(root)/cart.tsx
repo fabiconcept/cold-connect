@@ -26,7 +26,7 @@ export default function cart() {
             <CartTray />
             <ActionSheet
                 action={() => router.push("/(root)/choose-payment-method")}
-                actionText="Pay Now"
+                inCart={false}
                 value={250700}
             />
         </SafeAreaView>
