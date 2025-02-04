@@ -417,10 +417,13 @@ declare interface storeProduct {
 }
 
 declare interface ProductsStore {
-    products: storeProduct[],
-    addProduct: (product: storeProduct) => void,
-    removeProduct: (title: storeProduct['title']) => void,
-    clearProducts: () => void,
-    updateProduct: (product: storeProduct) => void,
-    toggleAddedToCart: (title: storeProduct['title']) => void
+    selectedHub: string;
+    products: storeProduct[];
+    addProduct: (product: storeProduct) => void;
+    removeProduct: (title: storeProduct['title']) => void;
+    clearProducts: () => void;
+    updateProduct: (product: storeProduct) => void;
+    toggleAddedToCart: (title: storeProduct['title']) => void;
+    setSelectedHub: (newHub: string) => void;
+    clearProductsFromCart: () => void;
 }
