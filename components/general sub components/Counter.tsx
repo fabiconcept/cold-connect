@@ -1,21 +1,30 @@
 import clsx from 'clsx';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { View, Text, Dimensions, Pressable } from 'react-native';
 import Animated, { useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated';
 
 const AnimatedTouchable = Animated.createAnimatedComponent(Pressable);
 
-export default function Counter({ title, sizeVariant = "large", defaultValue = 1, onValueChange }: {
-    title: string,
-    sizeVariant?: "small" | "large",
-    defaultValue?: number,
-    onValueChange?: (value: number) => void
+export default function Counter({
+    title,
+    sizeVariant = "large",
+    defaultValue = 1,
+    onValueChange,
+}: {
+    title: string;
+    sizeVariant?: "small" | "large";
+    defaultValue?: number;
+    onValueChange?: (value: number) => void;
 }) {
     const [isActive, setIsActive] = useState({
         decrement: false,
         increment: false,
     });
     const [counter, setCounter] = useState(defaultValue);
+
+    useEffect(() => {
+        setCounter(defaultValue);
+    }, [defaultValue]);
 
     const decrementScale = useSharedValue(1);
     const incrementScale = useSharedValue(1);
@@ -33,7 +42,7 @@ export default function Counter({ title, sizeVariant = "large", defaultValue = 1
     });
 
     return (
-        <View className='bg-white rounded-2xl overflow-hidden border shadow-2xl shadow-black border-gray-200' style={{
+        <View className='bg-white rounded-2xl overflow-hidden border shadow-lg shadow-black/50 border-primary/30' style={{
             width: sizeVariant === "small" ? (Dimensions.get("window").width / 3) - 18 : (Dimensions.get("window").width / 2) - 18
         }}>
             <Text className={clsx(
@@ -81,7 +90,7 @@ export default function Counter({ title, sizeVariant = "large", defaultValue = 1
                 </AnimatedTouchable>
                 <AnimatedTouchable
                     className={clsx(
-                        'border border-gray-300 flex-1 rounded-br-2xl items-center justify-center',
+                        'bg-blue-200 border border-gray-300 flex-1 rounded-br-2xl items-center justify-center',
                         sizeVariant === "small" && 'py-2',
                         sizeVariant === "large" && 'py-4',
                         isActive.increment && 'bg-gray-300'

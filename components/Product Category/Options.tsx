@@ -1,6 +1,8 @@
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
 import Counter from '../general sub components/Counter';
 import { useProducts } from '@/store/Products';
+import { useMemo } from 'react';
+
 
 export default function Options({
     selectedCategory,
@@ -11,7 +13,20 @@ export default function Options({
 }) {
     const { products, addProduct, updateProduct } = useProducts();
 
-    const productInfoExists = products.find(product => product.title === selectedCategory);
+    const productInfoExists = useMemo(() => {
+        return products.find(product => product.title === selectedCategory.toLowerCase())
+    }, [products, selectedCategory]);
+
+    const defaultValues = useMemo(() => {
+        if (!productInfoExists) return {
+            quantity: 1,
+            storageLength: 1
+        }
+        return {
+            quantity: productInfoExists.quantity,
+            storageLength: productInfoExists.storageLength
+        }
+    }, [productInfoExists]);
 
     const onNumberOfCratesChange = (value: number) => {
         if (productInfoExists) {
@@ -41,8 +56,18 @@ export default function Options({
 
     return (
         <View className='flex-wrap gap-2 flex-row justify-center pb-8 border-b border-gray-200'>
-            <Counter sizeVariant='large' title='Number of Crates' defaultValue={productInfoExists ? productInfoExists.quantity : 1} onValueChange={onNumberOfCratesChange} />
-            <Counter sizeVariant='large' title='Number of Days' defaultValue={productInfoExists ? productInfoExists.storageLength : 1} onValueChange={onNumberOfDaysChange} />
+            <Counter
+                sizeVariant='large'
+                title={`Number of Crates`}
+                defaultValue={defaultValues.quantity}
+                onValueChange={onNumberOfCratesChange}
+            />
+            <Counter
+                sizeVariant='large'
+                title={`Number of Days`}
+                defaultValue={defaultValues.storageLength}
+                onValueChange={onNumberOfDaysChange}
+            />
         </View>
     )
 }
