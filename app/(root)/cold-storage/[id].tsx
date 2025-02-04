@@ -15,7 +15,7 @@ import LoadingShimmer from '@/components/general sub components/LoadingShimmer';
 
 export default function Coldstorage() {
     const { id } = useLocalSearchParams<{ id: string; }>();
-    const { load_hub, loading, distance, capacity } = useSpecificStorage();
+    const { load_hub, loading, distance, capacity, name } = useSpecificStorage();
 
     useEffect(() => {
         if (!id) return;
@@ -56,7 +56,7 @@ export default function Coldstorage() {
                     <View className='h-24'></View>
                 </ScrollView>
             </InformationSheet>
-            <ActionSheet />
+            <ActionSheet selectedHub={name} />
         </View>
     )
 }

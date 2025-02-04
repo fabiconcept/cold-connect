@@ -33,6 +33,7 @@ export default function ProductCategory() {
                 <ScrollView
                     className='flex-1 -mt-6'
                     showsVerticalScrollIndicator={false}
+
                 >
                     <View className='flex-row gap-1 px-1'>
                         <InfoPill
@@ -58,7 +59,7 @@ export default function ProductCategory() {
                             quantity: 1,
                             rate: productInfo.price,
                             storageLength: 1
-                        })
+                        });
                     }
 
                     toggleAddedToCart(productInfo.title as "fish" | "beverage" | "dairy" | "fruits" | "meat" | "vegetables")
