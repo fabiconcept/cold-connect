@@ -2,8 +2,13 @@ import { Link, router } from 'expo-router';
 import { View, Text, FlatList } from 'react-native';
 import CategoryCard from './sub components/categoryCard';
 import { PopularCategories } from '@/constants/popularCategories';
+import { useProducts } from '@/store/Products';
 
 export default function PopularCategoriesComponent() {
+    const { selectedHub } = useProducts();
+
+    if (selectedHub === '') return null;
+
     return (
         <View className='mx-3'>
             <View className='flex-row items-center justify-between mx-2 mt-2'>

@@ -2,9 +2,17 @@ import { Feather } from '@expo/vector-icons';
 import { View, Text } from 'react-native';
 import AnimatedPressable from './AnimatedPress';
 import { router, useSegments } from 'expo-router';
+import { useProducts } from '@/store/Products';
+import { useMemo } from 'react';
 
 export default function GoToCartButton() {
     const segments = useSegments();
+    const { products } = useProducts();
+
+    const total = useMemo(() => {
+        return products.filter(p => p.addedToCart).length;
+    }, [products])
+
 
     // Hide button on cart screen
     if (segments[segments.length - 1] === 'cart') return null;
@@ -25,7 +33,7 @@ export default function GoToCartButton() {
                 className='-ml-1'
             />
             <View className='absolute -top-7 -left-7 h-8 w-8 rounded-full bg-white items-center justify-center border border-[#0066e1]/20'>
-                <Text>3</Text>
+                <Text>{total}</Text>
             </View>
         </AnimatedPressable>
     )
