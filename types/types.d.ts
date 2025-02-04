@@ -91,6 +91,8 @@ declare interface CartItemProps {
     quantity: number;
     image: ImageSourcePropType;
     isLast?: boolean;
+    storageLength?: number;
+    type: "storage" | "truck" | "crate";
 }
 
 declare interface LocationState {
@@ -413,7 +415,8 @@ declare interface storeProduct {
     rate: number;
     quantity: number;
     storageLength: number;
-    addedToCart?: boolean
+    addedToCart?: boolean;
+    type: "storage" | "truck" | "crate";
 }
 
 declare interface ProductsStore {
