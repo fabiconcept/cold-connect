@@ -1,5 +1,5 @@
 import { View } from 'react-native';
-import React from 'react';
+import React, { useRef } from 'react';
 import Header from '@/components/Product Category/Header';
 import BackBlur from '@/components/Product Category/BackBlur';
 import ProductPic from '@/components/Product Category/ProductPic';
@@ -10,7 +10,7 @@ import InformationSheet from '@/components/general sub components/InformationShe
 import SuggestedCategories from '@/components/Product Category/SuggestedCategories';
 import { ScrollView } from 'react-native-gesture-handler';
 import ActionSheet from '@/components/general sub components/ActionSheet';
-import { useLocalSearchParams } from 'expo-router';
+import { useFocusEffect, useLocalSearchParams } from 'expo-router';
 import { ProductPageItem } from '@/constants/ProductPage';
 import { useProducts } from '@/store/Products';
 
@@ -18,6 +18,15 @@ export default function ProductCategory() {
     const { id } = useLocalSearchParams<{ id: string; }>();
     const { products, toggleAddedToCart, addProduct } = useProducts();
     const productInfoExists = products.find(product => product.title === id.toLowerCase());
+
+    const scrollViewRef = useRef<ScrollView>(null);
+
+    // This will work with both navigation and URL changes
+    useFocusEffect(
+        React.useCallback(() => {
+            scrollViewRef.current?.scrollTo({ y: 0, animated: true });
+        }, [id])
+    );
 
 
     if (!id) return null;
@@ -33,7 +42,7 @@ export default function ProductCategory() {
                 <ScrollView
                     className='flex-1 -mt-6'
                     showsVerticalScrollIndicator={false}
-
+                    ref={scrollViewRef}
                 >
                     <View className='flex-row gap-1 px-1'>
                         <InfoPill
