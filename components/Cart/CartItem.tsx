@@ -5,6 +5,7 @@ import { router } from 'expo-router';
 import { CartItemProps } from '@/types/types';
 import clsx from 'clsx';
 import { useState } from 'react';
+import { useProducts } from '@/store/Products';
 
 export default function CartItem({
     title,
@@ -12,11 +13,23 @@ export default function CartItem({
     quantity,
     image,
     isLast,
+    storageLength,
+    type
 }: CartItemProps) {
     const [isChecked, setIsChecked] = useState(true);
     const [counter, setCounter] = useState(quantity);
+    const { updateProduct, products } = useProducts();
 
     const disabled = !isChecked || counter === 0;
+
+    const counterAdjusted = (value: number) => {
+        switch (type) {
+            case "storage":
+                const productInfoExists = products.find(product => product.title === title.toLowerCase())!;
+                updateProduct({ ...productInfoExists, quantity: value });
+                break;
+        }
+    }
 
     return (
         <View className='pl-6'>
@@ -54,12 +67,15 @@ export default function CartItem({
                         />
                     </View>
                     <View className='flex-row px-2 items-center'>
-                        <Text className='flex-1 text-lg font-semibold fonm-MontserratSemiBold'>₦{Number(price * counter).toLocaleString()}</Text>
+                        <Text className='flex-1 text-lg font-semibold fonm-MontserratSemiBold'>₦{Number(storageLength ? (price * counter) * storageLength : (price * counter)).toLocaleString()}</Text>
                         <View className='flex-row items-center gap-2'>
                             <TouchableOpacity
                                 className='h-6 w-6 items-center justify-center border border-gray-300 rounded'
                                 hitSlop={10}
-                                onPress={() => setCounter(Math.max(0, counter - 1))}
+                                onPress={() => {
+                                    setCounter(Math.max(0, counter - 1))
+                                    counterAdjusted(Math.max(0, counter - 1))
+                                }}
                             >
                                 <Feather
                                     name="minus"
@@ -71,7 +87,10 @@ export default function CartItem({
                             <TouchableOpacity
                                 className='h-6 w-6 items-center justify-center border border-gray-300 rounded'
                                 hitSlop={10}
-                                onPress={() => setCounter(Math.max(0, counter + 1))}
+                                onPress={() => {
+                                    setCounter(Math.max(0, counter + 1))
+                                    counterAdjusted(Math.max(0, counter + 1))
+                                }}
                             >
                                 <Feather
                                     name="plus"

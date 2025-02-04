@@ -7,7 +7,9 @@ import { useProducts } from '@/store/Products';
 interface CartItemData {
     title: string;
     rate: number;
+    storageLength: number;
     quantity: number;
+    type: "storage" | "truck" | "crate";
 }
 
 interface CartSection {
@@ -22,7 +24,7 @@ export default function CartTray() {
     const cartData: CartSection[] = [
         {
             title: selectedHub,
-            data: products
+            data: products.filter(product => product.addedToCart),
         },
     ].filter(section => section.data.length > 0);
 
@@ -38,6 +40,9 @@ export default function CartTray() {
             {...item}
             image={findCartItemImage(item.title)}
             price={item.rate}
+            quantity={item.quantity}
+            type={item.type}
+            storageLength={item.storageLength}
             isLast={index === section.data.length - 1}
         />
     );

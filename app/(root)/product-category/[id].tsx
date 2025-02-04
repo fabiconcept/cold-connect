@@ -67,14 +67,15 @@ export default function ProductCategory() {
                             title: productInfo.title as "fish" | "beverage" | "dairy" | "fruits" | "meat" | "vegetables",
                             quantity: 1,
                             rate: productInfo.price,
-                            storageLength: 1
+                            storageLength: 1,
+                            type: "storage" as const
                         });
                     }
 
                     toggleAddedToCart(productInfo.title as "fish" | "beverage" | "dairy" | "fruits" | "meat" | "vegetables")
                 }}
                 inCart={productInfoExists?.addedToCart ?? false}
-                value={productInfoExists ? productInfoExists.quantity * productInfo.price : productInfo.price}
+                value={productInfoExists ? (productInfoExists.quantity * productInfo.price * productInfoExists.storageLength) : productInfo.price}
             />
         </View>
     )

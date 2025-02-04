@@ -36,7 +36,8 @@ export default function Options({
                 title: selectedCategory as "fish" | "beverage" | "dairy" | "fruits" | "meat" | "vegetables",
                 quantity: value,
                 rate: rate,
-                storageLength: 1
+                storageLength: 1,
+                type: "storage" as const
             })
         }
     }
@@ -49,7 +50,8 @@ export default function Options({
                 title: selectedCategory as "fish" | "beverage" | "dairy" | "fruits" | "meat" | "vegetables",
                 quantity: 1,
                 rate: rate,
-                storageLength: value
+                storageLength: value,
+                type: "storage" as const
             })
         }
     }
