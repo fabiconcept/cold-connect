@@ -1,88 +1,63 @@
 import { Text, SectionList, View } from 'react-native';
 import CartItem from './CartItem';
-const dummyCartItems = [
-    {
-        title: "Avu/Obinze Hub",
-        data: [
-            {
-                title: "Fish",
-                price: 200,
-                quantity: 12,
-                image: require("@/assets/images/cold/fish-cart-tem.png")
-            },
-            {
-                title: "Beverages",
-                price: 16700,
-                quantity: 12,
-                image: require("@/assets/images/cold/bev-cart-tem.png")
-            },
-            {
-                title: "Milk & Dairy",
-                price: 200,
-                quantity: 12,
-                image: require("@/assets/images/cold/milk-cart-tem.png")
-            },
-            {
-                title: "Fish",
-                price: 200,
-                quantity: 12,
-                image: require("@/assets/images/cold/fish-cart-tem.png")
-            },
-            {
-                title: "Vegetables",
-                price: 200,
-                quantity: 12,
-                image: require("@/assets/images/cold/veg-cart-tem.png")
-            },
-            {
-                title: "Meat",
-                price: 200,
-                quantity: 12,
-                image: require("@/assets/images/cold/meat-cart-tem.png")
-            }
-        ]
-    },
-    {
-        title: "Buy Crates",
-        data: [
-            {
-                title: "Crates",
-                price: 200,
-                quantity: 5,
-                image: require("@/assets/images/cold/crate-cart-tem.png")
-            }
-        ]
-    },
-    {
-        title: "Logistics",
-        data: [
-            {
-                title: "Logistics",
-                price: 187200,
-                quantity: 1,
-                image: require("@/assets/images/cold/logistics-cart-tem.png")
-            }
-        ]
-    }
-];
+import { CartItems } from '@/constants/CartItems';
+import { useProducts } from '@/store/Products';
+
+// Define types for better type safety
+interface CartItemData {
+    title: string;
+    rate: number;
+    quantity: number;
+}
+
+interface CartSection {
+    title: string;
+    data: CartItemData[];
+}
 
 export default function CartTray() {
+    const { products, selectedHub } = useProducts();
+
+    // Filter out falsy sections and create typed cart data
+    const cartData: CartSection[] = [
+        {
+            title: selectedHub,
+            data: products
+        },
+    ].filter(section => section.data.length > 0);
+
+    const findCartItemImage = (title: string) =>
+        CartItems.find(c => c.title.toLowerCase() === title.toLowerCase())?.image;
+
+    const renderItem = ({ item, index, section }: {
+        item: CartItemData;
+        index: number;
+        section: CartSection
+    }) => (
+        <CartItem
+            {...item}
+            image={findCartItemImage(item.title)}
+            price={item.rate}
+            isLast={index === section.data.length - 1}
+        />
+    );
+
+    const renderSectionHeader = ({ section: { title } }: { section: CartSection }) => (
+        <Text className='text-lg py-3 font-MontserratSemiBold mt-5'>{title}</Text>
+    );
+
+    const renderFooter = () => <View className='h-36' />;
+
     return (
         <SectionList
-            sections={dummyCartItems}
-            renderItem={({ item, index, section }) => (
-                <CartItem
-                    key={index}
-                    {...item}
-                    isLast={index === section.data.length - 1}
-                />
-            )}
+            sections={cartData}
+            renderItem={renderItem}
             keyExtractor={(_, index) => index.toString()}
             contentContainerClassName='px-3'
-            ListFooterComponent={() => <View className='h-36' />}
-            renderSectionHeader={({ section }) => (
-                <Text className='text-lg py-3 font-MontserratSemiBold mt-5'>{section.title}</Text>
-            )}
+            ListFooterComponent={renderFooter}
+            renderSectionHeader={renderSectionHeader}
+            stickySectionHeadersEnabled={false}
+            showsVerticalScrollIndicator={false}
         />
-    )
+    );
 }

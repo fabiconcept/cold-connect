@@ -32,7 +32,7 @@ export default function CartItem({
                 disabled && 'grayscale opacity-50'
             )}>
                 <TouchableOpacity
-                    onPress={() => router.push("/(root)/product-category/1")}
+                    onPress={() => router.push(`/(root)/product-category/${title}`)}
                 >
                     <Image
                         source={image}
