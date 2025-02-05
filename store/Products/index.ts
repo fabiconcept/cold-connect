@@ -29,5 +29,5 @@ export const useProducts = create<ProductsStore>((set, get) => ({
         set({
             products
         });
-    }
+    },
 }))

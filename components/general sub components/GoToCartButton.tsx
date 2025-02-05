@@ -12,7 +12,7 @@ import { CartPayload } from '@/types/types';
 export default function GoToCartButton() {
     const segments = useSegments();
     const { products, selectedHub, setSelectedHub, addProduct } = useProducts();
-    const { addedToCart: crateAddedToCart, quantity, rate, pickUpDate, pickUpLocation, selectedColor, setSelectedColor, setPickUpDate, setPickUpLocation, setRate, setQuantity } = useCrates();
+    const { addedToCart: crateAddedToCart, quantity, rate, pickUpDate, pickUpLocation, selectedColor, setSelectedColor, setPickUpDate, setPickUpLocation, setRate, setQuantity, toggleAddedToCart } = useCrates();
     const { isSignedIn, activeUser } = useAuthenticationStore();
 
     useEffect(() => {
@@ -20,7 +20,7 @@ export default function GoToCartButton() {
 
         (async () => {
             const userId = activeUser.username;
-            const cartId = encodeURI(`${encodeURIComponent(userId).toLowerCase()}-cart`);
+            const cartId = encodeURI(`${userId.toLowerCase()}-cart`);
 
             const token = await getToken(cartId);
             if (token) {
@@ -38,6 +38,7 @@ export default function GoToCartButton() {
                     setPickUpDate(crates.pickUpDate);
                     setPickUpLocation(crates.pickUpLocation);
                     setSelectedColor(crates.selectedColor);
+                    toggleAddedToCart();
                 }
             }
         })()
@@ -48,7 +49,7 @@ export default function GoToCartButton() {
 
         (async () => {
             const userId = activeUser.username;
-            const cartId = encodeURI(`${encodeURIComponent(userId).toLowerCase()}-cart`);
+            const cartId = encodeURI(`${userId.toLowerCase()}-cart`);
 
 
             const cartProducts = products.filter(p => p.addedToCart);
@@ -62,6 +63,8 @@ export default function GoToCartButton() {
                     addedToCart: crateAddedToCart, quantity, rate, pickUpDate, pickUpLocation, selectedColor
                 } : undefined
             }
+
+            if (payload.products === undefined && payload.crates === undefined) return;
 
             await saveToken(JSON.stringify(payload), cartId);
         })()
