@@ -34,7 +34,8 @@ export default function DateTimePickerComponent({ IconLeft, IconRight, onDateCha
             {show && (
                 <DateTimePicker
                     testID="dateTimePicker"
-                    value={new Date()}
+                    value={date || new Date()}
+                    minimumDate={new Date(Date.now() + 1000 * 60 * 60 * 24)}
                     mode="date"
                     is24Hour={true}
                     onChange={onChange}
