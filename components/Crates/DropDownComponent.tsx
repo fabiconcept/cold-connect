@@ -6,17 +6,26 @@ const DropdownComponent = ({
     data,
     IconLeft,
     IconRight,
-    dropdownStyle
+    dropdownStyle,
+    onSelect,
+    defaultValue
 }: {
     data: {
         label: string;
         value: string;
     }[];
+    defaultValue?: string;
     IconLeft?: React.JSX.Element;
     IconRight?: React.JSX.Element;
     dropdownStyle?: StyleProp<ViewStyle>;
+    onSelect: (value: string) => void;
 }) => {
-    const [value, setValue] = useState(null);
+    const [value, setValue] = useState<string | null>(defaultValue || null);
+
+    const handleSelect = (value: string) => {
+        setValue(value);
+        onSelect(value);
+    };
 
     return (
         <Dropdown
@@ -30,7 +39,7 @@ const DropdownComponent = ({
             placeholder="Select Pickup Location"
             value={value}
             onChange={item => {
-                setValue(item.value);
+                handleSelect(item.value);
             }}
             renderLeftIcon={() => IconLeft as any}
             renderRightIcon={() => IconRight as any}

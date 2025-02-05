@@ -4,6 +4,7 @@ import ColorPicker from './ColorPicker';
 import { Feather } from '@expo/vector-icons';
 import DropdownComponent from './DropDownComponent';
 import DateTimePickerComponent from './DateTimePickerComponent';
+import { useCrates } from '@/store/Crates';
 
 export default function Options() {
     const locations = [
@@ -18,13 +19,31 @@ export default function Options() {
         { label: 'Uyo', value: 'Uyo' },
     ];
 
+    const { quantity, setQuantity, pickUpLocation, setPickUpLocation, setPickUpDate, pickUpDate } = useCrates();
+
+    const onValueChange = (value: number) => {
+        setQuantity(value);
+    }
+
+    const updatePickUpLocation = (value: string) => {
+        setPickUpLocation(value)
+    }
+
+    const updatePickUpDate = (value: Date) => {
+        const date = value.toDateString();
+        setPickUpDate(date);
+    }
+
+
     return (
         <View className='-mt-44 px-4 flex-wrap gap-2 flex-row'>
-            <Counter title='Crate Quantity' />
+            <Counter defaultValue={quantity || 1} onValueChange={onValueChange} title='Crate Quantity' />
             <ColorPicker />
             <View className='mt-2 flex-1 gap-2'>
                 <DropdownComponent
                     data={locations}
+                    defaultValue={pickUpLocation}
+                    onSelect={updatePickUpLocation}
                     IconLeft={<Feather
                         name="map-pin"
                         size={20}
@@ -38,6 +57,8 @@ export default function Options() {
                     />}
                 />
                 <DateTimePickerComponent
+                    date={pickUpDate}
+                    onDateChange={updatePickUpDate}
                     IconLeft={<Feather
                         name="calendar"
                         size={20}
