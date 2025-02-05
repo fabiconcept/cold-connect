@@ -18,13 +18,13 @@ export default function AnimatedPressable({
         return {
             transform: [
                 {
-                    scale: withSpring(isPressed ? 0.95 : 1, {
+                    scale: withSpring(isPressed ? 0.98 : 1, {
                         damping: 10,
                         stiffness: 300
                     }),
                 },
                 {
-                    translateY: withSpring(isPressed ? 3 : 0, {
+                    translateY: withSpring(isPressed ? 1.5 : 0, {
                         damping: 10,
                         stiffness: 200
                     }),
