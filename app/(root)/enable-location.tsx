@@ -25,7 +25,7 @@ export default function EnableLocation() {
 
             if (status !== 'granted') {
                 router.replace("/enable-location?rejected=true");
-                setHasLocationPermission(false);
+                setHasLocationPermission(false as never);
                 setRetryCount(prev => prev + 1);
                 return;
             }
@@ -39,12 +39,12 @@ export default function EnableLocation() {
             setAddress(`${address[0].name}, ${address[0].region}`);
             setLatitude(location.coords.latitude);
             setLongitude(location.coords.longitude);
-            setHasLocationPermission(true);
+            setHasLocationPermission(true as never);
 
             router.push('/(root)/(tabs)/home');
         } catch (error) {
             console.error('Error requesting location:', error);
-            setHasLocationPermission(false);
+            setHasLocationPermission(false as never);
             setRetryCount(prev => prev + 1);
         } finally {
             setIsLoading(false);
