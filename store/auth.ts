@@ -220,7 +220,7 @@ export const useAuthenticationStore = create<AuthenticatedStore | UnAuthenticate
                 updatingUser: true,
             });
 
-            const response: ProfileUpdateResponse = await fetchProtectedAPI(`http://192.168.185.218:8000/api/user/update-profile`, activeId, {
+            const response: ProfileUpdateResponse = await fetchProtectedAPI(`${baseUrl}/user/update-profile`, activeId, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json"
