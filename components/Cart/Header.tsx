@@ -62,6 +62,9 @@ export default function Header() {
                 isModalVisible={isModalVisible}
                 setIsModalVisible={setIsModalVisible}
                 action={clearCart}
+                title="Clear Cart"
+                actionText="Clear Cart"
+                message="Are you sure? This action cannot be undone, this will clear your cart items."
             />
         </View>
     )
