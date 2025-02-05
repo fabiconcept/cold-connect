@@ -59,8 +59,14 @@ declare interface TruckOptionProps {
 declare interface InformationItem {
     title: string;
     value: string;
-    editable: boolean;
+    editable: false;
     type: "text";
+}
+
+declare interface InformationItemEditable extends InformationItem {
+    editable: true;
+    name: string;
+    placeHolder: string
 }
 
 declare interface InformationActionItem {
@@ -153,7 +159,8 @@ declare interface UnAuthenticatedStore {
     signOut: (activeId: string) => Promise<void>;
     clearError: () => void;
     updateUser: (activeId: string) => Promise<void>;
-    updateProfilePhoto: (formData: FormData, activeId: string) => Promise<void>
+    updateProfilePhoto: (formData: FormData, activeId: string) => Promise<void>;
+    updateProfile: (payload: Partial<Pick<ActiveUserProfile, "full_name" | "phone" | "address">>, activeId: string) => Promise<void>;
 }
 
 declare interface AuthenticatedStore extends UnAuthenticatedStore {
@@ -445,3 +452,21 @@ declare interface ColorState {
     addedToCart: boolean;
     toggleAddedToCart: () => void;
 }
+
+interface ProfileUpdateSuccessResponse {
+    success: true;
+    message: string;
+    user: ActiveUser;
+    profile: ActiveUserProfile;
+    status: 200;
+}
+
+interface ProfileUpdateErrorResponse {
+    success: false;
+    message: string;
+    error?: string;
+    status: 500 | 404 | 422;
+}
+
+
+declare type ProfileUpdateResponse = ProfileUpdateSuccessResponse | ProfileUpdateErrorResponse;
