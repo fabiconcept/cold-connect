@@ -1,6 +1,6 @@
 import { fetchAPI, fetchProtectedAPI } from "@/lib/fetch";
 import { removeToken, saveToken } from "@/lib/KeyChain";
-import { ActiveUser, AuthenticatedStore, CreateProfileSuccessResponse, LoginErrorResponse, LoginSuccessResponse, SignUpErrorResponse, SignUpSuccessResponse, UnAuthenticatedStore, UpdateProfilePhotoErrorResponse, UpdateProfilePhotoSuccessResponse } from "@/types/types";
+import { ActiveUser, AuthenticatedStore, CreateProfileSuccessResponse, LoginErrorResponse, LoginSuccessResponse, ProfileUpdateResponse, SignUpErrorResponse, SignUpSuccessResponse, UnAuthenticatedStore, UpdateProfilePhotoErrorResponse, UpdateProfilePhotoSuccessResponse } from "@/types/types";
 import { Alert, Platform, ToastAndroid } from "react-native";
 import { create } from "zustand";
 
@@ -212,6 +212,51 @@ export const useAuthenticationStore = create<AuthenticatedStore | UnAuthenticate
         } catch (error) {
             console.error(JSON.stringify(error, null, 2));
             throw new Error("An error occurred during update!")
+        }
+    },
+    updateProfile: async (payload, activeId) => {
+        try {
+            set({
+                updatingUser: true,
+            });
+
+            const response: ProfileUpdateResponse = await fetchProtectedAPI(`http://192.168.185.218:8000/api/user/update-profile`, activeId, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(payload)
+            });
+
+            const { success } = response;
+
+            if (!success) {
+                set({
+                    error: [response.error ?? "An error occurred during update!"]
+                });
+                return;
+            }
+
+            set({
+                activeUser: {
+                    ...response.user,
+                    profile: {
+                        ...response.user.profile,
+                        photo: `${baseUrl.slice(0, -4)}${response.user.profile.photo}`
+                    }
+                },
+                error: []
+            });
+
+        } catch (error) {
+            console.error(JSON.stringify(error, null, 2));
+            set({
+                error: ["An error occurred during update!"]
+            });
+        } finally {
+            set({
+                updatingUser: false,
+            });
         }
     }
 }));
