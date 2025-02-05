@@ -3,14 +3,69 @@ import { View, Text } from 'react-native';
 import AnimatedPressable from './AnimatedPress';
 import { router, useSegments } from 'expo-router';
 import { useProducts } from '@/store/Products';
-import { useMemo } from 'react';
+import { useEffect, useId, useMemo } from 'react';
 import { useCrates } from '@/store/Crates';
+import { useAuthenticationStore } from '@/store/auth';
+import { getToken, saveToken } from '@/lib/KeyChain';
+import { CartPayload } from '@/types/types';
 
 export default function GoToCartButton() {
     const segments = useSegments();
-    const { products } = useProducts();
-    const { addedToCart: crateAddedToCart } = useCrates();
+    const { products, selectedHub, setSelectedHub, addProduct } = useProducts();
+    const { addedToCart: crateAddedToCart, quantity, rate, pickUpDate, pickUpLocation, selectedColor, setSelectedColor, setPickUpDate, setPickUpLocation, setRate, setQuantity } = useCrates();
+    const { isSignedIn, activeUser } = useAuthenticationStore();
 
+    useEffect(() => {
+        if (!isSignedIn) return;
+
+        (async () => {
+            const userId = activeUser.username;
+            const cartId = encodeURI(`${encodeURIComponent(userId).toLowerCase()}-cart`);
+
+            const token = await getToken(cartId);
+            if (token) {
+                const payload = JSON.parse(token) as CartPayload;
+                const { crates, products } = payload;
+
+                if (products) {
+                    setSelectedHub(products.selectedHub);
+                    products.data.forEach(p => addProduct(p));
+                }
+
+                if (crates) {
+                    setQuantity(crates.quantity);
+                    setRate(crates.rate);
+                    setPickUpDate(crates.pickUpDate);
+                    setPickUpLocation(crates.pickUpLocation);
+                    setSelectedColor(crates.selectedColor);
+                }
+            }
+        })()
+    }, [])
+
+    useEffect(() => {
+        if (!isSignedIn) return;
+
+        (async () => {
+            const userId = activeUser.username;
+            const cartId = encodeURI(`${encodeURIComponent(userId).toLowerCase()}-cart`);
+
+
+            const cartProducts = products.filter(p => p.addedToCart);
+
+            const payload: CartPayload = {
+                products: cartProducts.length > 0 ? {
+                    selectedHub: selectedHub,
+                    data: cartProducts
+                } : undefined,
+                crates: crateAddedToCart ? {
+                    addedToCart: crateAddedToCart, quantity, rate, pickUpDate, pickUpLocation, selectedColor
+                } : undefined
+            }
+
+            await saveToken(JSON.stringify(payload), cartId);
+        })()
+    }, [isSignedIn, products, crateAddedToCart, selectedHub, quantity, rate, pickUpDate, pickUpLocation, selectedColor]);
 
     const total = useMemo(() => {
         const crateCount = crateAddedToCart ? 1 : 0;

@@ -2,7 +2,7 @@ import { useAuthenticationStore } from '@/store/auth';
 import { InformationItem, InformationActionItem, InformationItemEditable } from '@/types/types';
 import { Feather } from '@expo/vector-icons';
 import clsx from 'clsx';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { View, Text, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
 
@@ -65,8 +65,15 @@ export default function InformationSection({
 const EditableItem = ({ item }: { item: InformationItemEditable }) => {
     const [editableItem, setEditableItem] = useState<boolean>(false);
     const [value, setValue] = useState<string>(item.value.toLowerCase() === "n/a" ? "" : item.value);
+    const inputRef = useRef<TextInput>(null);
 
     const { updatingUser, updateProfile, activeId } = useAuthenticationStore();
+
+    useEffect(() => {
+        if (editableItem && inputRef.current) {
+            inputRef.current.focus();
+        }
+    }, [editableItem]);
 
     const handleUpdate = async () => {
         setEditableItem(false);
@@ -81,6 +88,7 @@ const EditableItem = ({ item }: { item: InformationItemEditable }) => {
         <>
             <View className='flex-1 items-end'>
                 <TextInput
+                    ref={inputRef}
                     className='h-10 py-0 -mb-1'
                     placeholder={item.placeHolder}
                     value={!editableItem ? item.value : value}
