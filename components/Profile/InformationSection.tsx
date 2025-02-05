@@ -5,6 +5,7 @@ import clsx from 'clsx';
 import { useEffect, useRef, useState } from 'react';
 import { View, Text, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
+import CautionAlert from '../general sub components/CautionAlert';
 
 export default function InformationSection({
     data,
@@ -13,7 +14,7 @@ export default function InformationSection({
     data: (InformationItem | InformationActionItem | InformationItemEditable)[],
     title: string
 }) {
-
+    const [isModalVisible, setIsModalVisible] = useState(false);
 
     return (
         <View className='mt-5'>
@@ -43,7 +44,7 @@ export default function InformationSection({
                         )
                     } else if (item.type === "action") {
                         return (
-                            <TouchableOpacity hitSlop={10} onPress={item.action}>
+                            <TouchableOpacity hitSlop={10} onPress={item.warning ? () => setIsModalVisible(true) : item.action}>
                                 <View key={index} className={clsx(
                                     'flex-row justify-between items-center p-5',
                                     index !== data.length - 1 && 'border-b border-gray-300'
@@ -53,6 +54,14 @@ export default function InformationSection({
                                         <Text className='font-Montserrat font-semibold' style={{ color: item.themeColor }}>{item.title}</Text>
                                     </View>
                                 </View>
+                                {item.warning && <CautionAlert
+                                    actionText={item.title}
+                                    isModalVisible={isModalVisible}
+                                    setIsModalVisible={setIsModalVisible}
+                                    action={item.action}
+                                    title={item.warningTitle}
+                                    message={item.warningMessage}
+                                />}
                             </TouchableOpacity>
                         )
                     }

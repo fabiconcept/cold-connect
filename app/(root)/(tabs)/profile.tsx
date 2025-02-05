@@ -104,6 +104,9 @@ export default function Profile() {
             title: "Logout",
             Icon: "log-out",
             action: () => signOut(activeId),
+            warning: true,
+            warningTitle: "Logout Session",
+            warningMessage: "Logging out will clear your session stored cart items. Are you sure you want to logout?",
             type: "action",
             themeColor: "red"
         }
