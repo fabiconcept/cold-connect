@@ -28,7 +28,7 @@ export default function CartItem({
     const counterAdjusted = (value: number) => {
         switch (type) {
             case "storage":
-                const productInfoExists = products.find(product => product.title === title.toLowerCase())!;
+                const productInfoExists = products.find(product => product.title.includes(title.toLowerCase()))!;
                 updateProduct({ ...productInfoExists, quantity: value });
                 break;
             case "crate":

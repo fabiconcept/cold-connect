@@ -17,7 +17,7 @@ import { useProducts } from '@/store/Products';
 export default function ProductCategory() {
     const { id } = useLocalSearchParams<{ id: string; }>();
     const { products, toggleAddedToCart, addProduct } = useProducts();
-    const productInfoExists = products.find(product => product.title === id.toLowerCase());
+    const productInfoExists = products.find(product => product.title.includes(id.toLowerCase()));
 
     const scrollViewRef = useRef<ScrollView>(null);
 

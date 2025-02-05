@@ -14,7 +14,7 @@ export default function Options({
     const { products, addProduct, updateProduct } = useProducts();
 
     const productInfoExists = useMemo(() => {
-        return products.find(product => product.title === selectedCategory.toLowerCase())
+        return products.find(product => product.title.includes(selectedCategory.toLowerCase()))
     }, [products, selectedCategory]);
 
     const defaultValues = useMemo(() => {
