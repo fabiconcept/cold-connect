@@ -2,7 +2,7 @@ import Header from '@/components/Profile/Header';
 import InformationSection from '@/components/Profile/InformationSection';
 import InvoicesCard from '@/components/Profile/InvoicesCard';
 import ProfilePhotoContainer from '@/components/Profile/ProfilePhotoContainer';
-import { InformationItem, InformationActionItem } from '@/types/types';
+import { InformationItem, InformationActionItem, InformationItemEditable } from '@/types/types';
 import { Image, RefreshControl, ScrollView, StatusBar, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useAuthenticationStore } from '@/store/auth';
@@ -55,12 +55,14 @@ export default function Profile() {
         );
     }
 
-    const profileData: InformationItem[] = [
+    const profileData: (InformationItem | InformationItemEditable)[] = [
         {
             title: "Full Name:",
             value: activeUser.full_name,
             editable: true,
-            type: "text"
+            name: "full_name",
+            type: "text",
+            placeHolder: "Full name"
         },
         {
             title: "Username:",
@@ -78,16 +80,20 @@ export default function Profile() {
             title: "Phone Number:",
             value: activeUser.profile.phone || "N/A",
             editable: true,
-            type: "text"
+            name: "phone",
+            type: "text",
+            placeHolder: "Phone Number"
         },
     ]
 
-    const addressInformation: (InformationItem | InformationActionItem)[] = [
+    const addressInformation: (InformationItem | InformationActionItem | InformationItemEditable)[] = [
         {
             title: "Address:",
             value: activeUser.profile.address || "N/A",
             editable: true,
-            type: "text"
+            name: "address",
+            type: "text",
+            placeHolder: "Address"
         },
         {
             title: "Country:",
