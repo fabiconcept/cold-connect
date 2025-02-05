@@ -73,11 +73,12 @@ export default function CartTray() {
             sections={cartData}
             renderItem={renderItem}
             keyExtractor={(_, index) => index.toString()}
-            contentContainerClassName='px-3'
+            contentContainerClassName='px-3 flex-1'
             ListFooterComponent={renderFooter}
             renderSectionHeader={renderSectionHeader}
             stickySectionHeadersEnabled={false}
             showsVerticalScrollIndicator={false}
+            ListEmptyComponent={() => <View className='flex-1 items-center justify-center'><Text className='text-lg font-MontserratSemiBold text-gray-500'>No items in cart</Text></View>}
         />
     );
 }
