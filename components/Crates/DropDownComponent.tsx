@@ -27,7 +27,7 @@ const DropdownComponent = ({
 
             labelField="label"
             valueField="value"
-            placeholder="Select item"
+            placeholder="Select Pickup Location"
             value={value}
             onChange={item => {
                 setValue(item.value);
