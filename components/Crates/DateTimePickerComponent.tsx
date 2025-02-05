@@ -1,13 +1,15 @@
 import { View, Text, TouchableOpacity } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Platform } from 'react-native';
 
-export default function DateTimePickerComponent({ IconLeft, IconRight }: {
+export default function DateTimePickerComponent({ IconLeft, IconRight, onDateChange, date: dateText }: {
     IconLeft?: React.JSX.Element,
-    IconRight?: React.JSX.Element
+    IconRight?: React.JSX.Element,
+    date: string | null,
+    onDateChange: (date: Date) => void
 }) {
-    const [date, setDate] = useState<Date | null>(null);
+    const [date, setDate] = useState<Date | null>(dateText ? new Date(dateText) : null);
     const [show, setShow] = useState(false);
 
     const onChange = (event: any, selectedDate: any) => {
@@ -15,6 +17,12 @@ export default function DateTimePickerComponent({ IconLeft, IconRight }: {
         setShow(Platform.OS === 'ios');
         setDate(currentDate);
     };
+
+    useEffect(() => {
+        if (date) {
+            onDateChange(date);
+        }
+    }, [date]);
     return (
         <TouchableOpacity
             className='flex-row items-center justify-between p-5 bg-white rounded-xl border border-gray-200'
