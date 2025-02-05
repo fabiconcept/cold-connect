@@ -5,11 +5,17 @@ import FullButton from '../FullButton';
 export default function CautionAlert({
     isModalVisible,
     setIsModalVisible,
-    action
+    action,
+    title,
+    message,
+    actionText
 }: {
     isModalVisible: boolean,
     setIsModalVisible: React.Dispatch<React.SetStateAction<boolean>>,
-    action: () => void
+    action: () => void,
+    title: string,
+    message: string,
+    actionText: string
 }) {
     return (
         <ReactNativeModal
@@ -24,13 +30,13 @@ export default function CautionAlert({
                         className='w-full h-full'
                     />
                 </View>
-                <Text className='text-xl font-bold mt-3'>Are you sure?</Text>
+                <Text className='text-xl font-bold mt-3'>{title}</Text>
                 <Text className='text-center mt-1 mb-5'>
-                    This action cannot be undone, this will clear your cart items.
+                    {message}
                 </Text>
                 <View className='w-full flex-row gap-2'>
                     <FullButton
-                        title={"Clear Cart"}
+                        title={actionText}
                         className='bg-red-500 py-4 rounded-full'
                         containerClassName='flex-1'
                         textClassName='text-white text-md'
