@@ -67,12 +67,24 @@ export default function SignUp() {
 
     useEffect(() => {
         if (debouncedPassword.length === 0) return;
-        if (debouncedConfirmPassword.length === 0) return;
 
         const [isValidPassword, passwordError] = validatePassword(debouncedPassword);
         if (!isValidPassword) {
             setErrors((prev) => ({ ...prev, password: passwordError }));
-        } else if (debouncedPassword !== debouncedConfirmPassword) {
+        } else {
+            setErrors((prev) => ({ ...prev, password: '' }));
+        }
+        setErrors((prev) => ({
+            ...prev,
+            miscellaneous: '',
+        }));
+        clearError();
+    }, [debouncedPassword]);
+
+    useEffect(() => {
+        if (debouncedConfirmPassword.length === 0) return;
+
+        if (debouncedPassword !== debouncedConfirmPassword) {
             setErrors((prev) => ({ ...prev, password: 'Passwords do not match' }));
         } else {
             setErrors((prev) => ({ ...prev, password: '' }));
@@ -82,7 +94,7 @@ export default function SignUp() {
             miscellaneous: '',
         }));
         clearError();
-    }, [debouncedPassword, debouncedConfirmPassword]);
+    }, [debouncedConfirmPassword]);
 
     const onSignUpPress = async () => {
         try {
