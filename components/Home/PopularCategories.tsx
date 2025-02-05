@@ -13,7 +13,6 @@ export default function PopularCategoriesComponent() {
         <View className='mx-3'>
             <View className='flex-row items-center justify-between mx-2 mt-2'>
                 <Text className='text-xl font-semibold font-MontserratSemiBold'>Popular Categories</Text>
-                <Link href={"/(root)/(tabs)/crates"} className='text-primary text-lg font-MontserratSemiBold'>See all</Link>
             </View>
             <FlatList
                 data={PopularCategories}
