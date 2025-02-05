@@ -2,6 +2,7 @@ import { Text, SectionList, View } from 'react-native';
 import CartItem from './CartItem';
 import { CartItems } from '@/constants/CartItems';
 import { useProducts } from '@/store/Products';
+import { useCrates } from '@/store/Crates';
 
 // Define types for better type safety
 interface CartItemData {
@@ -19,6 +20,7 @@ interface CartSection {
 
 export default function CartTray() {
     const { products, selectedHub } = useProducts();
+    const { rate, quantity, addedToCart: crateAddedToCart } = useCrates();
 
     // Filter out falsy sections and create typed cart data
     const cartData: CartSection[] = [
@@ -26,6 +28,19 @@ export default function CartTray() {
             title: selectedHub,
             data: products.filter(product => product.addedToCart),
         },
+        {
+            title: 'Crates',
+            data: crateAddedToCart ? [
+                {
+                    title: 'Crates',
+                    rate,
+                    quantity,
+                    storageLength: 1,
+                    type: 'crate' as const,
+                }
+            ] : [],
+        }
+
     ].filter(section => section.data.length > 0);
 
     const findCartItemImage = (title: string) =>

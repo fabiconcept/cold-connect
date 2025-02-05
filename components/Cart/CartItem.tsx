@@ -6,6 +6,7 @@ import { CartItemProps } from '@/types/types';
 import clsx from 'clsx';
 import { useState } from 'react';
 import { useProducts } from '@/store/Products';
+import { useCrates } from '@/store/Crates';
 
 export default function CartItem({
     title,
@@ -19,6 +20,8 @@ export default function CartItem({
     const [isChecked, setIsChecked] = useState(true);
     const [counter, setCounter] = useState(quantity);
     const { updateProduct, products } = useProducts();
+    const { setQuantity } = useCrates();
+
 
     const disabled = !isChecked || counter === 0;
 
@@ -27,6 +30,9 @@ export default function CartItem({
             case "storage":
                 const productInfoExists = products.find(product => product.title === title.toLowerCase())!;
                 updateProduct({ ...productInfoExists, quantity: value });
+                break;
+            case "crate":
+                setQuantity(value);
                 break;
         }
     }

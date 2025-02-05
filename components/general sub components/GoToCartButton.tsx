@@ -4,14 +4,18 @@ import AnimatedPressable from './AnimatedPress';
 import { router, useSegments } from 'expo-router';
 import { useProducts } from '@/store/Products';
 import { useMemo } from 'react';
+import { useCrates } from '@/store/Crates';
 
 export default function GoToCartButton() {
     const segments = useSegments();
     const { products } = useProducts();
+    const { addedToCart: crateAddedToCart } = useCrates();
+
 
     const total = useMemo(() => {
-        return products.filter(p => p.addedToCart).length;
-    }, [products])
+        const crateCount = crateAddedToCart ? 1 : 0;
+        return products.filter(p => p.addedToCart).length + crateCount;
+    }, [products, crateAddedToCart])
 
 
     // Hide button on cart screen
