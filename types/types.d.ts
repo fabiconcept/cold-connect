@@ -430,3 +430,18 @@ declare interface ProductsStore {
     setSelectedHub: (newHub: string) => void;
     clearProductsFromCart: () => void;
 }
+
+declare interface ColorState {
+    rate: number;
+    setRate: (rate: number) => void;
+    selectedColor: string;
+    setSelectedColor: (color: string) => void;
+    quantity: number;
+    setQuantity: (quantity: number) => void;
+    pickUpLocation: string;
+    setPickUpLocation: (location: string) => void;
+    pickUpDate: string;
+    setPickUpDate: (date: string) => void;
+    addedToCart: boolean;
+    toggleAddedToCart: () => void;
+}
