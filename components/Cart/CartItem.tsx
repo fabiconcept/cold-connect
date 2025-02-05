@@ -45,6 +45,9 @@ export default function CartItem({
             {!isLast && <View
                 className='border-l h-28  w-5 border-gray-300 absolute left-2 -translate-y-3'
             ></View>}
+            {!isLast && <View
+                className='border-l border-b rounded-bl-xl h-16  w-5 border-gray-300 absolute left-2 -translate-y-2'
+            ></View>}
             <View className={clsx(
                 'bg-white rounded-2xl overflow-hidden border border-gray-300 shadow-xl shadow-black/10 p-2 gap-1 flex-row',
                 isLast ? 'mb-0' : "mb-3",
