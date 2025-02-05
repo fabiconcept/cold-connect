@@ -20,6 +20,9 @@ export default function CautionAlert({
     return (
         <ReactNativeModal
             isVisible={isModalVisible}
+            animationIn="wobble"
+            animationOut="fadeOutDown"
+            backdropOpacity={0.5}
             onBackdropPress={() => setIsModalVisible(false)}
         >
             <View className="min-h-[300px] bg-white px-7 py-9 rounded-2xl items-center">
