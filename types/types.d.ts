@@ -69,13 +69,27 @@ declare interface InformationItemEditable extends InformationItem {
     placeHolder: string
 }
 
-declare interface InformationActionItem {
+declare interface InformationAction {
     title: string;
     Icon: IconNames;
     action: () => void;
     type: "action";
+    warning: false | undefined;
     themeColor?: string;
 }
+
+declare interface InformationActionWithWarning {
+    title: string;
+    Icon: IconNames;
+    action: () => void;
+    type: "action";
+    warning: true;
+    themeColor?: string;
+    warningTitle: string;
+    warningMessage: string;
+}
+
+declare type InformationActionItem = InformationAction | InformationActionWithWarning
 
 declare interface AnimatedPressableProps extends PressableProps {
     children: React.ReactNode,
