@@ -470,3 +470,18 @@ interface ProfileUpdateErrorResponse {
 
 
 declare type ProfileUpdateResponse = ProfileUpdateSuccessResponse | ProfileUpdateErrorResponse;
+
+declare interface CartPayload {
+    products?: {
+        selectedHub: string;
+        data: storeProduct[];
+    };
+    crates?: {
+        addedToCart: boolean;
+        quantity: number;
+        rate: number;
+        pickUpDate: string;
+        pickUpLocation: string;
+        selectedColor: string;
+    };
+}
