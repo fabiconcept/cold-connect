@@ -1,4 +1,4 @@
-import { Link, router } from 'expo-router';
+import { router } from 'expo-router';
 import { View, Text, FlatList } from 'react-native';
 import CategoryCard from './sub components/categoryCard';
 import { PopularCategories } from '@/constants/popularCategories';
