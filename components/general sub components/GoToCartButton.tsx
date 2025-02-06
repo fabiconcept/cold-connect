@@ -82,7 +82,7 @@ export default function GoToCartButton() {
     const total = useMemo(() => {
         const crateCount = crateAddedToCart ? 1 : 0;
         return products.filter(p => p.addedToCart).length + crateCount;
-    }, [products, crateAddedToCart])
+    }, [products, crateAddedToCart]);
 
 
     // Hide button on cart screen

@@ -45,7 +45,7 @@ export default function Header() {
                     color="black"
                 />
             </TouchableOpacity>
-            <Text className='flex-1 text-center font-semibold text-xl w-full font-MontserratSemiBold'>Cold Cart</Text>
+            <Text className='flex-1 text-center font-semibold text-xl w-full font-MontserratSemiBold'>Cold Cart ({total})</Text>
             <TouchableOpacity
                 hitSlop={20}
                 className='w-[50px] h-[50px] justify-center items-center rounded-full bg-white shadow-lg'
