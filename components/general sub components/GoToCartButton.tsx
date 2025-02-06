@@ -29,7 +29,17 @@ export default function GoToCartButton() {
 
                 if (products) {
                     setSelectedHub(products.selectedHub);
-                    products.data.forEach(p => addProduct(p));
+                    const titles = new Set();
+                    const newProducts = products.data.filter(p => {
+                        const isNew = !titles.has(p.title);
+                        titles.add(p.title);
+                        return isNew;
+                    });
+
+                    newProducts.forEach(p => {
+                        const existingProduct = products.data.find(product => product.title === p.title);
+                        if (!existingProduct) addProduct(p);
+                    });
                 }
 
                 if (crates) {
@@ -50,7 +60,6 @@ export default function GoToCartButton() {
         (async () => {
             const userId = activeUser.username;
             const cartId = encodeURI(`${userId.toLowerCase()}-cart`);
-
 
             const cartProducts = products.filter(p => p.addedToCart);
 
