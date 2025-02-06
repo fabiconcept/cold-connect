@@ -12,8 +12,8 @@ export default function Action({
     Icon: React.JSX.Element;
     onPress: () => void;
 }) {
-    const dynamicWidth = (width / 5) - 10;
-    const dynamicHeight = dynamicWidth * 0.9;
+    const dynamicWidth = (width / 4.5) - 10;
+    const dynamicHeight = dynamicWidth * 1;
 
     return (
         <AnimatedPressable
@@ -22,7 +22,7 @@ export default function Action({
         >
             <View className='gap-2 items-center'>
                 <View
-                    className='p-2 rounded-xl bg-white items-center justify-center border border-gray-200 shadow'
+                    className='p-2 rounded-xl bg-white items-center justify-center border border-primary shadow'
                     style={{
                         width: dynamicWidth,
                         height: dynamicHeight
