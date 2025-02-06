@@ -1,10 +1,10 @@
-import { View, Text, Image, TouchableOpacity } from 'react-native';
+import { View, Text, Image, TouchableOpacity, ToastAndroid, Alert, Platform } from 'react-native';
 import Checkbox from '../Form/Checkbox';
 import { Feather } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import { CartItemProps } from '@/types/types';
 import clsx from 'clsx';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useProducts } from '@/store/Products';
 import { useCrates } from '@/store/Crates';
 
@@ -19,11 +19,43 @@ export default function CartItem({
 }: CartItemProps) {
     const [isChecked, setIsChecked] = useState(true);
     const [counter, setCounter] = useState(quantity);
-    const { updateProduct, products } = useProducts();
-    const { setQuantity } = useCrates();
+    const { updateProduct, products, toggleAddedToCart } = useProducts();
+    const { setQuantity, toggleAddedToCart: crateToggleAddedToCart } = useCrates();
 
+    const disabled = !isChecked;
 
-    const disabled = !isChecked || counter === 0;
+    const removeItem = () => {
+        switch (type) {
+            case "storage":
+                toggleAddedToCart(title as "fish" | "beverage" | "dairy" | "fruits" | "meat" | "vegetables");
+                break;
+            case "crate":
+                crateToggleAddedToCart();
+                break;
+        }
+
+        if (Platform.OS === 'ios') {
+            Alert.alert('Item Removed', `The ${title} has been removed from your cart.`);
+        } else {
+            ToastAndroid.show(`${title} has been removed from your cart`, ToastAndroid.SHORT);
+        }
+    }
+
+    useEffect(() => {
+        let timeoutId: NodeJS.Timeout;
+
+        if (!isChecked) {
+            timeoutId = setTimeout(() => {
+                removeItem();
+            }, 5000);
+        }
+
+        return () => {
+            if (timeoutId) {
+                clearTimeout(timeoutId);
+            }
+        };
+    }, [isChecked]);
 
     const counterAdjusted = (value: number) => {
         switch (type) {
@@ -65,13 +97,13 @@ export default function CartItem({
                 <View className='flex-1 justify-center gap-2'>
                     <View className='flex-row px-2 items-start'>
                         <View className='flex-1'>
-                            <Text className='font-bold'>{title}</Text>
+                            <Text className='font-bold capitalize'>{title}</Text>
                             <Text className='text-sm text-gray-500'>₦{Number(price).toLocaleString()}/crate</Text>
                         </View>
                         <Checkbox
                             label=''
-                            checked={isChecked && counter > 0}
-                            onPress={() => counter > 0 && setIsChecked(!isChecked)}
+                            checked={isChecked}
+                            onPress={() => setIsChecked(!isChecked)}
                             checkedColor='#04B90B'
                         />
                     </View>
