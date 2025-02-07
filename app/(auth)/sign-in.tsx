@@ -107,7 +107,6 @@ export default function SignIn() {
                             label=''
                             secureTextEntry={false}
                             icon={require("@/assets/images/cold/at-sign.png")}
-                            keyboardType='email-address'
                             autoCapitalize='none'
                             placeholder='Email Address'
                             autoCorrect={false}
@@ -119,7 +118,6 @@ export default function SignIn() {
                             label=''
                             secureTextEntry={true}
                             icon={require("@/assets/images/cold/lock.png")}
-                            keyboardType='default'
                             autoCapitalize='none'
                             placeholder='Password'
                             autoCorrect={false}

@@ -49,7 +49,7 @@ export default function InputField({
                         )}
                         <TextInput
                             {...props}
-                            keyboardType={showPassword ? undefined : "visible-password"}
+                            {...(showPassword ? { keyboardType: "visible-password" } : {})}
                             secureTextEntry={showPassword}
                             className={clsx('rounded-full px-4 py-5 font-semibold text-[15px] flex-1 text-left', inputStyle)}
                         />

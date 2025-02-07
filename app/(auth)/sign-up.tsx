@@ -167,7 +167,7 @@ export default function SignUp() {
                         <InputField
                             label=''
                             icon={require("@/assets/images/cold/user.png")}
-                            // autoCapitalize='words'
+                            autoCapitalize='words'
                             placeholder='Full Name'
                             editable={!loading}
                             autoCorrect={false}
@@ -178,7 +178,7 @@ export default function SignUp() {
                             label=''
                             secureTextEntry={false}
                             icon={require("@/assets/images/cold/at-sign.png")}
-                            // keyboardType='email-address'
+                            keyboardType='email-address'
                             autoCapitalize='none'
                             placeholder='Email Address'
                             editable={!loading}
