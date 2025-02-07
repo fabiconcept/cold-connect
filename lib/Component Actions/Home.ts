@@ -1,4 +1,4 @@
-import { useLocationStore } from "@/store";
+import { useLocationStore, useStorageStore } from "@/store";
 import { useHubsNearMe } from "@/store/Public/Public Storage Feed Endpoints/nearByHubs";
 import { useState } from "react";
 import { getGeoRegionInNigeria } from "../utilities";
@@ -10,6 +10,7 @@ export const useHomeActions = (): [boolean, () => Promise<void>] => {
     const { load_hubs_near_me } = useHubsNearMe();
     const { load_hubs: load_hubs_around_me } = useHubsAroundMe();
     const { latitude, longitude } = useLocationStore();
+    const { loadStorages } = useStorageStore();
     const { setSelectedRegion, load_regions, load_hubs } = useHubsByRegion();
 
     const reload = async () => {
@@ -26,6 +27,7 @@ export const useHomeActions = (): [boolean, () => Promise<void>] => {
                 load_regions(),
                 load_hubs(region),
                 load_hubs_near_me({ lat: latitude!, lng: longitude!, radius: 1000, limit: "3" }),
+                loadStorages()
             ]);
 
         } catch (error) {
