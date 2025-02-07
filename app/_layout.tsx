@@ -7,13 +7,10 @@ import 'react-native-reanimated';
 import '../global.css';
 import { LogBox } from "react-native";
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { tokenCache } from '@/lib/Auth/cache';
 
 LogBox.ignoreLogs([
   "Warning: ",
 ]);
-
-const publishableKey = process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY!
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -39,12 +36,6 @@ export default function RootLayout() {
     MontserratSemiBoldItalic: require('../assets/fonts/Montserrat-SemiBoldItalic.ttf'),
     MontserratThinItalic: require('../assets/fonts/Montserrat-ThinItalic.ttf'),
   });
-
-  if (!publishableKey) {
-    throw new Error(
-      'Missing Publishable Key. Please set EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY in your .env',
-    );
-  }
 
   useEffect(() => {
     if (loaded) {
