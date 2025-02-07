@@ -43,13 +43,12 @@ export default function InputField({
                         {icon && (
                             <Image
                                 source={icon}
-
                                 className={clsx('w-6 h-6 ml-4', iconStyle)}
                             />
                         )}
                         <TextInput
                             {...props}
-                            {...(showPassword ? { keyboardType: "visible-password" } : {})}
+                            {...(secureTextEntry ? { keyboardType: showPassword ? undefined : "visible-password" } : {})}
                             secureTextEntry={showPassword}
                             className={clsx('rounded-full px-4 py-5 font-semibold text-[15px] flex-1 text-left', inputStyle)}
                         />
