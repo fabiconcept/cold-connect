@@ -276,6 +276,8 @@ declare interface Storage {
     id: number;
     location: string;
     name: string;
+    latitude: number;
+    longitude: number;
     photo: string;
     capacity: number;
     availability: string;
@@ -499,3 +501,56 @@ declare interface CartPayload {
         selectedColor: string;
     };
 }
+
+declare interface StorageWithLocation {
+    name: string;
+    location?: {
+        latitude: number;
+        longitude: number;
+    };
+}
+
+
+declare interface StorageStateWithoutError {
+    storages: StorageWithLocation[];
+    loading: false;
+    error: null;
+    loadStorages: () => Promise<void>;
+}
+
+declare interface StorageStateWithError extends StorageStateWithoutError {
+    storages: [];
+    loading: false;
+    error: string;
+}
+declare interface StorageStateLoading extends StorageStateWithoutError {
+    storages: [];
+    loading: true;
+    error: null;
+}
+
+declare type StorageState = StorageStateWithoutError | StorageStateLoading | StorageStateWithError
+
+export type StorageResponse = {
+    allstorages: {
+        current_page: number;
+        data: Storage[];
+        first_page_url: string;
+        from: number;
+        last_page: number;
+        last_page_url: string;
+        links: {
+            url: string | null;
+            label: string;
+            active: boolean;
+        }[];
+        next_page_url: string;
+        path: string;
+        per_page: number;
+        prev_page_url: string | null;
+        to: number;
+        total: number;
+    };
+    morepages: boolean;
+    number: number;
+};
