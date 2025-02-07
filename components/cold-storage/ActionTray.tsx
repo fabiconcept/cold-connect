@@ -10,7 +10,7 @@ export default function ActionTray() {
 
     return (
         <View className='flex-row gap-2 px-2 py-5 justify-center border-b border-gray-200'>
-            {StorageActions({ payload, location }).map((item, index) => (
+            {StorageActions({ payload, location, name }).map((item, index) => (
                 <Action key={index} title={item.title} Icon={item.Icon} onPress={item.onPress} />
             ))}
         </View>

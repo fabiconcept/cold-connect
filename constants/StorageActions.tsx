@@ -2,7 +2,7 @@ import { Feather } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import { copyToClipboard, onShare } from '@/lib/utilities';
 
-export const StorageActions = ({ payload, location }: { payload: string, location: string }) => [
+export const StorageActions = ({ payload, location, name }: { payload: string, location: string, name: string }) => [
     {
         title: "Call Hub",
         Icon: <Feather
