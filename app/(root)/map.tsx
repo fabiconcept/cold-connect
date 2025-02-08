@@ -1,16 +1,20 @@
 import Header from '@/components/Map/Header';
-import { calculateRegion } from '@/lib/Map Utilities';
+import { calculateRegion, calculateRegionWithDestination } from '@/lib/Map Utilities';
 import { useLocationStore, useStorageStore } from '@/store';
 import { useLocalSearchParams } from 'expo-router';
+import { useRef, useState } from 'react';
 import { Text, View } from 'react-native';
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
+import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet';
 
 export default function Map() {
     const { latitude, longitude, hasLocationPermission } = useLocationStore();
     const { name } = useLocalSearchParams();
     const { storages } = useStorageStore();
+    const [selectedStorage, setSelectedStorage] = useState(name);
     const destination = storages.find((storage) => storage.name.trim().toLowerCase() === String(name).trim().toLowerCase());
+    const bottomSheetRef = useRef<BottomSheet>(null);
 
 
     if (!hasLocationPermission) return (
@@ -18,6 +22,8 @@ export default function Map() {
             <Text className='text-center text-2xl font-MontserratSemiBold text-red-500'>Storage Not Found</Text>
         </View>
     );
+
+    let regionWithDestination;
 
     const region = calculateRegion({
         latitude: latitude,
@@ -30,6 +36,15 @@ export default function Map() {
         </View>
     );
 
+    if (destination.location) {
+        regionWithDestination = calculateRegionWithDestination({
+            userLatitude: Number(latitude),
+            userLongitude: Number(longitude),
+            destinationLatitude: Number(destination.location.latitude),
+            destinationLongitude: Number(destination.location.longitude),
+        })
+    }
+
     return (
         <View className='flex-1 h-full w-full justify-center items-center'>
             <MapView
@@ -37,7 +52,7 @@ export default function Map() {
                 className='h-full w-full rounded-2xl'
                 style={{ width: '100%', height: '100%' }}
                 tintColor='black'
-                region={region}
+                region={regionWithDestination ?? region}
                 mapType='standard'
                 showsMyLocationButton={true}
                 showsUserLocation={true}
@@ -50,6 +65,9 @@ export default function Map() {
                         coordinate={{
                             longitude: Number(storage.location.longitude),
                             latitude: Number(storage.location.latitude)
+                        }}
+                        onSelect={() => {
+                            setSelectedStorage(storage.name);
                         }}
                         title={storage.name}
                         image={require("@/assets/images/cold/storage.png")}
@@ -71,6 +89,18 @@ export default function Map() {
                 />
             </MapView>
             <Header />
+            <BottomSheet
+                ref={bottomSheetRef}
+                snapPoints={['10%', '40%']}
+                index={0}
+                keyboardBehavior='interactive'
+            >
+                <BottomSheetView
+                    className={"flex-1 p-5"}
+                >
+                    <Text>{selectedStorage}</Text>
+                </BottomSheetView>
+            </BottomSheet>
         </View>
     )
 }
