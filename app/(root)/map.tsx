@@ -2,19 +2,37 @@ import Header from '@/components/Map/Header';
 import { calculateRegion, calculateRegionWithDestination } from '@/lib/Map Utilities';
 import { useLocationStore, useStorageStore } from '@/store';
 import { useLocalSearchParams } from 'expo-router';
-import { useRef, useState } from 'react';
-import { Text, View } from 'react-native';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { Image, Text, View } from 'react-native';
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
 import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet';
+import { useHubDistance } from '@/lib/Hooks/useHubDistance';
 
 export default function Map() {
     const { latitude, longitude, hasLocationPermission } = useLocationStore();
-    const { name } = useLocalSearchParams();
+    const { name }: { name: string } = useLocalSearchParams();
     const { storages } = useStorageStore();
     const [selectedStorage, setSelectedStorage] = useState(name);
+    const [hubDistance, hubDistanceLoading, setHubCoordinates] = useHubDistance();
+
     const destination = storages.find((storage) => storage.name.trim().toLowerCase() === String(name).trim().toLowerCase());
     const bottomSheetRef = useRef<BottomSheet>(null);
+
+    const selectedStorageData = useMemo(() => {
+        if (!selectedStorage) return undefined;
+
+        return storages.find(storage => (storage.name).trim().toLowerCase() === (selectedStorage).trim().toLowerCase());
+    }, [selectedStorage]);
+
+    useEffect(() => {
+        if (!selectedStorageData?.latitude || !selectedStorageData?.longitude) return;
+        setHubCoordinates({
+            latitude: Number(selectedStorageData.latitude),
+            longitude: Number(selectedStorageData.longitude)
+        });
+    }, [selectedStorageData]);
+
 
 
     if (!hasLocationPermission) return (
@@ -40,8 +58,8 @@ export default function Map() {
         regionWithDestination = calculateRegionWithDestination({
             userLatitude: Number(latitude),
             userLongitude: Number(longitude),
-            destinationLatitude: Number(destination.location.latitude),
-            destinationLongitude: Number(destination.location.longitude),
+            destinationLatitude: Number(destination.latitude),
+            destinationLongitude: Number(destination.longitude),
         })
     }
 
@@ -63,8 +81,8 @@ export default function Map() {
                     return (<Marker
                         key={storage.name}
                         coordinate={{
-                            longitude: Number(storage.location.longitude),
-                            latitude: Number(storage.location.latitude)
+                            longitude: Number(storage.longitude),
+                            latitude: Number(storage.latitude)
                         }}
                         onSelect={() => {
                             setSelectedStorage(storage.name);
@@ -80,8 +98,8 @@ export default function Map() {
                         longitude: longitude
                     }}
                     destination={{
-                        latitude: destination.location!.latitude,
-                        longitude: destination.location!.longitude
+                        latitude: destination.latitude,
+                        longitude: destination.longitude
                     }}
                     apikey={process.env.EXPO_PUBLIC_GOOGLE_API_KEY!}
                     strokeWidth={5}
@@ -89,18 +107,27 @@ export default function Map() {
                 />
             </MapView>
             <Header />
-            <BottomSheet
+            {selectedStorageData && <BottomSheet
                 ref={bottomSheetRef}
-                snapPoints={['10%', '40%']}
-                index={0}
+                snapPoints={['10%', '40%', "80%"]}
+                index={1}
                 keyboardBehavior='interactive'
             >
                 <BottomSheetView
-                    className={"flex-1 p-5"}
+                    className={"flex-1"}
                 >
-                    <Text>{selectedStorage}</Text>
+                    <View>
+                        <Image
+                            source={{ uri: `http://46.101.23.53/${selectedStorageData.photo}` }}
+                            className='w-full h-80'
+                            resizeMode='cover'
+                        />
+                        <Text>
+                            {!hubDistanceLoading && hubDistance ? `${selectedStorageData.name} - ${hubDistance}km` : "Distance Not Available"}
+                        </Text>
+                    </View>
                 </BottomSheetView>
-            </BottomSheet>
+            </BottomSheet>}
         </View>
     )
 }
