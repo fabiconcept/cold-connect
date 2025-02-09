@@ -502,17 +502,8 @@ declare interface CartPayload {
     };
 }
 
-declare interface StorageWithLocation {
-    name: string;
-    location?: {
-        latitude: number;
-        longitude: number;
-    };
-}
-
-
 declare interface StorageStateWithoutError {
-    storages: StorageWithLocation[];
+    storages: Storage[];
     loading: false;
     error: null;
     loadStorages: () => Promise<void>;
@@ -553,4 +544,9 @@ export type StorageResponse = {
     };
     morepages: boolean;
     number: number;
+};
+
+declare interface Coordinates {
+    latitude: number;
+    longitude: number;
 };
