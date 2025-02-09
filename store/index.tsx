@@ -1,5 +1,5 @@
 import { fetchAPI } from "@/lib/fetch";
-import { LocationState, LocationStateWithPermission, StorageResponse, StorageState, StorageWithLocation } from "@/types/types";
+import { LocationState, LocationStateWithPermission, StorageResponse, StorageState, Storage } from "@/types/types";
 import { create } from "zustand";
 
 const baseUrl = process.env.EXPO_PUBLIC_BASE_URL! as `http${string}://${string}`;
@@ -33,13 +33,7 @@ export const useStorageStore = create<StorageState>((set) => ({
 
             const { data } = loadAllResponse.allstorages;
 
-            const payload: StorageWithLocation[] = data.map((item) => ({
-                name: item.name,
-                location: {
-                    latitude: item.latitude,
-                    longitude: item.longitude
-                }
-            }));
+            const payload: Storage[] = data.filter((item) => item.availability === "active" && item.latitude && item.longitude);
 
             set({
                 storages: payload,
