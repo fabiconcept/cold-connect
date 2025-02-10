@@ -321,25 +321,6 @@ declare interface StorageFeed extends StorageFeedPagination {
     load_more: (amount: number) => Promise<void>;
 }
 
-declare interface SpecificStorage {
-    id: number;
-    location: string;
-    name: string;
-    photo: string;
-    capacity: number;
-    availability: string;
-    distance: number;
-    published_at: string;
-    is_commentable: number;
-    star: number;
-    rates: number;
-    created_at: string;
-    updated_at: string;
-    booking_id: number | null;
-    tags_relation: Tag[];
-}
-
-
 declare interface Tag {
     id: number;
     name: string;
@@ -349,26 +330,6 @@ declare interface Tag {
     created_at: string;
     updated_at: string;
     pivot: TagPivot;
-}
-
-declare interface Hub {
-    id: number;
-    location: string;
-    latitude: string;
-    longitude: string;
-    name: string;
-    photo: string;
-    capacity: number;
-    availability: string;
-    distance: number;
-    published_at: string;
-    is_commentable: number;
-    star: number;
-    rates: number;
-    created_at: string;
-    updated_at: string;
-    booking_id: null;
-    tags_relation: Tag[];
 }
 
 declare interface HubsNearMeResponse {
@@ -387,7 +348,7 @@ declare interface HubsNearMeErrorResponse {
 }
 
 declare interface HubsNearMeData {
-    storages: Hub[];
+    storages: Storage[];
     total: number;
     radius: number;
     unit: string;
@@ -405,7 +366,7 @@ declare interface HubsAroundMeResponse {
     };
     allstorages: {
         current_page: number;
-        data: Hub[];
+        data: Storage[];
         first_page_url: string;
         from: null;
         last_page: number;
