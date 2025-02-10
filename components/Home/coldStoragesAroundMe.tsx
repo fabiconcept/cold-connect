@@ -44,7 +44,20 @@ export default function ColdStoragesAroundMe() {
 
             <View className='gap-3'>
                 {data.length > 0 && data.slice(0, 3).map((item) => (
-                    <StorageCard key={`${item.id.toString()}-${Math.random().toString(36).substring(7)}`} hub_name={item.name} imageSource={item.photo} address={item.location} rating={item.star} status={item.availability as "active" | "inactive"} distance={item.distance} hub_id={item.id} />
+                    <StorageCard
+                        key={`${item.id.toString()}-${Math.random().toString(36).substring(7)}`}
+                        hub_name={item.name}
+                        imageSource={item.photo}
+                        address={item.location}
+                        rating={item.star}
+                        status={item.availability as "active" | "inactive"}
+                        distance={item.distance}
+                        hub_id={item.id}
+                        coordinates={{
+                            latitude: Number(item.latitude),
+                            longitude: Number(item.longitude)
+                        }}
+                    />
                 ))}
                 {data.length === 0 &&
                     <View className='flex-1 items-center justify-center py-5'>

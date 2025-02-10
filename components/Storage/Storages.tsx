@@ -81,6 +81,10 @@ export default function Storages() {
                     status={item.availability as "active" | "inactive"}
                     distance={item.distance}
                     hub_id={item.id}
+                    coordinates={{
+                        latitude: Number(item.latitude),
+                        longitude: Number(item.longitude)
+                    }}
                 />
             )}
             refreshControl={

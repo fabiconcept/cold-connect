@@ -59,6 +59,10 @@ export default function ColdStoragesNearMe() {
                         distance={item.distance}
                         hub_id={item.id}
                         key={index}
+                        coordinates={{
+                            latitude: Number(item.latitude),
+                            longitude: Number(item.longitude)
+                        }}
                     />
                 )}
             />

@@ -3,6 +3,8 @@ import { FontAwesome } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import AnimatedPressable from '@/components/general sub components/AnimatedPress';
 import clsx from 'clsx';
+import { useHubDistance } from '@/lib/Hooks/useHubDistance';
+import { useEffect } from 'react';
 const { width } = Dimensions.get("window");
 
 const baseUrl = process.env.EXPO_PUBLIC_BASE_URL! as `http${string}://${string}`;
@@ -14,7 +16,8 @@ export default function StorageCard({
     rating = 0,
     status,
     distance,
-    hub_id
+    hub_id,
+    coordinates
 }: {
     hub_name: string,
     imageSource: string,
@@ -22,9 +25,19 @@ export default function StorageCard({
     rating: number,
     status: "active" | "inactive",
     distance: number,
-    hub_id: number
+    hub_id: number,
+    coordinates?: {
+        latitude: number,
+        longitude: number
+    }
 }) {
     if (!baseUrl) return null;
+    const [hubDistance, hubDistanceLoading, setHubCoordinates] = useHubDistance();
+
+    useEffect(() => {
+        if (!coordinates || !coordinates.latitude || !coordinates.longitude) return;
+        setHubCoordinates(coordinates);
+    }, [coordinates]);
 
     const router = useRouter();
 
@@ -70,7 +83,7 @@ export default function StorageCard({
                 </View>
                 <View className='absolute top-5 left-3 px-4 py-1 bg-primary rounded-3xl'>
                     <Text className='text-white text-base font-semibold'>
-                        {distance} KM
+                        {!hubDistanceLoading && hubDistance ? hubDistance : distance} KM
                     </Text>
                 </View>
             </View>
