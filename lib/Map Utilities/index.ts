@@ -78,11 +78,10 @@ type CacheEntry = {
     timestamp: number;
 };
 
-const CACHE_EXPIRY = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
+const CACHE_EXPIRY = 24 * 60 * 60 * 1000;
 
 export class DistanceCache {
     private static generateCacheKey(from: Coordinates, to: Coordinates): string {
-        // Sort coordinates to ensure same key regardless of order
         const coords = [
             [from.latitude, from.longitude],
             [to.latitude, to.longitude]
@@ -99,22 +98,18 @@ export class DistanceCache {
         try {
             const cacheKey = this.generateCacheKey(from, to);
 
-            // Try to get from cache first
             const cachedData = await getToken(cacheKey);
 
             if (cachedData) {
                 const cache: CacheEntry = JSON.parse(cachedData);
 
-                // Check if cache is still valid
                 if (Date.now() - cache.timestamp < CACHE_EXPIRY) {
                     console.log('Retrieved distance from cache');
                     return cache.distance;
                 }
-                // Cache expired, remove it
                 await removeToken(cacheKey);
             }
 
-            // If not in cache or expired, fetch from API
             const response = await fetch(
                 `https://api.geoapify.com/v1/routing?` +
                 `waypoints=${from.latitude},${from.longitude}|${to.latitude},${to.longitude}` +
@@ -128,7 +123,6 @@ export class DistanceCache {
             const data = await response.json();
             const distanceInKm = Math.round((data.features[0].properties.distance / 1000) * 100) / 100;
 
-            // Store in cache
             const cacheEntry: CacheEntry = {
                 distance: distanceInKm,
                 timestamp: Date.now()
@@ -136,7 +130,7 @@ export class DistanceCache {
 
             await saveToken(JSON.stringify(cacheEntry), cacheKey);
 
-            return distanceInKm;
+            return Number(Number.isInteger(distanceInKm) ? distanceInKm : distanceInKm.toFixed(1));
         } catch (error) {
             console.error('Error calculating distance:', error);
             return null;
