@@ -22,7 +22,7 @@ const LoadingShimmer = ({
     compWidth: DimensionValue;
     borderRadius: number;
     style: ViewStyle;
-    shimmerWidth: number;
+    shimmerWidth?: number;
     shimmerDuration: number;
 }) => {
     const shimmerTranslate = useSharedValue(-width);
