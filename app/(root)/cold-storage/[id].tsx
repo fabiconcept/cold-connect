@@ -12,10 +12,20 @@ import ActionSheet from '@/components/cold-storage/ActionSheet';
 import { useSpecificStorage } from '@/store/Public/Public Storage Feed Endpoints/specificStorage';
 import { useEffect } from 'react';
 import LoadingShimmer from '@/components/general sub components/LoadingShimmer';
+import { useHubDistance } from '@/lib/Hooks/useHubDistance';
 
 export default function Coldstorage() {
     const { id } = useLocalSearchParams<{ id: string; }>();
-    const { load_hub, loading, distance, capacity, name } = useSpecificStorage();
+    const { load_hub, loading, distance, capacity, name, longitude, latitude } = useSpecificStorage();
+    const [hubDistance, hubDistanceLoading, setHubCoordinates] = useHubDistance();
+
+    useEffect(() => {
+        if (!latitude || !longitude) return;
+        setHubCoordinates({
+            latitude: Number(latitude),
+            longitude: Number(longitude)
+        });
+    }, [longitude, latitude]);
 
     useEffect(() => {
         if (!id) return;
@@ -42,11 +52,10 @@ export default function Coldstorage() {
                             compWidth={"100%"}
                             borderRadius={0}
                             style={{}}
-                            shimmerWidth={362}
                             shimmerDuration={1000}
                         />}
                         {!loading && <>
-                            <InfoPill title={`${distance} KM`} />
+                            {!hubDistanceLoading && <InfoPill title={`${hubDistance ? hubDistance : distance} KM`} />}
                             <InfoPill title={`Capacity: ${capacity} Tons`} />
                         </>}
                     </View>

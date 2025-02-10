@@ -1,13 +1,13 @@
 import { fetchAPI } from "@/lib/fetch";
-import { Hub, HubsAroundMeResponse, SpecificStorage } from "@/types/types";
+import { Storage, HubsAroundMeResponse } from "@/types/types";
 import { create } from "zustand";
 
 const baseUrl = process.env.EXPO_PUBLIC_BASE_URL! as `http${string}://${string}`;
 
-interface SpecificStorageStore extends SpecificStorage {
+interface SpecificStorageStore extends Storage {
     loading: boolean,
     error: string,
-    suggestedHubs: Hub[],
+    suggestedHubs: Storage[],
     loadingSuggestedHubs: boolean,
     load_related_hubs: (region: string) => Promise<void>,
     load_hub: (id: number) => Promise<void>,
@@ -19,6 +19,8 @@ export const useSpecificStorage = create<SpecificStorageStore>((set, get) => ({
     error: "",
     id: 0,
     location: "",
+    latitude: 0,
+    longitude: 0,
     name: "",
     photo: "",
     capacity: 0,
@@ -40,7 +42,7 @@ export const useSpecificStorage = create<SpecificStorageStore>((set, get) => ({
 
             const currentHub = get().id;
             const removedStorage = allstorages.data.filter((storage) => storage.id !== currentHub).splice(0, 2);
-            
+
             set({ suggestedHubs: removedStorage });
         } catch (error) {
             console.error(JSON.stringify(error, null, 2));
@@ -53,7 +55,7 @@ export const useSpecificStorage = create<SpecificStorageStore>((set, get) => ({
             if (!hub_id) throw new Error("Hub ID is required");
 
             set({ loading: true, suggestedHubs: [] });
-            const response: SpecificStorage = await fetchAPI(`${baseUrl}/coldstoragerooms/${hub_id}`);
+            const response: Storage = await fetchAPI(`${baseUrl}/coldstoragerooms/${hub_id}`);
 
             const payload = {
                 ...response,
