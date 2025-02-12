@@ -2,11 +2,14 @@ import TruckSmall from '@/assets/svgs/logistics/truck-small';
 import FullButton from '@/components/FullButton';
 import Header from '@/components/Logistics/Header';
 import Options from '@/components/Logistics/Options';
+import { useLogisticsStore } from '@/store/Logistics';
+import clsx from 'clsx';
 import { Image } from 'react-native';
 import { ScrollView, StatusBar, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function Logistics() {
+    const { logisticsFilled } = useLogisticsStore();
     return (
         <SafeAreaView className='flex-1'>
             <StatusBar barStyle={"dark-content"} />
@@ -26,9 +29,9 @@ export default function Logistics() {
                     />
                 </View>
                 <Options />
-                <View className='h-36'></View>
+                <View className={clsx(logisticsFilled() ? 'h-36' : "h-10")}></View>
             </ScrollView>
-            <View className='absolute bottom-0 px-3 py-7 bg-white w-full border-t shadow-2xl shadow-black border-gray-200'>
+            {logisticsFilled() && <View className='absolute bottom-0 px-3 py-7 bg-white w-full border-t shadow-2xl shadow-black border-gray-200'>
                 <FullButton
                     title='Get Quote'
                     containerClassName='flex-1'
@@ -36,7 +39,7 @@ export default function Logistics() {
                     textClassName='text-white text-lg font-semibold'
                     onPress={() => { }}
                 />
-            </View>
+            </View>}
         </SafeAreaView >
     )
 }

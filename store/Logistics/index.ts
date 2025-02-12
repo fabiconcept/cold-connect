@@ -15,14 +15,15 @@ interface LogisticsState {
     setToLocation: (location: string) => void;
     addedToCart: boolean;
     toggleAddedToCart: () => void;
+    logisticsFilled: () => boolean;
 }
 
 export const useLogisticsStore = create<LogisticsState>((set, get) => ({
     loading: false,
     error: null,
-    quantity: 0,
+    quantity: 1,
     setQuantity: (quantity: number) => set({ quantity }),
-    boxQuantity: 0,
+    boxQuantity: 1,
     setBoxQuantity: (quantity: number) => set({ boxQuantity: quantity }),
     truckType: "medium",
     setTruckType: (type: "medium" | "large") => set({ truckType: type }),
@@ -31,9 +32,12 @@ export const useLogisticsStore = create<LogisticsState>((set, get) => ({
     toLocation: "",
     setToLocation: (location: string) => set({ toLocation: location }),
     addedToCart: false,
+    logisticsFilled: () => {
+        return !!(get().quantity > 0 && get().boxQuantity > 0 && get().truckType.length > 0);
+    },
     toggleAddedToCart: () => {
-        const { quantity, boxQuantity, truckType, fromLocation, toLocation } = get();
-        if (!quantity || !boxQuantity || !truckType || !fromLocation || !toLocation) return;
+        const { logisticsFilled } = get();
+        if (!logisticsFilled()) return;
 
         set({ addedToCart: !get().addedToCart });
     }

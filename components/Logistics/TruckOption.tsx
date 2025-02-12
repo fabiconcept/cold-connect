@@ -1,25 +1,35 @@
 import { TruckOptionProps } from '@/types/types';
-import { View, Text, Dimensions } from 'react-native';
+import { View, Text, Dimensions, TouchableOpacity } from 'react-native';
 import Checkbox from '../Form/Checkbox';
 import { useState } from 'react';
+import { useLogisticsStore } from '@/store/Logistics';
+import clsx from 'clsx';
 
 export default function TruckOption({
     title,
     loadLimit,
     price,
-    TruckImage
+    TruckImage,
+    type
 }: TruckOptionProps) {
-    const [isChecked, setIsChecked] = useState(false);
+    const { truckType, setTruckType } = useLogisticsStore();
 
     return (
-        <View className='bg-white rounded-2xl overflow-hidden border border-gray-200 shadow' style={{
-            width: (Dimensions.get("window").width / 2) - 18
-        }}>
+        <TouchableOpacity
+            onPress={() => setTruckType(type)}
+            className={clsx(
+                'bg-white rounded-2xl overflow-hidden border border-gray-200 shadow',
+                truckType === type ? "" : "opacity-80"
+            )}
+            style={{
+                width: (Dimensions.get("window").width / 2) - 18
+            }}
+        >
             <Text className='py-4 text-center text-gray-400 text-sm'>{title}</Text>
             <Checkbox
                 label={""}
-                checked={isChecked}
-                onPress={() => setIsChecked(!isChecked)}
+                checked={truckType === type}
+                onPress={() => setTruckType(type)}
                 containerStyle='absolute top-4 right-4'
                 checkedColor='#04B90B'
             />
@@ -41,6 +51,6 @@ export default function TruckOption({
                     <Text className='text-red-500 text-sm'>{price}</Text>
                 </View>
             </View>
-        </View>
+        </TouchableOpacity>
     )
 }
