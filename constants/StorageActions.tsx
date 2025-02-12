@@ -22,7 +22,7 @@ export const StorageActions = ({ payload, location, name }: { payload: string, l
             color='#0066e1'
         />,
         onPress: () => {
-            router.push(`/(root)/map?name=${name}`);
+            router.push(`/(root)/map?name=${name}&type=storage`);
         }
     },
     {
