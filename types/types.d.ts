@@ -54,6 +54,7 @@ declare interface TruckOptionProps {
     loadLimit: string;
     price: string;
     TruckImage: React.JSX.Element;
+    type: "medium" | "large"
 }
 
 declare interface InformationItem {
