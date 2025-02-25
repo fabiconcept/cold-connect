@@ -1,4 +1,5 @@
-import { Clipboard, Platform, Share, ToastAndroid } from "react-native";
+import { Platform, Share, ToastAndroid } from "react-native";
+import Clipboard from '@react-native-clipboard/clipboard';
 
 export function maskEmail(email: string): string {
     if (!email || !email.includes('@')) return '';
