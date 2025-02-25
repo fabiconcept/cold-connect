@@ -14,7 +14,6 @@ export function maskEmail(email: string): string {
     return `${maskedUsername}@${maskedDomain}`;
 }
 
-
 export const onShare = async (payload: string) => {
     try {
         const result = await Share.share({

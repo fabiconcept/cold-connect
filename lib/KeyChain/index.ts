@@ -52,7 +52,6 @@ export async function removeAllDistanceKeys(prefix: string = 'distance_') {
     }
 }
 
-// Helper function to add a key to the key list when saving new items
 export async function addKeyToList(key: string) {
     try {
         const existingKeys = await SecureStore.getItemAsync('secureStoreKeyList') || '[]';

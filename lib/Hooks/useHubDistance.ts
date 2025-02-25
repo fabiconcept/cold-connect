@@ -6,7 +6,6 @@ import { useLocationStore } from "@/store";
 export function useHubDistance(): [(number | null), boolean, React.Dispatch<React.SetStateAction<Coordinates | null>>] {
     const { latitude, longitude, hasLocationPermission } = useLocationStore();
 
-
     const [distance, setDistance] = useState<number | null>(null);
     const [hubCoordinates, setHubCoordinates] = useState<Coordinates | null>(null);
     const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -20,7 +19,6 @@ export function useHubDistance(): [(number | null), boolean, React.Dispatch<Reac
             setDistance(null);
             return;
         }
-
 
         (async () => {
             try {

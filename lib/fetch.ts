@@ -1,4 +1,3 @@
-import { useAuthenticationStore } from "@/store/auth";
 import { Endpoints, URL } from "@/types/types";
 import { useState, useEffect, useCallback } from "react";
 
