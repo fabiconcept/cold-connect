@@ -1,4 +1,5 @@
 import Header from '@/components/Map/Header';
+import LogisticsView from '@/components/Map/LogisticsView';
 import StorageView from '@/components/Map/StorageView';
 import { useLocationStore } from '@/store';
 import { useLocalSearchParams } from 'expo-router';
@@ -21,6 +22,11 @@ export default function Map() {
         <View className='flex-1 h-full w-full justify-center items-center'>
             {type === "storage" &&
                 <StorageView
+                    provider={PROVIDER_GOOGLE}
+                />
+            }
+            {type === "logistics" &&
+                <LogisticsView
                     provider={PROVIDER_GOOGLE}
                 />
             }

@@ -1,3 +1,4 @@
+import { Location } from "@/types/types";
 import { create } from "zustand";
 
 interface LogisticsState {
@@ -9,10 +10,10 @@ interface LogisticsState {
     setBoxQuantity: (quantity: number) => void;
     truckType: "medium" | "large";
     setTruckType: (type: "medium" | "large") => void;
-    fromLocation: string;
-    setFromLocation: (location: string) => void;
-    toLocation: string;
-    setToLocation: (location: string) => void;
+    fromLocation: Location;
+    setFromLocation: (location: Location) => void;
+    toLocation: Location;
+    setToLocation: (location: Location) => void;
     addedToCart: boolean;
     toggleAddedToCart: () => void;
     logisticsFilled: () => boolean;
@@ -27,10 +28,18 @@ export const useLogisticsStore = create<LogisticsState>((set, get) => ({
     setBoxQuantity: (quantity: number) => set({ boxQuantity: quantity }),
     truckType: "medium",
     setTruckType: (type: "medium" | "large") => set({ truckType: type }),
-    fromLocation: "",
-    setFromLocation: (location: string) => set({ fromLocation: location }),
-    toLocation: "",
-    setToLocation: (location: string) => set({ toLocation: location }),
+    fromLocation: {
+        address: "",
+        latitude: 0,
+        longitude: 0
+    },
+    setFromLocation: (location) => set({ fromLocation: location }),
+    toLocation: {
+        address: "",
+        latitude: 0,
+        longitude: 0
+    },
+    setToLocation: (location) => set({ toLocation: location }),
     addedToCart: false,
     logisticsFilled: () => {
         return !!(get().quantity > 0 && get().boxQuantity > 0 && get().truckType.length > 0);

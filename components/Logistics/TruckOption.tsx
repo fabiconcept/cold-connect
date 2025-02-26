@@ -10,7 +10,8 @@ export default function TruckOption({
     loadLimit,
     price,
     TruckImage,
-    type
+    type,
+    highlighted
 }: TruckOptionProps) {
     const { truckType, setTruckType } = useLogisticsStore();
 
@@ -19,7 +20,8 @@ export default function TruckOption({
             onPress={() => setTruckType(type)}
             className={clsx(
                 'bg-white rounded-2xl overflow-hidden border border-gray-200 shadow',
-                truckType === type ? "" : "opacity-80"
+                truckType === type ? "" : "opacity-80",
+                highlighted && truckType === type && "border-2 border-green-600"
             )}
             style={{
                 width: (Dimensions.get("window").width / 2) - 18

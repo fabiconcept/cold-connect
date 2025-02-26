@@ -4,6 +4,7 @@ import Header from '@/components/Logistics/Header';
 import Options from '@/components/Logistics/Options';
 import { useLogisticsStore } from '@/store/Logistics';
 import clsx from 'clsx';
+import { router } from 'expo-router';
 import { Image } from 'react-native';
 import { ScrollView, StatusBar, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -37,7 +38,7 @@ export default function Logistics() {
                     containerClassName='flex-1'
                     className='bg-primary w-full rounded-full py-5'
                     textClassName='text-white text-lg font-semibold'
-                    onPress={() => { }}
+                    onPress={() => router.push(`/(root)/map?type=logistics`)}
                 />
             </View>}
         </SafeAreaView >

@@ -54,7 +54,8 @@ declare interface TruckOptionProps {
     loadLimit: string;
     price: string;
     TruckImage: React.JSX.Element;
-    type: "medium" | "large"
+    type: "medium" | "large",
+    highlighted?: boolean;
 }
 
 declare interface InformationItem {
@@ -512,3 +513,29 @@ declare interface Coordinates {
     latitude: number;
     longitude: number;
 };
+
+declare interface RequestParams {
+    endpoint: string;
+    method?: "GET" | "POST" | "PUT" | "DELETE";
+    body?: Record<string, any>;
+    headers?: HeadersInit;
+    params?: Record<string, string>;
+}
+
+declare interface AutocompleteResponse {
+    type: 'FeatureCollection';
+    features: Feature[];
+    query: {
+        text: string;
+        parsed: {
+            city: string;
+            expected_type: string;
+        };
+    };
+}
+
+interface Location {
+    address: string;
+    latitude: number;
+    longitude: number;
+}
