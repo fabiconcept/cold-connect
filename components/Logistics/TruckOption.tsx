@@ -1,7 +1,6 @@
 import { TruckOptionProps } from '@/types/types';
 import { View, Text, Dimensions, TouchableOpacity } from 'react-native';
 import Checkbox from '../Form/Checkbox';
-import { useState } from 'react';
 import { useLogisticsStore } from '@/store/Logistics';
 import clsx from 'clsx';
 
@@ -21,7 +20,7 @@ export default function TruckOption({
             className={clsx(
                 'bg-white rounded-2xl overflow-hidden border border-gray-200 shadow',
                 truckType === type ? "" : "opacity-80",
-                highlighted && truckType === type && "border-2 border-green-600"
+                highlighted && truckType === type && "border-2 border-green-600 shadow-xl shadow-green-200"
             )}
             style={{
                 width: (Dimensions.get("window").width / 2) - 18
