@@ -2,13 +2,15 @@ import { Image } from 'react-native';
 import { View, Text } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import InputField from '../Form/InputField';
-import { Link } from 'expo-router';
+import { Link, router } from 'expo-router';
 import { useLocationStore } from '@/store';
 import { useAuthenticationStore } from '@/store/auth';
+import { useState } from 'react';
 
 export default function Header() {
     const { address, hasLocationPermission } = useLocationStore();
     const { activeUser, isSignedIn } = useAuthenticationStore();
+    const [searchText, setSearchText] = useState('');
     return (
         <View className='bg-primary p-5 rounded-br-[40px] rounded-bl-[40px]'>
             <View className='flex flex-row justify-end mt-10 mb-3'>
@@ -37,16 +39,25 @@ export default function Header() {
                     <Text className='w-[100px]' numberOfLines={1}>{`${hasLocationPermission ? address : "Nigeria, No where!"} `}</Text>
                     <Feather name="map-pin" size={24} className='ml-2' color="white" />
                 </Text>
-                <InputField
-                    label=''
-                    secureTextEntry={false}
-                    keyboardType='default'
-                    icon={require("@/assets/images/cold/search.png")}
-                    placeholder='Search Cold Connect'
-                    containerStyle='rounded-full mt-2 px-4'
-                    iconStyle='opacity-60'
-                    fullyRounded={true}
-                />
+                <View className='relative'>
+                    <InputField
+                        label=''
+                        secureTextEntry={false}
+                        keyboardType='default'
+                        icon={require("@/assets/images/cold/search.png")}
+                        placeholder='Search For a Cold Storage'
+                        containerStyle='rounded-full mt-2 px-4 flex-1'
+                        iconStyle='opacity-60'
+                        fullyRounded={true}
+                        value={searchText}
+                        onChangeText={setSearchText}
+                        onSubmitEditing={() => {
+                            if (searchText.trim()) {
+                                router.push(`/(root)/(tabs)/storage?searchQuery=${encodeURIComponent(searchText)}`);
+                            }
+                        }}
+                    />
+                </View>
             </View>
         </View>
     )

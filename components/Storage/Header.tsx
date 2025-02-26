@@ -1,4 +1,4 @@
-import { View, TouchableOpacity, Platform, ToastAndroid } from 'react-native';
+import { View, TouchableOpacity, Platform, ToastAndroid, Text } from 'react-native';
 import InputField from '../Form/InputField';
 import Target from '@/assets/svgs/storage/target';
 import { useHubsByRegion } from '@/store/Public/Public Storage Feed Endpoints/hubsByRegion';
@@ -6,12 +6,15 @@ import { getGeoRegionInNigeria } from '@/lib/utilities';
 import { useLocationStore } from '@/store';
 import { useEffect, useState, useRef } from 'react';
 import { useDebounce } from '@/lib/Hooks/useDebounce';
+import { useLocalSearchParams } from 'expo-router';
 
 
 export default function Header() {
+    const urlParams = useLocalSearchParams<{ searchQuery: string }>();
+
     const { setSelectedRegion, load_hubs, search_for_hubs, reset_search, selectedRegion } = useHubsByRegion();
     const { latitude, longitude } = useLocationStore();
-    const [searchQuery, setSearchQuery] = useState("");
+    const [searchQuery, setSearchQuery] = useState(urlParams.searchQuery || "");
     const initialLoadComplete = useRef(false);
 
     const debouncedSearchQuery = useDebounce(searchQuery, 500);

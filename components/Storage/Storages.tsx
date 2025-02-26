@@ -119,7 +119,7 @@ export default function Storages() {
                             </>
                             :
                             <>
-                                <Text className='text-gray-400'>Search Results:</Text> ({total})
+                                <Text className='text-gray-400'>Search Results:</Text> ({data.length})
                             </>
                         }
                     </Text>
