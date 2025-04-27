@@ -1,50 +1,100 @@
-# Welcome to your Expo app 👋
+# Cold Connect
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Cold Connect is a mobile application designed to bridge the gap between ColdHubs' cold storage services, logistics, and their users. It offers a smooth and user-friendly way for customers to book cold storage, buy crates, and request cold truck logistics, all in one place.
 
-## Get started
+---
 
-1. Install dependencies
+## Features
 
-   ```bash
-   npm install
-   ```
+- 📦 **Cold Storage Booking**  
+  Book crates in high or low quantities easily.
 
-2. Start the app
+- 🚚 **Cold Logistics**  
+  Hire 10 or 20-ton refrigerated trucks to transport perishables across Nigeria.
 
-   ```bash
-    npx expo start
-   ```
+- 🔐 **Secure User Flow**  
+  Local authentication setup (planned) for protecting user data.
 
-In the output, you'll find options to open the app in a
+- 🎨 **Beautiful UI**  
+  Built with Tailwind CSS for fast and responsive designs.
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+- ⚡ **Smooth Performance**  
+  Built using Expo and React Native with NativeWind for styling.
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+---
 
-## Get a fresh project
+## Tech Stack
 
-When you're ready, run:
+- **Framework:** [Expo](https://expo.dev/) + [React Native](https://reactnative.dev/)
+- **Styling:** [TailwindCSS via NativeWind](https://www.nativewind.dev/)
+- **State Management:** Redux
+- **TypeScript:** Full Type Safety
+
+---
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js >= 18
+- Expo CLI (`npm install -g expo-cli`)
+- Yarn (`npm install --global yarn`)
+
+### Installation
 
 ```bash
-npm run reset-project
+# Clone the repository
+git clone https://github.com/fabiconcept/cold-connect.git
+
+# Navigate into the project directory
+cd cold-connect
+
+# Install dependencies
+npm install
+
+# Start the Expo app
+npm start
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+### Running on Mobile
 
-## Learn more
+- Scan the QR code from the terminal or browser after running `npm start`.
 
-To learn more about developing your project with Expo, look at the following resources:
+---
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+## Folder Structure
 
-## Join the community
+```
+/app         # Pages and Navigation
+/assets      # Images and static files
+/components  # Reusable UI components
+/constants   # App-wide constants
+/lib         # Helper functions and libraries
+/scripts     # Setup or configuration scripts
+/store       # Redux store and slices
+/types       # TypeScript types
+```
 
-Join our community of developers creating universal apps.
+---
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+## Contributing
+
+1. Fork the project
+2. Create your feature branch (`git checkout -b feature/awesome-feature`)
+3. Commit your changes (`git commit -m 'Add some awesome feature'`)
+4. Push to the branch (`git push origin feature/awesome-feature`)
+5. Open a Pull Request
+
+---
+
+## License
+
+This project is licensed under the [MIT License](LICENSE).
+
+---
+
+## Acknowledgements
+
+- [Expo](https://expo.dev/)
+- [NativeWind](https://www.nativewind.dev/)
+- [Redux Toolkit](https://redux-toolkit.js.org/)
