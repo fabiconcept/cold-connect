@@ -1,100 +1,53 @@
-# Cold Connect
+# ❄️ Cold Connect
 
-Cold Connect is a mobile application designed to bridge the gap between ColdHubs' cold storage services, logistics, and their users. It offers a smooth and user-friendly way for customers to book cold storage, buy crates, and request cold truck logistics, all in one place.
+**Cold Connect** is a mobile application designed to bridge the gap between ColdHubs' cold storage services, logistics, and their users. It offers a smooth and user-friendly way for customers to book cold storage, buy crates, and request cold truck logistics, all in one place.
 
----
-
-## Features
-
-- 📦 **Cold Storage Booking**  
-  Book crates in high or low quantities easily.
-
-- 🚚 **Cold Logistics**  
-  Hire 10 or 20-ton refrigerated trucks to transport perishables across Nigeria.
-
-- 🔐 **Secure User Flow**  
-  Local authentication setup (planned) for protecting user data.
-
-- 🎨 **Beautiful UI**  
-  Built with Tailwind CSS for fast and responsive designs.
-
-- ⚡ **Smooth Performance**  
-  Built using Expo and React Native with NativeWind for styling.
+> ⚠️ **Disclaimer:** This project is a personal, non-commercial initiative developed independently to explore mobile app development and user experience design. It is not affiliated with or endorsed by ColdHubs or any other organization.
 
 ---
 
-## Tech Stack
+## 🚀 Features
 
-- **Framework:** [Expo](https://expo.dev/) + [React Native](https://reactnative.dev/)
-- **Styling:** [TailwindCSS via NativeWind](https://www.nativewind.dev/)
-- **State Management:** Redux
-- **TypeScript:** Full Type Safety
-
----
-
-## Getting Started
-
-### Prerequisites
-
-- Node.js >= 18
-- Expo CLI (`npm install -g expo-cli`)
-- Yarn (`npm install --global yarn`)
-
-### Installation
-
-```bash
-# Clone the repository
-git clone https://github.com/fabiconcept/cold-connect.git
-
-# Navigate into the project directory
-cd cold-connect
-
-# Install dependencies
-npm install
-
-# Start the Expo app
-npm start
-```
-
-### Running on Mobile
-
-- Scan the QR code from the terminal or browser after running `npm start`.
+* **Cold Storage Booking:** Reserve cold storage crates at nearby ColdHubs facilities.
+* **Crate Purchases:** Buy crates directly through the app.
+* **Logistics Requests:** Schedule refrigerated truck pickups and deliveries.
+* **User-Friendly Interface:** Intuitive design for seamless navigation and interaction.
 
 ---
 
-## Folder Structure
+## 🛠️ Tech Stack
 
-```
-/app         # Pages and Navigation
-/assets      # Images and static files
-/components  # Reusable UI components
-/constants   # App-wide constants
-/lib         # Helper functions and libraries
-/scripts     # Setup or configuration scripts
-/store       # Redux store and slices
-/types       # TypeScript types
-```
+* **Framework:** React Native
+* **State Management:** Redux
+* **Styling:** Tailwind CSS
+* **Backend Services:** ColdHubs Backend Service
+* **Version Control:** Git & GitHub
 
 ---
 
-## Contributing
+## 📱 Screenshots
+![App Snap shot](https://media.licdn.com/dms/image/v2/D4D22AQFy0GQkYpZ0AA/feedshare-shrink_1280/B4DZRF8nwDHcAk-/0/1736340310564?e=1749686400&v=beta&t=plSZ5D087YaRXvNoknFYZoJVCRTd4Lykj2AobKxKnRs)
 
-1. Fork the project
-2. Create your feature branch (`git checkout -b feature/awesome-feature`)
-3. Commit your changes (`git commit -m 'Add some awesome feature'`)
-4. Push to the branch (`git push origin feature/awesome-feature`)
-5. Open a Pull Request
 
 ---
 
-## License
+## 🧑‍💻 Developer Notes
 
-This project is licensed under the [MIT License](LICENSE).
+This project was developed to:
+
+* Enhance skills in mobile application development.
+* Explore the integration of logistics and storage solutions in a mobile platform.
+* Experiment with user interface and experience design principles.
 
 ---
 
-## Acknowledgements
+## 📄 License
 
-- [Expo](https://expo.dev/)
-- [NativeWind](https://www.nativewind.dev/)
-- [Redux Toolkit](https://redux-toolkit.js.org/)
+This project is open-source and available under the [MIT License](LICENSE).
+
+---
+
+## 🤝 Acknowledgments
+
+* Inspired by the services provided by [ColdHubs](https://www.coldhubs.com/).
+* Special thanks to ColdHubs.
